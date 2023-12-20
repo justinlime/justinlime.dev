@@ -1,8 +1,11 @@
 ---
-title: Welcome
+title: SSH
 description: This is a test
+date: 2023-12-19T07:37:50Z 
+summary: Some linux notes
+draft: false
 ---
-* Table of Contents :toc:
+* Table of Contents
 - [[#environment-variables][Environment Variables]]
   - [[#overview][Overview]]
 - [[#permissions][Permissions]]
@@ -306,4 +309,3 @@ To restart SSHD on a linux system that uses SystemD, which is the standard, you 
 sudo systemctl restart sshd
 #+end_src
 After doing so, open a new terminal windows and test your SSH connection to verify everything is working properly.
-

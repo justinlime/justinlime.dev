@@ -6,17 +6,14 @@
     <description>Recent content in Posts on </description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
+    <lastBuildDate>Tue, 19 Dec 2023 07:37:50 +0000</lastBuildDate>
     <atom:link href="https://justinlime.dev/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Welcome</title>
+      <title>SSH</title>
       <link>https://justinlime.dev/posts/ssh/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 19 Dec 2023 07:37:50 +0000</pubDate>
       <guid>https://justinlime.dev/posts/ssh/</guid>
-      <description>Table of Contents&amp;#xa0;&amp;#xa0;&amp;#xa0;toc Environment Variables
-Overview Permissions
-Overview Permission Values Checking Permissions User and Group creation
-Users Groups SSH
-SSH SSHD Environment Variables Overview Environment variable are a core concept when working with linux. Youll see them tossed around and used in a variety of locations. They can be distinguished by their unique $ character at the beginning of the variable&amp;#39;s definition, and capitalized structure. Some of the most common you&amp;#39;ll see used are:</description>
+      <description>Some linux notes</description>
     </item>
   </channel>
 </rss>
