@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://justinlime.dev/sitemap.xml

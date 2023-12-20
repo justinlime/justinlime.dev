@@ -1,6 +1,5 @@
 ---
 title: SSH
-description: This is a test
 date: 2023-12-19T07:37:50Z 
 summary: Some linux notes
 draft: false

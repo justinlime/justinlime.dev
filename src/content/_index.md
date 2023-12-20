@@ -1,5 +1,4 @@
 ---
-title: Welcome
 description: This is a test
 ---
 
