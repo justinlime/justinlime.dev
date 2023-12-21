@@ -7,6 +7,732 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
         <lastBuildDate>Thu, 07 Sep 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://justinlime.dev/post/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>SSH</title>
+        <link>https://justinlime.dev/p/ssh/</link>
+        <pubDate>Mon, 06 Mar 2023 00:00:00 +0000</pubDate>
+        
+        <guid>https://justinlime.dev/p/ssh/</guid>
+        <description>&lt;img src="https://justinlime.dev/p/ssh/floral.png" alt="Featured image of post SSH" /&gt;
+&lt;div id=&#34;outline-container-headline-1&#34; class=&#34;outline-3&#34;&gt;
+&lt;h3 id=&#34;headline-1&#34;&gt;
+Overview
+&lt;/h3&gt;
+&lt;div id=&#34;outline-text-headline-1&#34; class=&#34;outline-text-3&#34;&gt;
+&lt;p&gt;Environment variable are a core concept when working with linux. Youll see them tossed around and used in
+a variety of locations. They can be distinguished by their unique &lt;code&gt;$&lt;/code&gt; character at the beginning of the
+variable&amp;#39;s definition, and capitalized structure. Some of the most common you&amp;#39;ll see used are:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;$HOME = Where the current users&amp;#39; home directory is located, interchangeable with the ~ symbol&lt;/li&gt;
+&lt;li&gt;$PATH = The directories to consider the the users PATH.&lt;/li&gt;
+&lt;li&gt;$SHELL = What shell is currently in use&lt;/li&gt;
+&lt;li&gt;$TERM = What terminal is currently in use&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;You can view the value of one of these variables using the echo command, such as:&lt;/p&gt;
+&lt;div class=&#34;src src-bash&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;$HOME&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;
+These environment variables are specific to the user&amp;#39;s current environment. Many programs take use of these for a
+variety of purposed. Here are more detailed descriptions for some of those common variable I mentioned before.&lt;/p&gt;
+&lt;div id=&#34;outline-container-headline-2&#34; class=&#34;outline-4&#34;&gt;
+&lt;h4 id=&#34;headline-2&#34;&gt;
+$PATH
+&lt;/h4&gt;
+&lt;div id=&#34;outline-text-headline-2&#34; class=&#34;outline-text-4&#34;&gt;
+&lt;p&gt;Path in linux is where the command line will search for executables. For instance, many commands
+like &lt;code&gt;whoami&lt;/code&gt; and &lt;code&gt;df&lt;/code&gt; are all usable from the command line, because they are in your PATH. &lt;code&gt;$PATH&lt;/code&gt; is
+typically a series of directories, not just one. To demonstrate, &lt;code&gt;$PATH&lt;/code&gt;, if we run the command:&lt;/p&gt;
+&lt;div class=&#34;src src-bash&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;which df&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;This output the directory where the &lt;code&gt;whoami&lt;/code&gt; program is located, in my case that would be:&lt;/p&gt;
+&lt;div class=&#34;src src-bash&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;/usr/bin/df&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Now, Lets check out &lt;code&gt;$PATH&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&#34;src src-bash&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;$PATH&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;code&gt;$PATH&lt;/code&gt; can vary from system to system. In my case, it outputs:&lt;/p&gt;
+&lt;div class=&#34;src src-bash&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;/usr/local/bin:/usr/bin:/bin:/usr/games&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;So since /usr/bin is in our &lt;code&gt;$PATH&lt;/code&gt;, we can execute in programs within that directory using just the name of
+the program, in this instance &lt;code&gt;df&lt;/code&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;outline-container-headline-3&#34; class=&#34;outline-4&#34;&gt;
+&lt;h4 id=&#34;headline-3&#34;&gt;
+$HOME
+&lt;/h4&gt;
+&lt;div id=&#34;outline-text-headline-3&#34; class=&#34;outline-text-4&#34;&gt;
+&lt;p&gt;This variable is one of the most commonly used. It denotes where the current user&amp;#39;s home directory is located.
+For example, if I were a user named &lt;code&gt;justinlime&lt;/code&gt; and used the following command:&lt;/p&gt;
+&lt;div class=&#34;src src-bash&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;$HOME&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;it would most likely output something such as this:&lt;/p&gt;
+&lt;div class=&#34;src src-text&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;/home/justinlime&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Typically this wouldn&amp;#39;t be a variable you&amp;#39;d want to modify. There is a shorthand for &lt;code&gt;$HOME&lt;/code&gt; which is the ~ key.
+It can be used interchangeably with $HOME. If you were to use:&lt;/p&gt;
+&lt;div class=&#34;src src-bash&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; ~&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;It would have the exact same results&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;outline-container-headline-4&#34; class=&#34;outline-2&#34;&gt;
+&lt;h2 id=&#34;headline-4&#34;&gt;
+Permissions
+&lt;/h2&gt;
+&lt;div id=&#34;outline-text-headline-4&#34; class=&#34;outline-text-2&#34;&gt;
+&lt;div id=&#34;outline-container-headline-5&#34; class=&#34;outline-3&#34;&gt;
+&lt;h3 id=&#34;headline-5&#34;&gt;
+Overview
+&lt;/h3&gt;
+&lt;div id=&#34;outline-text-headline-5&#34; class=&#34;outline-text-3&#34;&gt;
+&lt;p&gt;Permissions in linux are one of three options:&lt;/p&gt;
+&lt;div id=&#34;outline-container-headline-6&#34; class=&#34;outline-4&#34;&gt;
+&lt;h4 id=&#34;headline-6&#34;&gt;
+Read
+&lt;/h4&gt;
+&lt;div id=&#34;outline-text-headline-6&#34; class=&#34;outline-text-4&#34;&gt;
+&lt;p&gt;Typically symbolized as &lt;code&gt;r&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;
+Read permissions allow for the file to be read from. You cannot view the contents of a file
+unless given this permission. In the terms of directories, you need this permission to view
+the contents of it.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;outline-container-headline-7&#34; class=&#34;outline-4&#34;&gt;
+&lt;h4 id=&#34;headline-7&#34;&gt;
+Write
+&lt;/h4&gt;
+&lt;div id=&#34;outline-text-headline-7&#34; class=&#34;outline-text-4&#34;&gt;
+&lt;p&gt;Typically symbolized as &lt;code&gt;w&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;
+Read permissions allow for the file to be written to. You cannot write or modify the contents of a file
+unless given this permission. In terms of directories, you need this permission to add files to the directory.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;outline-container-headline-8&#34; class=&#34;outline-4&#34;&gt;
+&lt;h4 id=&#34;headline-8&#34;&gt;
+Execute
+&lt;/h4&gt;
+&lt;div id=&#34;outline-text-headline-8&#34; class=&#34;outline-text-4&#34;&gt;
+&lt;p&gt;Typically symbolized as &lt;code&gt;x&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;
+Execute Permissions allow for the file to be executed. You cannot run/execute a file/binary/executable
+unless given this permission. In terms of directories, this permission is needed in order to &lt;code&gt;cd&lt;/code&gt; into it.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;outline-container-headline-9&#34; class=&#34;outline-3&#34;&gt;
+&lt;h3 id=&#34;headline-9&#34;&gt;
+Permission Values
+&lt;/h3&gt;
+&lt;div id=&#34;outline-text-headline-9&#34; class=&#34;outline-text-3&#34;&gt;
+&lt;p&gt;As mentioned above, the permissions are typically symbolized with r, w, or x. In some cases, such as with use
+with the &lt;code&gt;chmod&lt;/code&gt; command, they are instead symbolized with numeric values.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;0 = No permissions&lt;/li&gt;
+&lt;li&gt;1 = Execute permissions (x)&lt;/li&gt;
+&lt;li&gt;2 = Write permissions (w)&lt;/li&gt;
+&lt;li&gt;4 = Read permissions (r)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;These values can be added together to symbolize a full set of permissions for a user/group/other. For example,
+using somethings like:&lt;/p&gt;
+&lt;div class=&#34;src src-text&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;chmod 777 test.txt&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;means that any user/group/other can read/write/execute the file or directory. This is because the values of
+the execute permission (1), write permission (2), and read permission (4), result in &lt;code&gt;7&lt;/code&gt;. &lt;/p&gt;
+&lt;p&gt;
+Each number in the context of the &lt;code&gt;chmod&lt;/code&gt; command represents a user, group, and other&amp;#39;s permissions respectively.
+For example in the command:&lt;/p&gt;
+&lt;div class=&#34;src src-bash&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;chmod &lt;span class=&#34;m&#34;&gt;750&lt;/span&gt; test.txt&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;The numbers represent:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;7: The permissions given for the OWNER&lt;/li&gt;
+&lt;li&gt;5: The permissions given for the GROUP&lt;/li&gt;
+&lt;li&gt;0: The permissions given for OTHERS&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Heres a small cheat sheet:&lt;/p&gt;
+&lt;table&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td class=&#34;align-right&#34;&gt;7&lt;/td&gt;
+&lt;td&gt;rwx&lt;/td&gt;
+&lt;td class=&#34;align-right&#34;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td class=&#34;align-right&#34;&gt;6&lt;/td&gt;
+&lt;td&gt;rw-&lt;/td&gt;
+&lt;td class=&#34;align-right&#34;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td class=&#34;align-right&#34;&gt;5&lt;/td&gt;
+&lt;td&gt;r-x&lt;/td&gt;
+&lt;td class=&#34;align-right&#34;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td class=&#34;align-right&#34;&gt;4&lt;/td&gt;
+&lt;td&gt;r–&lt;/td&gt;
+&lt;td class=&#34;align-right&#34;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td class=&#34;align-right&#34;&gt;3&lt;/td&gt;
+&lt;td&gt;-wx&lt;/td&gt;
+&lt;td class=&#34;align-right&#34;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td class=&#34;align-right&#34;&gt;2&lt;/td&gt;
+&lt;td&gt;-w-&lt;/td&gt;
+&lt;td class=&#34;align-right&#34;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td class=&#34;align-right&#34;&gt;1&lt;/td&gt;
+&lt;td&gt;–x&lt;/td&gt;
+&lt;td class=&#34;align-right&#34;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td class=&#34;align-right&#34;&gt;0&lt;/td&gt;
+&lt;td&gt;—&lt;/td&gt;
+&lt;td class=&#34;align-right&#34;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;outline-container-headline-10&#34; class=&#34;outline-3&#34;&gt;
+&lt;h3 id=&#34;headline-10&#34;&gt;
+Checking Permissions
+&lt;/h3&gt;
+&lt;div id=&#34;outline-text-headline-10&#34; class=&#34;outline-text-3&#34;&gt;
+&lt;p&gt;Permissions on linux do not work like how things are on windows. In linux, every file has a permissions value.
+One way of checking a file&amp;#39;s permissions is to use the following command:&lt;/p&gt;
+&lt;div class=&#34;src src-bash&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;ls -l /path/to/some/file&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;the &lt;code&gt;-l&lt;/code&gt; is used to provide additional information compared to the normal &lt;code&gt;ls&lt;/code&gt; command. The command provided above
+will output something along the lines of:&lt;/p&gt;
+&lt;div class=&#34;src src-text&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;-rw-r--r-- 1 user group 90 Dec  9 14:57 some_file_name&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Here in this output, we can see the file&amp;#39;s permissions given at the front &lt;code&gt;-rw-r--r--&lt;/code&gt;. The very first &amp;#34;-&amp;#34; given
+in this output defines if it is a file, or a directory. Since in this output it is only listed as &amp;#34;-&amp;#34;, this means
+it is a file. If it displayed a &lt;code&gt;d&lt;/code&gt; in that position, then that tells you it is a directory.&lt;/p&gt;
+&lt;p&gt;
+The following results from the permissions section are split into 3 group of 3.
+Each group represents:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Owner&lt;/li&gt;
+&lt;li&gt;Group&lt;/li&gt;
+&lt;li&gt;Other&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div id=&#34;outline-container-headline-11&#34; class=&#34;outline-4&#34;&gt;
+&lt;h4 id=&#34;headline-11&#34;&gt;
+Owner
+&lt;/h4&gt;
+&lt;div id=&#34;outline-text-headline-11&#34; class=&#34;outline-text-4&#34;&gt;
+&lt;p&gt;This signifies which user on the system owns the file. The owner of the file is shown in the same output
+from above, as the &lt;code&gt;user&lt;/code&gt;. The first 3 numbers after the initial &amp;#34;-&amp;#34; in the output show what kind of permissions
+the owner has. &lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;outline-container-headline-12&#34; class=&#34;outline-4&#34;&gt;
+&lt;h4 id=&#34;headline-12&#34;&gt;
+Group
+&lt;/h4&gt;
+&lt;div id=&#34;outline-text-headline-12&#34; class=&#34;outline-text-4&#34;&gt;
+&lt;p&gt;This signifies which group on the system owns the file. The following 3 characters after the &amp;#34;Owners&amp;#34;
+permissions are the groups permissions. &lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;outline-container-headline-13&#34; class=&#34;outline-4&#34;&gt;
+&lt;h4 id=&#34;headline-13&#34;&gt;
+Other
+&lt;/h4&gt;
+&lt;div id=&#34;outline-text-headline-13&#34; class=&#34;outline-text-4&#34;&gt;
+&lt;p&gt;This signifies any other user/group not defined in the previous permission values. &lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;outline-container-headline-14&#34; class=&#34;outline-2&#34;&gt;
+&lt;h2 id=&#34;headline-14&#34;&gt;
+User and Group creation
+&lt;/h2&gt;
+&lt;div id=&#34;outline-text-headline-14&#34; class=&#34;outline-text-2&#34;&gt;
+&lt;div id=&#34;outline-container-headline-15&#34; class=&#34;outline-3&#34;&gt;
+&lt;h3 id=&#34;headline-15&#34;&gt;
+Users
+&lt;/h3&gt;
+&lt;div id=&#34;outline-text-headline-15&#34; class=&#34;outline-text-3&#34;&gt;
+&lt;p&gt;Users on linux can be created by a variety of means. On most distrubitions, you can use the &lt;code&gt;useradd&lt;/code&gt; command
+for this purpose:&lt;/p&gt;
+&lt;div class=&#34;src src-bash&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sudo useradd -m -s /bin/bash justinlime&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;The example given will create a user AND a group named &lt;code&gt;justinlime&lt;/code&gt;, using the $SHELL &lt;code&gt;/bin/bash&lt;/code&gt;.
+the &lt;code&gt;-m&lt;/code&gt; flag creates a home directory for the user, found in &lt;code&gt;/home/justinlime&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;
+If you intend to use this user yourself interactively, you&amp;#39;ll want to set a password for the user, this can be done
+using:&lt;/p&gt;
+&lt;div class=&#34;src src-bash&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sudo passwd justinlime&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;If you want the user to have sudo permissions, you would want to add the user to either the &lt;code&gt;wheel&lt;/code&gt; or the
+&lt;code&gt;sudo&lt;/code&gt; group, depending on the distribution. This can be done with the &lt;code&gt;usermod&lt;/code&gt; command as shown here:&lt;/p&gt;
+&lt;div class=&#34;src src-bash&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sudo usermod -aG wheel justinlime
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;#or&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sudo usermod -aG sudo justinlime&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;The &lt;code&gt;a&lt;/code&gt; flag means to append, and the &lt;code&gt;G&lt;/code&gt; flag signifies group.&lt;/p&gt;
+&lt;p&gt;
+After this is done, you can switch to your newly created user with the &lt;code&gt;su&lt;/code&gt; (switch user) command:&lt;/p&gt;
+&lt;div class=&#34;src src-bash&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;su justinlime&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;outline-container-headline-16&#34; class=&#34;outline-3&#34;&gt;
+&lt;h3 id=&#34;headline-16&#34;&gt;
+Groups
+&lt;/h3&gt;
+&lt;div id=&#34;outline-text-headline-16&#34; class=&#34;outline-text-3&#34;&gt;
+&lt;p&gt;Similar to how users are created, if you just want to create a group in linux, you can use the &lt;code&gt;groupadd&lt;/code&gt; command.&lt;/p&gt;
+&lt;div class=&#34;src src-bash&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sudo groupadd users&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;This command would create a &lt;code&gt;users&lt;/code&gt; group, then you can add a user to the group with the &lt;code&gt;usermod&lt;/code&gt; command:&lt;/p&gt;
+&lt;div class=&#34;src src-bash&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sudo usermod -aG users justinlime&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;outline-container-headline-17&#34; class=&#34;outline-2&#34;&gt;
+&lt;h2 id=&#34;headline-17&#34;&gt;
+SSH
+&lt;/h2&gt;
+&lt;div id=&#34;outline-text-headline-17&#34; class=&#34;outline-text-2&#34;&gt;
+&lt;div id=&#34;outline-container-headline-18&#34; class=&#34;outline-3&#34;&gt;
+&lt;h3 id=&#34;headline-18&#34;&gt;
+SSH
+&lt;/h3&gt;
+&lt;div id=&#34;outline-text-headline-18&#34; class=&#34;outline-text-3&#34;&gt;
+&lt;p&gt;SSH is the client side service for OpenSSH to connect to a listening SSHD. It is highly suggested to use
+key files instead of basic password authentication, for the most security. Standard password authentication
+can be brute-force attacked much easier than a key-file. Nowadays, the most secure key-encryption algorithm
+is &lt;code&gt;ed25519&lt;/code&gt;.&lt;/p&gt;
+&lt;div id=&#34;outline-container-headline-19&#34; class=&#34;outline-4&#34;&gt;
+&lt;h4 id=&#34;headline-19&#34;&gt;
+Generate a key
+&lt;/h4&gt;
+&lt;div id=&#34;outline-text-headline-19&#34; class=&#34;outline-text-4&#34;&gt;
+&lt;p&gt;To generate a key for use with SSH, you can use the following command:&lt;/p&gt;
+&lt;div class=&#34;src src-bash&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;ssh-keygen -f ~/.ssh/your_keyfile_name -t ed25519
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# ~ evaluates to /home/your_username in linux. Its the equivalent to $HOME&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;You will then be prompted to input a password. You can leave this empty if you don&amp;#39;t want a password locked keyfile.
+In most cases a passwordless key-file is fine, but for the most security its always better to have one.&lt;/p&gt;
+&lt;p&gt;
+The &lt;code&gt;-f&lt;/code&gt; flag is used to output the key-pair to a specific directory, in this case, &lt;code&gt;$HOME/.ssh&lt;/code&gt; (See &lt;a href=&#34;$HOME&#34;&gt;$HOME&lt;/a&gt;).
+The &lt;code&gt;-t&lt;/code&gt; flag is used to specify the encryption type, as mentioned before ed25519 is the most secure as of today.
+You can use &lt;code&gt;ssh-keygen --help&lt;/code&gt; for more information on the command.&lt;/p&gt;
+&lt;p&gt;
+The command will generate a &lt;code&gt;your_keyfile_name&lt;/code&gt; file, being your private key, and a &lt;code&gt;your_keyfile_name.pub&lt;/code&gt; file,
+being your public key. The public key being the one you supply to the server, and the private key being the locally
+used key in order to verify against the public key listening on the server.&lt;/p&gt;
+&lt;p&gt;
+The private key should be locked down in terms of permissions, preferably with &lt;code&gt;400&lt;/code&gt; permissions. (See &lt;a href=&#34;#permissions&#34;&gt;Permissions&lt;/a&gt;)
+This gives the owner the ability to read the file and nobody else.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;outline-container-headline-20&#34; class=&#34;outline-4&#34;&gt;
+&lt;h4 id=&#34;headline-20&#34;&gt;
+Supply the public key to the server
+&lt;/h4&gt;
+&lt;div id=&#34;outline-text-headline-20&#34; class=&#34;outline-text-4&#34;&gt;
+&lt;p&gt;For SSHD to recognize your private keyfile as valid, it needs to be setup with the public key counterpart of your
+private key file (the one ending in &lt;code&gt;.pub&lt;/code&gt;). Unless configured otherwise, SSHD will search in the connecting user&amp;#39;s
+&lt;code&gt;$HOME/.ssh&lt;/code&gt; directory. For example, when connecting to a server as the &lt;code&gt;justinlime&lt;/code&gt; user, SSHD will search
+for a matching &lt;code&gt;.pub&lt;/code&gt; file in the home directory of &lt;code&gt;justinime&lt;/code&gt; to match the private key to, typically this would be
+in &lt;code&gt;/home/justinlime/.ssh/some_key.pub&lt;/code&gt;. With that supplied to the server, you should be able to ssh into the machine
+using the following command:&lt;/p&gt;
+&lt;div class=&#34;src src-bash&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;ssh -i ~/path/to/your_private_key username@machine_ip&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;The &lt;code&gt;-i&lt;/code&gt; flag tells ssh to use a &lt;code&gt;Indentity File&lt;/code&gt; instead of a password. After using the command you will be prompted
+for the key-file&amp;#39;s password if it has one set for it.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;outline-container-headline-21&#34; class=&#34;outline-4&#34;&gt;
+&lt;h4 id=&#34;headline-21&#34;&gt;
+SSH Config
+&lt;/h4&gt;
+&lt;div id=&#34;outline-text-headline-21&#34; class=&#34;outline-text-4&#34;&gt;
+&lt;p&gt;SSH has an optional config file for ssh connections. You can pre-define hosts to connect to in this config file,
+which is found in &lt;code&gt;&amp;#34;/home/username/.ssh/config&amp;#34;&lt;/code&gt;. You can add an entry in the following format:&lt;/p&gt;
+&lt;div class=&#34;src src-bash&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Host &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;name&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  User &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;username&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;	Hostname &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;host_ip&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;	PreferredAuthentications &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;authentication_type&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;	IdentityFile &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;path_to_key_file&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;A filled out example:&lt;/p&gt;
+&lt;div class=&#34;src src-bash&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Host server
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  User justinlime
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;	Hostname 192.168.4.59
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;	PreferredAuthentications publickey
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;	IdentityFile ~/.ssh/server&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;This configuration defines an ssh connection to the host &lt;code&gt;server&lt;/code&gt; at the IP of &lt;code&gt;192.168.4.59&lt;/code&gt; using the
+authentication type of &lt;code&gt;publickey&lt;/code&gt; (which uses the key-files) and defines the identity file&amp;#39;s location at
+&lt;code&gt;&amp;#34;/home/justinlime/.ssh/server&amp;#34;&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;
+With this in place, instead of having to ssh using:&lt;/p&gt;
+&lt;div class=&#34;src src-bash&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;ssh -i ~/.ssh/server justinlime@192.168.4.59&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;You could instead just type:&lt;/p&gt;
+&lt;div class=&#34;src src-bash&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;ssh server&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;More information for the ssh config file can be found &lt;a href=&#34;https://www.ssh.com/academy/ssh/config&#34;&gt;Here&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;outline-container-headline-22&#34; class=&#34;outline-3&#34;&gt;
+&lt;h3 id=&#34;headline-22&#34;&gt;
+SSHD
+&lt;/h3&gt;
+&lt;div id=&#34;outline-text-headline-22&#34; class=&#34;outline-text-3&#34;&gt;
+&lt;div id=&#34;outline-container-headline-23&#34; class=&#34;outline-4&#34;&gt;
+&lt;h4 id=&#34;headline-23&#34;&gt;
+Overview
+&lt;/h4&gt;
+&lt;div id=&#34;outline-text-headline-23&#34; class=&#34;outline-text-4&#34;&gt;
+&lt;p&gt;SSHD is the daemon running to listen for incoming ssh connection requests, typically on port 22 unless
+configured otherwise. Depending on the linux distribution, SSHD&amp;#39;s default settings can very, but it
+is always good to verify harden SSHD before daily use. The SSHD config is typically found in:
+&lt;code&gt;/etc/ssh/sshd_config&lt;/code&gt; on a linux machine.&lt;/p&gt;
+&lt;p&gt;
+Ensure the following setting on any new installation:&lt;/p&gt;
+&lt;div id=&#34;outline-container-headline-24&#34; class=&#34;outline-5&#34;&gt;
+&lt;h5 id=&#34;headline-24&#34;&gt;
+PermitEmptyPasswords no
+&lt;/h5&gt;
+&lt;div id=&#34;outline-text-headline-24&#34; class=&#34;outline-text-5&#34;&gt;
+&lt;p&gt;This is pretty self explanatory, SSHD will deny any connection made with an empty password&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;outline-container-headline-25&#34; class=&#34;outline-5&#34;&gt;
+&lt;h5 id=&#34;headline-25&#34;&gt;
+PermitRootLogin no
+&lt;/h5&gt;
+&lt;div id=&#34;outline-text-headline-25&#34; class=&#34;outline-text-5&#34;&gt;
+&lt;p&gt;Do not allow SSHD to accept connections to the root account. Denying connections to root is necessary for security,
+since if someone was able to access as root they then have FULL control over the machine.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;outline-container-headline-26&#34; class=&#34;outline-5&#34;&gt;
+&lt;h5 id=&#34;headline-26&#34;&gt;
+Protocol 2
+&lt;/h5&gt;
+&lt;div id=&#34;outline-text-headline-26&#34; class=&#34;outline-text-5&#34;&gt;
+&lt;p&gt;Specifies to use version 2 of the SSH protocol. Version 2 has many improvements over version 1, especially
+in terms of security.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;outline-container-headline-27&#34; class=&#34;outline-5&#34;&gt;
+&lt;h5 id=&#34;headline-27&#34;&gt;
+ClientAliveInterval 300
+&lt;/h5&gt;
+&lt;div id=&#34;outline-text-headline-27&#34; class=&#34;outline-text-5&#34;&gt;
+&lt;p&gt;Sets the server to send a &lt;code&gt;&amp;#34;keep_alive&amp;#34;&lt;/code&gt; message to the client every 300 seconds (5 minutes). This prevents connections from
+going stale. If the keep_alive message gets no response, the clients&amp;#39; connection is terminated.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;outline-container-headline-28&#34; class=&#34;outline-5&#34;&gt;
+&lt;h5 id=&#34;headline-28&#34;&gt;
+Allow Users USER1 USER2
+&lt;/h5&gt;
+&lt;div id=&#34;outline-text-headline-28&#34; class=&#34;outline-text-5&#34;&gt;
+&lt;p&gt;This tells SSHD which system users are allowed to connect to the server with SSH. These are space delimited, so if you had
+the users &lt;code&gt;foo&lt;/code&gt; and &lt;code&gt;bar&lt;/code&gt; that you wanted to grant SSH access, you would add the line to your sshd_config:&lt;/p&gt;
+&lt;div class=&#34;src src-text&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Allow Users foo bar&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;This makes it so that the only users allowed to SSH are the users &lt;code&gt;foo&lt;/code&gt; and &lt;code&gt;bar&lt;/code&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;outline-container-headline-29&#34; class=&#34;outline-5&#34;&gt;
+&lt;h5 id=&#34;headline-29&#34;&gt;
+Allow Groups GROUP1 GROUP2
+&lt;/h5&gt;
+&lt;div id=&#34;outline-text-headline-29&#34; class=&#34;outline-text-5&#34;&gt;
+&lt;p&gt;Identical usage to &lt;code&gt;Allow Users&lt;/code&gt; but for groups instead of Users.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;outline-container-headline-30&#34; class=&#34;outline-5&#34;&gt;
+&lt;h5 id=&#34;headline-30&#34;&gt;
+PasswordAuthentication no
+&lt;/h5&gt;
+&lt;div id=&#34;outline-text-headline-30&#34; class=&#34;outline-text-5&#34;&gt;
+&lt;p&gt;This will deny any Password Authentication, and only allow connection to be made with the use of key-file pairs.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;outline-container-headline-31&#34; class=&#34;outline-5&#34;&gt;
+&lt;h5 id=&#34;headline-31&#34;&gt;
+MaxAuthTries 3
+&lt;/h5&gt;
+&lt;div id=&#34;outline-text-headline-31&#34; class=&#34;outline-text-5&#34;&gt;
+&lt;p&gt;Specifies the number of authentication attempts per connection. This setting in particular will terminate the connection if
+the user fails to authenticate 3 times in a session.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;outline-container-headline-32&#34; class=&#34;outline-5&#34;&gt;
+&lt;h5 id=&#34;headline-32&#34;&gt;
+ChallengeResponseAuthentication no
+&lt;/h5&gt;
+&lt;div id=&#34;outline-text-headline-32&#34; class=&#34;outline-text-5&#34;&gt;
+&lt;p&gt;Typically used to prompt the client for a password when using PasswordAuthentication. Disabling it just to be on the safe side.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;outline-container-headline-33&#34; class=&#34;outline-4&#34;&gt;
+&lt;h4 id=&#34;headline-33&#34;&gt;
+Finishing Touches
+&lt;/h4&gt;
+&lt;div id=&#34;outline-text-headline-33&#34; class=&#34;outline-text-4&#34;&gt;
+&lt;p&gt;After applying your changes, youll need to restart SSHD in order for them to take affect. You make want to keep any current SSH connections you have going
+just in case there was a misconfiguration, so you dont get locked out of the server.&lt;/p&gt;
+&lt;p&gt;
+To restart SSHD on a linux system that uses SystemD, which is the standard, you can use:&lt;/p&gt;
+&lt;div class=&#34;src src-bash&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sudo systemctl restart sshd&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;After doing so, open a new terminal windows and test your SSH connection to verify everything is working properly.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</description>
+        </item>
+        <item>
         <title>Hello World</title>
         <link>https://justinlime.dev/p/hello-world/</link>
         <pubDate>Sun, 06 Mar 2022 00:00:00 +0000</pubDate>
