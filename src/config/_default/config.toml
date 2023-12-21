@@ -1,13 +1,15 @@
-# -- Site Configuration --
-# Refer to the theme docs for more details about each of these parameters.
-# https://jpanther.github.io/congo/docs/getting-started/
+# Change baseurl before deploy
+baseurl = "https://justinlime.dev"
+languageCode = "en-us"
+paginate = 5
+title = "justinlime dev blog"
 
-# baseURL = "https://your_domain.com/"
+# Theme i18n support
+# Available values: en, fr, id, ja, ko, pt-br, zh-cn, zh-tw, es, de, nl, it, th, el, uk, ar
 defaultContentLanguage = "en"
 
-enableRobotsTXT = true
-paginate = 10
-summaryLength = 0
+# Set hasCJKLanguage to true if DefaultContentLanguage is in [zh-cn ja ko]
+# This will make .Summary and .WordCount behave correctly for CJK languages.
+hasCJKLanguage = false
 
-[outputs]
-  home = ["HTML", "RSS", "JSON"]
+# Change it to your Disqus shortname before using

@@ -1,15 +1,8 @@
 ---
-description: This is a test
+menu:
+    main:
+        name: Home
+        weight: 1
+        params:
+            icon: home
 ---
-
-# JustinLime
-
-```go
-package justinlime
-
-import "fmt"
-
-func main(){
-    fmt.Println("Welcome!")
-}
-```
