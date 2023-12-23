@@ -4,6 +4,7 @@ description: Setting up an ssh connection on linux
 slug: ssh
 date: 2023-12-06 00:00:00+0000
 image: floral.png
+toc: false
 categories:
     - Linux
 #tags:
