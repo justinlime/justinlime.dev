@@ -298,7 +298,7 @@
 
 
                 <time class="article-time--reading">
-                    3 minute read
+                    4 minute read
                 </time>
             </div>
         
@@ -509,15 +509,29 @@ copy-paste to do everything I&#39;ve mentioned above. </p>
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">nix flake init --template github:justinlime/devflakes#generic <span class="o">&amp;&amp;</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span>git add flake.nix <span class="o">&amp;&amp;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>nix flake lock <span class="o">&amp;&amp;</span> <span class="se">\
 </span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="nb">echo</span> <span class="s2">&#34;use flake&#34;</span> &gt; .envrc <span class="o">&amp;&amp;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="nb">echo</span> <span class="s2">&#34;.direnv/&#34;</span> &gt;&gt; .gitignore <span class="o">&amp;&amp;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>git add flake.nix flake.lock .gitignore .envrc <span class="o">&amp;&amp;</span> <span class="se">\
 </span></span></span><span class="line"><span class="cl"><span class="se"></span>direnv allow</span></span></code></pre></td></tr></table>
 </div>
 </div>
 </div>
+<p>The snippet above does the following:</p>
+<ul>
+<li>Creates a <code>flake.nix</code> based on my template</li>
+<li>Creates a <code>flake.lock</code> for said flake, which locks the packages for maximum reproducibility</li>
+<li>Creates a <code>.envrc</code> for direnv integration</li>
+<li>Appends <code>.gitignore</code> to ignore the auto-generated <code>.direnv</code> directory</li>
+<li>Adds all the created files to be staged for commit</li>
+<li>Activates direnv for the directory</li>
+</ul>
+<p>Happy Deving!</p>
 </div>
 </div>
 

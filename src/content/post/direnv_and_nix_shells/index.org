@@ -105,7 +105,18 @@ So long as you have nix installed, flakes enabled, and a git repo, heres a nice
 copy-paste to do everything I've mentioned above. 
 #+begin_src bash
 nix flake init --template github:justinlime/devflakes#generic && \
-git add flake.nix && \
+nix flake lock && \
 echo "use flake" > .envrc && \
+echo ".direnv/" >> .gitignore && \
+git add flake.nix flake.lock .gitignore .envrc && \
 direnv allow
 #+end_src
+The snippet above does the following:
+ - Creates a ~flake.nix~ based on my template
+ - Creates a ~flake.lock~ for said flake, which locks the packages for maximum reproducibility
+ - Creates a ~.envrc~ for direnv integration
+ - Appends ~.gitignore~ to ignore the auto-generated ~.direnv~ directory
+ - Adds all the created files to be staged for commit
+ - Activates direnv for the directory
+
+ Happy Deving!
