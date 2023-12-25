@@ -104,6 +104,7 @@ to bootstrap and cover the boilerplate needed for a basic flake.
 So long as you have nix installed, flakes enabled, and a git repo, heres a nice
 copy-paste to do everything I've mentioned above. 
 #+begin_src bash
+git init && \
 nix flake init --template github:justinlime/devflakes#generic && \
 nix flake lock && \
 echo "use flake" > .envrc && \
@@ -112,6 +113,7 @@ git add flake.nix flake.lock .gitignore .envrc && \
 direnv allow
 #+end_src
 The snippet above does the following:
+ - Creates a Git Repo in the directory if one doesn't exist
  - Creates a ~flake.nix~ based on my template
  - Creates a ~flake.lock~ for said flake, which locks the packages for maximum reproducibility
  - Creates a ~.envrc~ for direnv integration

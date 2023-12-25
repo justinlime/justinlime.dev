@@ -511,9 +511,11 @@ copy-paste to do everything I&#39;ve mentioned above. </p>
 </span><span class="lnt">4
 </span><span class="lnt">5
 </span><span class="lnt">6
+</span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">nix flake init --template github:justinlime/devflakes#generic <span class="o">&amp;&amp;</span> <span class="se">\
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git init <span class="o">&amp;&amp;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>nix flake init --template github:justinlime/devflakes#generic <span class="o">&amp;&amp;</span> <span class="se">\
 </span></span></span><span class="line"><span class="cl"><span class="se"></span>nix flake lock <span class="o">&amp;&amp;</span> <span class="se">\
 </span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="nb">echo</span> <span class="s2">&#34;use flake&#34;</span> &gt; .envrc <span class="o">&amp;&amp;</span> <span class="se">\
 </span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="nb">echo</span> <span class="s2">&#34;.direnv/&#34;</span> &gt;&gt; .gitignore <span class="o">&amp;&amp;</span> <span class="se">\
@@ -524,6 +526,7 @@ copy-paste to do everything I&#39;ve mentioned above. </p>
 </div>
 <p>The snippet above does the following:</p>
 <ul>
+<li>Creates a Git Repo in the directory if one doesn&#39;t exist</li>
 <li>Creates a <code>flake.nix</code> based on my template</li>
 <li>Creates a <code>flake.lock</code> for said flake, which locks the packages for maximum reproducibility</li>
 <li>Creates a <code>.envrc</code> for direnv integration</li>
