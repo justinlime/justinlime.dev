@@ -1,7 +1,7 @@
 ---
 title: Direnv and Nix
 description: Setting up project dev environments with Nix Shell and Direnv
-slug: ssh
+slug: nix
 date: 2023-12-06 00:00:00+0000
 image: floral.png
 toc: false

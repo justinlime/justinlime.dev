@@ -1,0 +1,46 @@
+---
+title: Snapraid + Mergerfs Recovery
+description: Recover from a drive failure when using snapraid and mergerfs
+slug: snapraid
+date: 2023-12-29 00:00:00+0000
+image: floral.png
+toc: false
+categories:
+    - Linux
+#tags:
+#    - Example Tag
+---
+
+* Full drive recovery
+** Initial State
+Lets say you have 4 Drives in your storage pool:
++ ~/mnt/data0~
++ ~/mnt/data1~
++ ~/mnt/data2~
++ ~/mnt/data3~
+  
+We can use this layout as an example:
++ *Pool mountpoint:* ~/mnt/pool~
++ *Parity drive:* ~/mnt/parity0~
++ *Failed drive:* ~/mnt/data1~
++ *New drive:* ~/mnt/data4~
+** Procedure
+1. Read the [[https://www.snapraid.it/manual][snapraid manual]]
+2. Modify your snapraid.conf to include the new data drive:
+   ~disk disk1 /mnt/data1~
+   becomes
+   ~disk disk1 /mnt/data4~
+3. Fix the drive (will take a while)
+   #+begin_src bash
+   snapraid -d disk1 -l /tmp/snapraid-disk1-fix.log fix 
+   #+end_src
+4. Check that the data is OK (will probably take a while)
+   #+begin_src bash
+   snapraid -d disk1 -a check
+   #+end_src
+5. Resync the new drive
+   #+begin_src bash
+   snapraid sync
+   #+end_src
+6. Remove the old drive from the mergerfs pool
+7. Add the new drive to the mergerfs pool

@@ -1,3 +1,64 @@
-/*
-    You can add your own custom styles here.
-*/
+/* Headline levels */
+[id*=headline] > h2, [id*=headline] > h3,
+[id*=headline] > h4, [id*=headline] > h5,
+[id*=headline] > h6 {
+    color: #a6adc8;
+}
+[id*=headline] > h2 {
+    border-left-color: #cba6f7;
+    background: linear-gradient(to right, #1e1e2e, rgba(255, 255, 255, 0));
+}
+[id*=headline] > h3 {
+    border-left-color: #eba0ac;
+    background: linear-gradient(to right, #1e1e2e, rgba(255, 255, 255, 0) 85%);
+}
+[id*=headline] > h4 {
+    border-left-color: #89dceb;
+    background: linear-gradient(to right, #1e1e2e, rgba(255, 255, 255, 0) 65%);
+}
+[id*=headline] > h5 {
+    border-left-color: #a6e3a1;
+    background: linear-gradient(to right, #1e1e2e, rgba(255, 255, 255, 0) 45%);
+}
+[id*=headline] > h6 {
+    border-left-color: #cdd6f4;
+    background: linear-gradient(to right, #1e1e2e, rgba(255, 255, 255, 0) 25%);
+}
+
+/* Table of Contents stuff */
+#TableOfContents a {
+    color: #89b4fa;
+    transition: .4s;
+}
+
+/* the article itself */
+.section-title {
+    color: #cba6f7;
+}
+.article-title a {
+    color: 	#cdd6f4;    
+    transition: .4s;
+}
+.article-content img {
+    border-radius: 0.75rem; 
+}
+p > a, li > a, ul > a {
+    color: #89b4fa;
+    transition: .4s;
+}
+p > a:hover, li > a:hover , ul > a:hover ,.article-title a:hover, #TableOfContents a:hover {
+    color: brown;
+}
+
+
+/* Fully stetch background for src blocks */
+.src > .highlight {
+    background-size: #1e1e2e; 
+    margin: -10;
+    padding: 0;
+    font-weight: 500;
+}
+.src > .highlight > div {
+    padding: 2.5rem;
+}
+
