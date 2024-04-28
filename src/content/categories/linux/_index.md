@@ -1,7 +1,7 @@
 ---
 title: Linux
 description: Linux related content
-image:
+image: linux.jpg
 
 # Badge style
 style:

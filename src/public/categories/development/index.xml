@@ -1,0 +1,429 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Development on justinlime dev blog</title>
+        <link>https://justinlime.dev/categories/development/</link>
+        <description>Recent content in Development on justinlime dev blog</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>en-us</language>
+        <lastBuildDate>Fri, 26 Apr 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://justinlime.dev/categories/development/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Emacs and Elisp Crash Course</title>
+        <link>https://justinlime.dev/p/emacs-crash-course/</link>
+        <pubDate>Fri, 26 Apr 2024 00:00:00 +0000</pubDate>
+        
+        <guid>https://justinlime.dev/p/emacs-crash-course/</guid>
+        <description>&lt;img src="https://justinlime.dev/p/emacs-crash-course/stallman.jpg" alt="Featured image of post Emacs and Elisp Crash Course" /&gt;
+&lt;div id=&#34;outline-container-headline-1&#34; class=&#34;outline-2&#34;&gt;
+&lt;h2 id=&#34;headline-1&#34;&gt;
+Emacs
+&lt;/h2&gt;
+&lt;div id=&#34;outline-text-headline-1&#34; class=&#34;outline-text-2&#34;&gt;
+&lt;p&gt;Emacs is configured exclusively through code, &lt;strong&gt;99% of which is elisp code&lt;/strong&gt;. 
+See section 2 under elisp for why this is important. By default, 
+Emacs uses keychords. Due to the prevalence of modifier keys, these have a 
+special notation, using shortened aliases, for example &lt;code class=&#34;verbatim&#34;&gt;C-c g&lt;/code&gt;. Refer to the 
+Emacs tutorial for an explanation. &lt;/p&gt;
+&lt;p&gt;
+This notation can be transformed into an elisp 
+object via the &lt;code class=&#34;verbatim&#34;&gt;kbd&lt;/code&gt; macro. All but the last key pressed are prefixes, &amp;#34;branches&amp;#34; 
+in the keybindings where you have several other keys to choose from after pressing 
+them. The most important prefix is C-c, as this, by convention, contains all 
+user-defined keybindings. &lt;/p&gt;
+&lt;p&gt;
+For a list of common/mandatory keybindings 
+(including navigation, buffer and window management, and others), refer to the 
+Emacs tutorial. Emacs offers various GUI interfaces for configuration 
+(installing packages, setting options, etc), however these insert code into your 
+init file, and are not opaque state.&lt;/p&gt;
+&lt;div id=&#34;outline-container-headline-2&#34; class=&#34;outline-3&#34;&gt;
+&lt;h3 id=&#34;headline-2&#34;&gt;
+General tips for beginners
+&lt;/h3&gt;
+&lt;div id=&#34;outline-text-headline-2&#34; class=&#34;outline-text-3&#34;&gt;
+&lt;ul&gt;
+&lt;li&gt;Try to stick to built-in functionality wherever possible at the beginning.&lt;/li&gt;
+&lt;li&gt;Try to avoid the use of DSLs/complex macros (i.e. use-package).&lt;/li&gt;
+&lt;li&gt;Emacs has a built-in package manager, I recommend enabling the &lt;a href=&#34;https://melpa.org/#/getting-started&#34;&gt;MELPA&lt;/a&gt; community repo.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;outline-container-headline-3&#34; class=&#34;outline-2&#34;&gt;
+&lt;h2 id=&#34;headline-3&#34;&gt;
+Elisp
+&lt;/h2&gt;
+&lt;div id=&#34;outline-text-headline-3&#34; class=&#34;outline-text-2&#34;&gt;
+&lt;p&gt;Elisp is based on s-expressions, the syntax for which is &lt;code class=&#34;verbatim&#34;&gt;(function-name arg1 arg2 ...)&lt;/code&gt;. 
+This syntax is based on lists, to be covered in 2.3. As the name suggests, everything is an 
+expression, and thus every s-expression returns a value. Variables are evaluated via their name. 
+That means that &lt;code class=&#34;verbatim&#34;&gt;foo&lt;/code&gt; is both valid elisp and will evaluate the variable &lt;code class=&#34;verbatim&#34;&gt;foo&lt;/code&gt; and return its value. 
+The language makes no distinction between functions, macros and operators, everything is 
+called in the s-expression form. &lt;/p&gt;
+&lt;p&gt;
+Elisp (and lisps in general) use kebab-case names. Naming conventions include stars (&amp;#34;earmuffs&amp;#34;) around 
+the name of global variables and plus signs around the names of constants. There are no &amp;#34;decorators&amp;#34; for 
+function names and local variable names. Additionally, there are two special variables, &lt;code class=&#34;verbatim&#34;&gt;t&lt;/code&gt; 
+(analoguous to true) and &lt;code class=&#34;verbatim&#34;&gt;nil&lt;/code&gt;, which is analogous to both false and NULL in other languages.&lt;/p&gt;
+&lt;div id=&#34;outline-container-headline-4&#34; class=&#34;outline-3&#34;&gt;
+&lt;h3 id=&#34;headline-4&#34;&gt;
+Functions
+&lt;/h3&gt;
+&lt;div id=&#34;outline-text-headline-4&#34; class=&#34;outline-text-3&#34;&gt;
+&lt;p&gt;Functions are defined with the &lt;code class=&#34;verbatim&#34;&gt;defun&lt;/code&gt; macro (or &lt;code class=&#34;verbatim&#34;&gt;lambda&lt;/code&gt; for anonymous functions) 
+and have certain special properties. &lt;/p&gt;
+&lt;p&gt;
+Firstly, they have 3 types of arguments: required, optional and rest arguments. The first 2 are self-explanatory, 
+the 3rd collects all extra arguments passed into one list (similiar to variadic arguments). &lt;/p&gt;
+&lt;p&gt;
+Secondly, they have docstrings. Since functions work on lists (their body is a rest argument), 
+their definitions are composed of forms. Forms are either s-expressions or Lisp objects. If the 
+first form is a string and there are other forms, it becomes a docstring and will be available 
+through the help facility (again, refer to the Emacs tutorial for the usage of said help facility). &lt;/p&gt;
+&lt;p&gt;
+The last form of a function body will be automatically returned (of course, early returns are possible), 
+hence the necessity for further forms. The third special property of functions is the &lt;code class=&#34;verbatim&#34;&gt;interactive&lt;/code&gt; 
+specifier. It defines that the function is a command (callable through &lt;code class=&#34;verbatim&#34;&gt;execute-extended-command&lt;/code&gt; and via keybindings) 
+and defines how it&amp;#39;s arguments are supplied by the user.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;outline-container-headline-5&#34; class=&#34;outline-3&#34;&gt;
+&lt;h3 id=&#34;headline-5&#34;&gt;
+Data types and symbols
+&lt;/h3&gt;
+&lt;div id=&#34;outline-text-headline-5&#34; class=&#34;outline-text-3&#34;&gt;
+&lt;p&gt;Elisp is strongly typed, if you pass a wrong type to a function, you&amp;#39;ll receive an error. 
+However, it is also dynamically typed, meaning that values themselves have types (such as numbers and strings), 
+not variables. Generally, types are what you&amp;#39;d expect from any other language, with two exceptions: 
+the Lisp-specific data types, symbol and cons.&lt;/p&gt;
+&lt;div id=&#34;outline-container-headline-6&#34; class=&#34;outline-4&#34;&gt;
+&lt;h4 id=&#34;headline-6&#34;&gt;
+Symbols and quoting
+&lt;/h4&gt;
+&lt;div id=&#34;outline-text-headline-6&#34; class=&#34;outline-text-4&#34;&gt;
+&lt;p&gt;Symbols are similiar to identifiers	in other languages. The chief difference is that unlike in other languages, 
+you can operate on symbols. This done through the quoting mechanism. Ordinarily, when you call an identifier, 
+it will evaluate to it&amp;#39;s value. However, with the &lt;code class=&#34;verbatim&#34;&gt;&amp;#39;&lt;/code&gt; operator, it will instead evaluate to the symbol itself 
+(effectively removing the quote). Symbols are unique objects, differentiated by name, so are often preferred 
+to strings for options, both for ease of use and for peformance reasons. Quoting is the mechanism macros use to expand to code.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;outline-container-headline-7&#34; class=&#34;outline-4&#34;&gt;
+&lt;h4 id=&#34;headline-7&#34;&gt;
+Cons
+&lt;/h4&gt;
+&lt;div id=&#34;outline-text-headline-7&#34; class=&#34;outline-text-4&#34;&gt;
+&lt;p&gt;The cons is the most basic data type in Lisp, and is what makes up a list, the primary data type of Lisp. 
+Conses are important for list manipulation, and have special syntax (through reader macros, the same way &lt;code class=&#34;verbatim&#34;&gt;&amp;#39;&lt;/code&gt; works). 
+There are two ways of creating a cons, either the &lt;code class=&#34;verbatim&#34;&gt;cons&lt;/code&gt; function or the dot syntax: &lt;code class=&#34;verbatim&#34;&gt;(first . second)&lt;/code&gt;. 
+Here, we will create a cons of two elements, from the values of the &lt;code class=&#34;verbatim&#34;&gt;first&lt;/code&gt; and &lt;code class=&#34;verbatim&#34;&gt;second&lt;/code&gt; variables. 
+This will create a list with 3 elements, including the closing &lt;code class=&#34;verbatim&#34;&gt;nil&lt;/code&gt;. The function &lt;code class=&#34;verbatim&#34;&gt;list&lt;/code&gt; can be used to 
+create lists of an arbitrary number of elements, however lists under the hood are &amp;#34;cons cells&amp;#34;. &lt;/p&gt;
+&lt;p&gt;
+For example, the list &lt;code class=&#34;verbatim&#34;&gt;(1 2 3)&lt;/code&gt; is actually:&lt;/p&gt;
+&lt;div class=&#34;src src-emacs-lisp&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#cdd6f4;background-color:#1e1e2e;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#cdd6f4;background-color:#1e1e2e;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#cdd6f4;background-color:#1e1e2e;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-emacs-lisp&#34; data-lang=&#34;emacs-lisp&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#fab387&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#89dceb;font-weight:bold&#34;&gt;.&lt;/span&gt; (&lt;span style=&#34;color:#fab387&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color:#89dceb;font-weight:bold&#34;&gt;.&lt;/span&gt; (&lt;span style=&#34;color:#fab387&#34;&gt;3&lt;/span&gt; &lt;span style=&#34;color:#89dceb;font-weight:bold&#34;&gt;.&lt;/span&gt; &lt;span style=&#34;color:#f9e2af&#34;&gt;nil&lt;/span&gt;)))&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;
+The first element can be accessed with the &lt;code class=&#34;verbatim&#34;&gt;car&lt;/code&gt; function and the rest of the list with the &lt;code class=&#34;verbatim&#34;&gt;cdr&lt;/code&gt; function. 
+These can be chained, therefore, if you want the 3rd element of the aforementioned list, you&amp;#39;d write:&lt;/p&gt;
+&lt;div class=&#34;src src-emacs-lisp&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#cdd6f4;background-color:#1e1e2e;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#cdd6f4;background-color:#1e1e2e;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#cdd6f4;background-color:#1e1e2e;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-emacs-lisp&#34; data-lang=&#34;emacs-lisp&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#89b4fa&#34;&gt;car&lt;/span&gt; (&lt;span style=&#34;color:#89b4fa&#34;&gt;cdr&lt;/span&gt; (&lt;span style=&#34;color:#89b4fa&#34;&gt;cdr&lt;/span&gt; (&lt;span style=&#34;color:#89b4fa&#34;&gt;list&lt;/span&gt; &lt;span style=&#34;color:#fab387&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#fab387&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color:#fab387&#34;&gt;3&lt;/span&gt;))))&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;(yes, there are prettier ways of doing this). &lt;/p&gt;
+&lt;p&gt;
+Additionally, you may sometimes see &amp;#34;list literals&amp;#34;, in the form of &lt;code class=&#34;verbatim&#34;&gt;&amp;#39;(1 2 3)&lt;/code&gt;. 
+These are the same as the version created by the &lt;code class=&#34;verbatim&#34;&gt;list&lt;/code&gt; function but are not modifiable.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;outline-container-headline-8&#34; class=&#34;outline-3&#34;&gt;
+&lt;h3 id=&#34;headline-8&#34;&gt;
+REPL and interactivity
+&lt;/h3&gt;
+&lt;div id=&#34;outline-text-headline-8&#34; class=&#34;outline-text-3&#34;&gt;
+&lt;p&gt;Emacs is an image-based program and is therefore (almost) completely interactive and introspectable. 
+Emacs consists of a small C core and millions of lines of Elisp, either as extensions or as libraries. 
+Every variable and line of code that is written in Elisp is modifiable at runtime (if you know what you&amp;#39;re doing), 
+meaning there&amp;#39;s no need to ever restart Emacs, but it might sometimes be easier. &lt;/p&gt;
+&lt;p&gt;
+Additionally, the help system automatically links to the definition of the current symbol being examined. 
+You can use this to view the definitons and default values of functions and variables, 
+but they&amp;#39;re not meant for editing, that should be done through the init file. Your interface to the Emacs image is the REPL. &lt;/p&gt;
+&lt;p&gt;
+There are two ways of accessing it: either the &lt;code class=&#34;verbatim&#34;&gt;eval-expression&lt;/code&gt; command or the &lt;code class=&#34;verbatim&#34;&gt;scratch&lt;/code&gt; buffer, 
+which is a more fully featured (but entirely text-based) REPL. &lt;code class=&#34;verbatim&#34;&gt;emacs-lisp-mode&lt;/code&gt; defines several 
+keybinds for loading code into the REPL. Note that if code is not loaded into the REPL, it does 
+not exist, as far as Emacs is concerned. Emacs will automatically load the init.el file at startup.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;outline-container-headline-9&#34; class=&#34;outline-3&#34;&gt;
+&lt;h3 id=&#34;headline-9&#34;&gt;
+Dependencies and loading
+&lt;/h3&gt;
+&lt;div id=&#34;outline-text-headline-9&#34; class=&#34;outline-text-3&#34;&gt;
+&lt;p&gt;When you load an elisp file into the REPL, all code in it will be loaded. Loading can be done in two ways: 
+either through the primitive &lt;code class=&#34;verbatim&#34;&gt;load&lt;/code&gt; function that simply takes a pathname string and loads the specified 
+file or through the feature system. Features are symbols that represent an elisp file. They&amp;#39;re defined 
+through &lt;code class=&#34;verbatim&#34;&gt;provide&lt;/code&gt; (usually put at the end of a file) and loaded through &lt;code class=&#34;verbatim&#34;&gt;require&lt;/code&gt;, which will search the 
+list of currently defined features and if it finds the requested one, loads the appropriate file. &lt;/p&gt;
+&lt;p&gt;
+Both are Elisp code and therefore will be executed upon loading, dealing with transitive dependencies. 
+If you want to use a certain feature of Emacs, you need to load the appropriate file first. 
+Say you want to configure the LSP client, Emacs, you need to first &lt;code class=&#34;verbatim&#34;&gt;(require &amp;#39;eglot)&lt;/code&gt; before setting variables.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</description>
+        </item>
+        <item>
+        <title>Direnv and Nix</title>
+        <link>https://justinlime.dev/p/nix/</link>
+        <pubDate>Wed, 06 Dec 2023 00:00:00 +0000</pubDate>
+        
+        <guid>https://justinlime.dev/p/nix/</guid>
+        <description>&lt;img src="https://justinlime.dev/p/nix/nix.png" alt="Featured image of post Direnv and Nix" /&gt;
+&lt;div id=&#34;outline-container-headline-1&#34; class=&#34;outline-2&#34;&gt;
+&lt;h2 id=&#34;headline-1&#34;&gt;
+Overview
+&lt;/h2&gt;
+&lt;div id=&#34;outline-text-headline-1&#34; class=&#34;outline-text-2&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://direnv.net/&#34;&gt;Direnv&lt;/a&gt; is a really nice tool for automatically loading ENV variables into your shell when
+entering a directory containing a &lt;code&gt;.envrc&lt;/code&gt; file. First things first, lets install &lt;a href=&#34;https://nixos.org/download&#34;&gt;Nix&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;outline-container-headline-2&#34; class=&#34;outline-2&#34;&gt;
+&lt;h2 id=&#34;headline-2&#34;&gt;
+Nix
+&lt;/h2&gt;
+&lt;div id=&#34;outline-text-headline-2&#34; class=&#34;outline-text-2&#34;&gt;
+&lt;p&gt;Nix is a cross-platform package manager, based on a purely functional langauge of the same name,
+with very up-to-date packages and is the largest package repository available.
+Nix can be used on any linux distribution, and even MacOS and WSL. &lt;/p&gt;
+&lt;p&gt;
+All packages installed with Nix are completely indendant of each-other, and will only share dependencies of other
+packages if their computed hash is the same (basically, if they&amp;#39;re expecting the exact same version). This means
+that &amp;#34;Dependency Hell&amp;#34; does not really exist using Nix. You can have multiple versions of the same package installed
+at the same time with Nix, like libraries and other dependencies.&lt;/p&gt;
+&lt;p&gt;
+After installing nix to your system, we need to allow the experimental features: &lt;code&gt;flake&lt;/code&gt; and &lt;code&gt;nix-command&lt;/code&gt;.
+To do this, we need to add a line to our &lt;code&gt;nix.conf&lt;/code&gt; file. This is typically found in &lt;code&gt;$XDG_CONFIG_HOME&lt;/code&gt;, which
+is usally &lt;code&gt;$HOME/.config&lt;/code&gt;. So, assuming this, you can run the following commad to enable these features:&lt;/p&gt;
+&lt;div class=&#34;src src-bash&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#cdd6f4;background-color:#1e1e2e;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#cdd6f4;background-color:#1e1e2e;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#cdd6f4;background-color:#1e1e2e;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;mkdir -p &lt;span style=&#34;color:#f5e0dc&#34;&gt;$HOME&lt;/span&gt;/.config/nix &lt;span style=&#34;color:#89dceb;font-weight:bold&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span style=&#34;color:#89dceb&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;color:#a6e3a1&#34;&gt;&amp;#34;extra-experimental-features = flakes nix-command&amp;#34;&lt;/span&gt; &amp;gt; &lt;span style=&#34;color:#f5e0dc&#34;&gt;$HOME&lt;/span&gt;/.config/nix/nix.conf&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;outline-container-headline-3&#34; class=&#34;outline-2&#34;&gt;
+&lt;h2 id=&#34;headline-3&#34;&gt;
+Setting up you Dev Shell
+&lt;/h2&gt;
+&lt;div id=&#34;outline-text-headline-3&#34; class=&#34;outline-text-2&#34;&gt;
+&lt;p&gt;With both Direv and Nix (with flakes enabled) installed, we can setup out Dev enviroment.
+Firstly, our project must live in a Git repo. So lets create one.&lt;/p&gt;
+&lt;div class=&#34;src src-bash&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#cdd6f4;background-color:#1e1e2e;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#cdd6f4;background-color:#1e1e2e;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c&#34;&gt;1
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c&#34;&gt;2
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c&#34;&gt;3
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c&#34;&gt;4
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c&#34;&gt;5
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c&#34;&gt;6
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c&#34;&gt;7
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#cdd6f4;background-color:#1e1e2e;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#89dceb&#34;&gt;cd&lt;/span&gt; /your/project/directory
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;git init
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;git branch -m main
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#6c7086;font-style:italic&#34;&gt;# If these aren&amp;#39;t already set globally by you&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;git config user.email your_email_here
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;git config user.name your_name_here
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;touch flake.nix&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Now lets add some contents to our flake. With your favorite text editor, open your &lt;code&gt;flake.nix&lt;/code&gt;
+and drop in the following contents:&lt;/p&gt;
+&lt;div class=&#34;src src-nix&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#cdd6f4;background-color:#1e1e2e;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#cdd6f4;background-color:#1e1e2e;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c&#34;&gt; 1
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c&#34;&gt; 2
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c&#34;&gt; 3
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c&#34;&gt; 4
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c&#34;&gt; 5
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c&#34;&gt; 6
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c&#34;&gt; 7
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c&#34;&gt; 8
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c&#34;&gt; 9
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c&#34;&gt;10
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c&#34;&gt;11
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c&#34;&gt;12
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c&#34;&gt;13
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c&#34;&gt;14
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c&#34;&gt;15
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c&#34;&gt;16
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c&#34;&gt;17
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c&#34;&gt;18
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c&#34;&gt;19
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c&#34;&gt;20
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c&#34;&gt;21
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c&#34;&gt;22
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c&#34;&gt;23
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c&#34;&gt;24
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c&#34;&gt;25
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c&#34;&gt;26
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c&#34;&gt;27
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c&#34;&gt;28
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c&#34;&gt;29
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c&#34;&gt;30
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#cdd6f4;background-color:#1e1e2e;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-nix&#34; data-lang=&#34;nix&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  inputs &lt;span style=&#34;color:#89dceb;font-weight:bold&#34;&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    nixpkgs&lt;span style=&#34;color:#89dceb;font-weight:bold&#34;&gt;.&lt;/span&gt;url &lt;span style=&#34;color:#89dceb;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e3a1&#34;&gt;&amp;#34;github:nixos/nixpkgs/nixos-unstable&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  };
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  outputs &lt;span style=&#34;color:#89dceb;font-weight:bold&#34;&gt;=&lt;/span&gt; { self&lt;span style=&#34;color:#89dceb;font-weight:bold&#34;&gt;,&lt;/span&gt; nixpkgs }: 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#cba6f7&#34;&gt;let&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      forAllSystems &lt;span style=&#34;color:#89dceb;font-weight:bold&#34;&gt;=&lt;/span&gt; function:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        nixpkgs&lt;span style=&#34;color:#89dceb;font-weight:bold&#34;&gt;.&lt;/span&gt;lib&lt;span style=&#34;color:#89dceb;font-weight:bold&#34;&gt;.&lt;/span&gt;genAttrs [
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          &lt;span style=&#34;color:#a6e3a1&#34;&gt;&amp;#34;x86_64-linux&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          &lt;span style=&#34;color:#a6e3a1&#34;&gt;&amp;#34;x86_64-darwin&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          &lt;span style=&#34;color:#a6e3a1&#34;&gt;&amp;#34;aarch64-linux&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        ] (system:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          function (&lt;span style=&#34;color:#94e2d5&#34;&gt;import&lt;/span&gt; nixpkgs {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#cba6f7&#34;&gt;inherit&lt;/span&gt; system;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          }));
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#cba6f7&#34;&gt;in&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      devShells &lt;span style=&#34;color:#89dceb;font-weight:bold&#34;&gt;=&lt;/span&gt; forAllSystems (pkgs: {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        default &lt;span style=&#34;color:#89dceb;font-weight:bold&#34;&gt;=&lt;/span&gt; pkgs&lt;span style=&#34;color:#89dceb;font-weight:bold&#34;&gt;.&lt;/span&gt;mkShell {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          packages &lt;span style=&#34;color:#89dceb;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#cba6f7&#34;&gt;with&lt;/span&gt; pkgs; [
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            gcc &lt;span style=&#34;color:#6c7086;font-style:italic&#34;&gt;# Packages to be added for you dev shell here&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          ];
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          shellHook &lt;span style=&#34;color:#89dceb;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e3a1&#34;&gt;&amp;#39;&amp;#39;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e3a1&#34;&gt;            clear
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e3a1&#34;&gt;            echo &amp;#34;DevShell Activated&amp;#34;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e3a1&#34;&gt;          &amp;#39;&amp;#39;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        };
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      });
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    };
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;If you&amp;#39;ve never used nix, this may look confusing, but the gist of what this is doing, is defining a &lt;code&gt;default&lt;/code&gt;
+dev shell with the listed packages (in this case just &lt;code&gt;gcc&lt;/code&gt;) installed to the shell&amp;#39;s environment. The &lt;code&gt;shellHook&lt;/code&gt;
+is a shell script that gets run when entering our shell.&lt;/p&gt;
+&lt;p&gt;
+Now that we have our flake, save the changes and add it to the git repo:&lt;/p&gt;
+&lt;div class=&#34;src src-bash&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#cdd6f4;background-color:#1e1e2e;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#cdd6f4;background-color:#1e1e2e;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#cdd6f4;background-color:#1e1e2e;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;git add flake.nix&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;We can test it out now by running &lt;code&gt;nix develop&lt;/code&gt; in the project directory.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;outline-container-headline-4&#34; class=&#34;outline-2&#34;&gt;
+&lt;h2 id=&#34;headline-4&#34;&gt;
+Setting up Direnv
+&lt;/h2&gt;
+&lt;div id=&#34;outline-text-headline-4&#34; class=&#34;outline-text-2&#34;&gt;
+&lt;p&gt;Now that we have our development shell created and ready to use, we can have &lt;code&gt;direnv&lt;/code&gt; automatically activate
+this shell environment when we enter the directory. To do this, we&amp;#39;ll add a &lt;code&gt;.envrc&lt;/code&gt; file with the line
+&lt;code&gt;use flakes&lt;/code&gt; to the root of our repository/directory. Afterwards, we need to allow/give permission for
+this directory to activate with direnv. For this, we use the command: &lt;code&gt;direnv allow&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;
+Heres a one-liner for this:&lt;/p&gt;
+&lt;div class=&#34;src src-bash&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#cdd6f4;background-color:#1e1e2e;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#cdd6f4;background-color:#1e1e2e;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#cdd6f4;background-color:#1e1e2e;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#89dceb&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;color:#a6e3a1&#34;&gt;&amp;#34;use flake&amp;#34;&lt;/span&gt; &amp;gt; .envrc &lt;span style=&#34;color:#89dceb;font-weight:bold&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; direnv allow&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;outline-container-headline-5&#34; class=&#34;outline-2&#34;&gt;
+&lt;h2 id=&#34;headline-5&#34;&gt;
+Heres a One Shot
+&lt;/h2&gt;
+&lt;div id=&#34;outline-text-headline-5&#34; class=&#34;outline-text-2&#34;&gt;
+&lt;p&gt;Ive created a template for the flake mentioned above, this template can be used
+to bootstrap and cover the boilerplate needed for a basic flake.&lt;/p&gt;
+&lt;p&gt;
+So long as you have nix installed, flakes enabled, and a git repo, heres a nice
+copy-paste to do everything I&amp;#39;ve mentioned above. &lt;/p&gt;
+&lt;div class=&#34;src src-bash&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#cdd6f4;background-color:#1e1e2e;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#cdd6f4;background-color:#1e1e2e;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c&#34;&gt;1
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c&#34;&gt;2
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c&#34;&gt;3
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c&#34;&gt;4
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c&#34;&gt;5
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c&#34;&gt;6
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f849c&#34;&gt;7
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#cdd6f4;background-color:#1e1e2e;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;git init &lt;span style=&#34;color:#89dceb;font-weight:bold&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span style=&#34;color:#89b4fa&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#89b4fa&#34;&gt;&lt;/span&gt;nix flake init --template github:justinlime/devflakes#generic &lt;span style=&#34;color:#89dceb;font-weight:bold&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span style=&#34;color:#89b4fa&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#89b4fa&#34;&gt;&lt;/span&gt;nix flake lock &lt;span style=&#34;color:#89dceb;font-weight:bold&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span style=&#34;color:#89b4fa&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#89b4fa&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#89dceb&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;color:#a6e3a1&#34;&gt;&amp;#34;use flake&amp;#34;&lt;/span&gt; &amp;gt; .envrc &lt;span style=&#34;color:#89dceb;font-weight:bold&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span style=&#34;color:#89b4fa&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#89b4fa&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#89dceb&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;color:#a6e3a1&#34;&gt;&amp;#34;.direnv/&amp;#34;&lt;/span&gt; &amp;gt;&amp;gt; .gitignore &lt;span style=&#34;color:#89dceb;font-weight:bold&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span style=&#34;color:#89b4fa&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#89b4fa&#34;&gt;&lt;/span&gt;git add flake.nix flake.lock .gitignore .envrc &lt;span style=&#34;color:#89dceb;font-weight:bold&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span style=&#34;color:#89b4fa&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#89b4fa&#34;&gt;&lt;/span&gt;direnv allow&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;The snippet above does the following:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Creates a Git Repo in the directory if one doesn&amp;#39;t exist&lt;/li&gt;
+&lt;li&gt;Creates a &lt;code&gt;flake.nix&lt;/code&gt; based on my template&lt;/li&gt;
+&lt;li&gt;Creates a &lt;code&gt;flake.lock&lt;/code&gt; for said flake, which locks the packages for maximum reproducibility&lt;/li&gt;
+&lt;li&gt;Creates a &lt;code&gt;.envrc&lt;/code&gt; for direnv integration&lt;/li&gt;
+&lt;li&gt;Appends &lt;code&gt;.gitignore&lt;/code&gt; to ignore the auto-generated &lt;code&gt;.direnv&lt;/code&gt; directory&lt;/li&gt;
+&lt;li&gt;Adds all the created files to be staged for commit&lt;/li&gt;
+&lt;li&gt;Activates direnv for the directory&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Happy Deving!&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>
