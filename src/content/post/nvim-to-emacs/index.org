@@ -32,7 +32,10 @@ Emacs is self-documenting. You can view definitions of functions and variables d
 what they're meant to do and why they are there. Anytime you see a function in someone's configuration, and you wonder:
 "What is this even doing", you can use build in functions like =describe-variable= or =describe-function= to view them.
 
-For example, if I use the =describe-variable= function to view the definition of the =gc-cons-threshold=
+For example, if I use the =describe-variable= function to view the definition of the =gc-cons-threshold= I would get 
+the following display:
+
+[[./describe.png]]
  
 ** Packages
 Emacs has packages/plugins written for it that I cannot find a suitable replacement for in neovim. Whether that be 
