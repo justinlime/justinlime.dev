@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='Getting started switching from neovim to emacs'>
+<title>Switching from Neovim to Emacs</title>
+
+<link rel='canonical' href='https://justinlime.dev/p/nvim-to-emacs/'>
+
+<link rel="stylesheet" href="/scss/style.min.abbd69b2908fdfcd5179898beaafd374514a86538d81639ddd2c58c06ae54e40.css"><meta property='og:title' content='Switching from Neovim to Emacs'>
+<meta property='og:description' content='Getting started switching from neovim to emacs'>
+<meta property='og:url' content='https://justinlime.dev/p/nvim-to-emacs/'>
+<meta property='og:site_name' content='Justinlime&#39;s Dev Blog'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='Neovim' /><meta property='article:tag' content='Emacs' /><meta property='article:published_time' content='2024-04-28T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2024-04-28T00:00:00&#43;00:00'/><meta property='og:image' content='https://justinlime.dev/p/nvim-to-emacs/emacs.png' />
+<meta name="twitter:title" content="Switching from Neovim to Emacs">
+<meta name="twitter:description" content="Getting started switching from neovim to emacs"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://justinlime.dev/p/nvim-to-emacs/emacs.png' />
+    <link rel="shortcut icon" href="/favicon.png" />
+
+
+<link rel="stylesheet" href="/style/fonts">
+
+<link rel="stylesheet" href="/style/style.css">
+
+
+
+
+<script src="/js/fullscreen_img.js" defer></script>
+
+
+
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            localStorage.setItem(colorSchemeKey, "dark");
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hub98aea8839092a4f4fab94e1a10031ab_24915_300x0_resize_box_3.png" width="300"
+                            height="290" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🗿</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">Justinlime&#39;s Dev Blog</a></h1>
+            <h2 class="site-description">  To all lawyers: everything I say or
+  write about is satire.
+</h2>
+        </div>
+    </header><ol class="social-menu">
+            
+                <li>
+                    <a 
+                        href='https://github.com/justinlime'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+            
+            
+        </div>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+<ul>
+<li><a href="#headline-2">Preface</a>
+<ul>
+<li><a href="#headline-3">Configuration and Extensiblity </a>
+</li>
+<li><a href="#headline-4">Documentation</a>
+</li>
+<li><a href="#headline-5">Packages</a>
+</li>
+</ul>
+</li>
+<li><a href="#headline-6">Getting Started</a>
+<ul>
+<li><a href="#headline-7">Package Manager </a>
+</li>
+<li><a href="#headline-8">Evil Mode </a>
+</li>
+<li><a href="#headline-9">Keybinds</a>
+<ul>
+<li><a href="#headline-10">General </a>
+</li>
+<li><a href="#headline-11">Keychord</a>
+</li>
+<li><a href="#headline-12">Which Key</a>
+</li>
+</ul>
+</li>
+<li><a href="#headline-13">Minibuffer</a>
+<ul>
+<li><a href="#headline-14">Vertico</a>
+</li>
+<li><a href="#headline-15">Marginalia </a>
+</li>
+<li><a href="#headline-16">Orderless</a>
+</li>
+</ul>
+</li>
+<li><a href="#headline-17">Completions</a>
+<ul>
+<li><a href="#headline-18">Corfu + Cape</a>
+</li>
+</ul>
+</li>
+<li><a href="#headline-19">Look and Feel</a>
+<ul>
+<li><a href="#headline-20">Theme</a>
+</li>
+<li><a href="#headline-21">Dashboard</a>
+</li>
+<li><a href="#headline-22">Diredfl</a>
+</li>
+</ul>
+</li>
+<li><a href="#headline-23">Preferences</a>
+</li>
+</ul>
+</li>
+<li><a href="#headline-24">Final Product</a>
+<ul>
+<li><a href="#headline-25">Summary</a>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/nvim-to-emacs/">
+                <img src="/p/nvim-to-emacs/emacs_hud38e09e8a3fe070f9cfcb38e316e9137_7480_800x0_resize_box_3.png"
+                        srcset="/p/nvim-to-emacs/emacs_hud38e09e8a3fe070f9cfcb38e316e9137_7480_800x0_resize_box_3.png 800w, /p/nvim-to-emacs/emacs_hud38e09e8a3fe070f9cfcb38e316e9137_7480_1600x0_resize_box_3.png 1600w"
+                        width="800" 
+                        height="416" 
+                        loading="lazy"
+                        alt="Featured image of post Switching from Neovim to Emacs" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/linux/" style="background-color: #cba6f7; color: #11111B;">
+                Linux
+            </a>
+        
+            <a href="/categories/development/" style="background-color: #a6e3a1; color: #11111B;">
+                Development
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/nvim-to-emacs/">Switching from Neovim to Emacs</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            Getting started switching from neovim to emacs
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Apr 28, 2024</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    12 minute read
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    
+<div id="outline-container-headline-2" class="outline-2">
+<h2 id="headline-2">
+Preface
+</h2>
+<div id="outline-text-headline-2" class="outline-text-2">
+<p>This is a starters&#39; guide for somebody wanting to try out emacs, coming from nvim. This is written from my perspective
+as somebody who used Neovim for a while. I had a configuration I was really happy with when using nvim, but its&#39; 
+limitations made my eyes wander to other options.</p>
+<p>
+Since then, I&#39;ve switched and landed on emacs as my preferred editor, and I&#39;m extremely happy with it. My main reasons
+for switching to emacs compared to neovim:</p>
+<div id="outline-container-headline-3" class="outline-3">
+<h3 id="headline-3">
+Configuration and Extensiblity 
+</h3>
+<div id="outline-text-headline-3" class="outline-text-3">
+<p>Emacs is entirely configured in a single language, <code class="verbatim">elisp</code>, and emacs itself
+is primarily written using this language. With this being the case, when you configure emacs, you&#39;re basically editing
+the source code itself, instead of interacting with a predefined API such as neovim. Emacs lets you configure the
+core functionality of emacs itself, and do many things which just aren&#39;t possible in neovim.</p>
+<p>
+This allows for a far greater degree of customizability, which is important because I feel an editor you spend
+a large amount of time in should be custom suited to your needs or prefernces, no matter how granular. </p>
+</div>
+</div>
+<div id="outline-container-headline-4" class="outline-3">
+<h3 id="headline-4">
+Documentation
+</h3>
+<div id="outline-text-headline-4" class="outline-text-3">
+<p>Emacs is self-documenting. You can view definitions of functions and variables directly from within emacs to see
+what they&#39;re meant to do and why they are there. Anytime you see a function in someone&#39;s configuration, and you wonder:
+&#34;What is this even doing&#34;, you can use build in functions like <code>describe-variable</code> or <code>describe-function</code> to view them.</p>
+<p>
+For example, if I use the <code>describe-variable</code> function to view the definition of the <code>gc-cons-threshold</code> I would get 
+the following display:</p>
+<p>
+<img src="./describe.png" alt="./describe.png" title="./describe.png" /></p>
+</div>
+</div>
+<div id="outline-container-headline-5" class="outline-3">
+<h3 id="headline-5">
+Packages
+</h3>
+<div id="outline-text-headline-5" class="outline-text-3">
+<p>Emacs has packages/plugins written for it that I cannot find a suitable replacement for in neovim. Whether that be 
+due to the fact that they simply haven&#39;t been written yet, or phycially can&#39;t exist within neovim due to previously
+mentioned API limitations, or the lack of a GUI.</p>
+<p>
+A few examples of these packages/features in my case include:</p>
+<dl>
+<dt>
+<code class="verbatim">Magit</code>
+</dt>
+<dd>An unbeatable git client</dd>
+<dt>
+<code class="verbatim">Org Mode</code>
+</dt>
+<dd>A mode for writing notes and documents in markup (this webpage is written in org)</dd>
+<dt>
+<code class="verbatim">Tramp</code>
+</dt>
+<dd>The built-in remote connection client, allows connecting and editing files over SSH, SMB, etc, without having to install another instance of the editor on a remote device.</dd>
+<dt>
+<code class="verbatim">Dired</code>
+</dt>
+<dd>The built-in file browser. Dired is one of the best file browsers I&#39;ve used in general, not just in regards to editors.</dd>
+</dl>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-headline-6" class="outline-2">
+<h2 id="headline-6">
+Getting Started
+</h2>
+<div id="outline-text-headline-6" class="outline-text-2">
+<p>With the preface in mind, this will be a short guide to start building your emacs configuration, including some 
+packages which I feel are essential to the experience for anyone coming from neovim. This is not meant to be the full
+experience, and I may delve into deeper configuration with things like LSP and Treesitter in a later article. This guilde
+is meant to serve as a starter point.</p>
+<p>
+As previously mentioned, emacs is written and configured using <code class="verbatim">elisp</code>. For a run-down on how the language works,
+check out my <a href="https://justinlime.dev/p/nvim-to-emacs/">other guide here</a>. </p>
+<p>
+Emacs searches for an <code class="verbatim">init.el</code> file in the <code>~/.emacs.d</code> first, then <code>~/.config/emacs</code> OR <code>$XDG_CONFIG_HOME/emacs</code> if it is set.</p>
+<p>
+Here are some useful keybinds for when getting started <code class="verbatim">(C = Ctrl, M = Meta/Alt)</code>:</p>
+<ul>
+<li><code>M-x</code> - The command launcher, you can use this to execute any interactive function in emacs, like <code>describe-variable</code> or <code>describe-function</code></li>
+<li><code>C-h v</code> - Built in shortcut for using the <code>describe-variable</code> function to view a variable&#39;s definition </li>
+<li><code>C-h f</code> - Built in shortcut for using the <code>describe-function</code> function to view a function&#39;s definition </li>
+</ul>
+<div id="outline-container-headline-7" class="outline-3">
+<h3 id="headline-7">
+Package Manager 
+</h3>
+<div id="outline-text-headline-7" class="outline-text-3">
+<p>To start things out, we&#39;ll need to enable and use the build in package-manager, <code class="verbatim">package.el</code>. We can add the following
+lines to our configuration to start using it:</p>
+<div class="src src-emacs-lisp">
+<div class="highlight"><pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span style="display:flex;"><span>(<span style="color:#ef8383">require</span> <span style="color:#56b6c2">&#39;package</span>) <span style="color:#8a93a5;font-style:italic">; load the package manager</span>
+</span></span><span style="display:flex;"><span>(<span style="color:#ef8383">setq</span> <span style="color:#dcaeea">package-check-signature</span> <span style="color:#b756ff;font-weight:bold">nil</span>) <span style="color:#8a93a5;font-style:italic">; override signature errors</span>
+</span></span><span style="display:flex;"><span><span style="color:#8a93a5;font-style:italic">;; add package archives to package manager</span>
+</span></span><span style="display:flex;"><span>(<span style="color:#dcaeea">add-to-list</span> <span style="color:#56b6c2">&#39;package-archives</span>
+</span></span><span style="display:flex;"><span>             <span style="color:#c7bf54">&#39;</span>(<span style="color:#98c379">&#34;melpa&#34;</span> <span style="color:#c7bf54">.</span> <span style="color:#98c379">&#34;https://melpa.org/packages/&#34;</span>) <span style="color:#b756ff;font-weight:bold">t</span>)
+</span></span><span style="display:flex;"><span>(<span style="color:#dcaeea">package-initialize</span>) <span style="color:#8a93a5;font-style:italic">; exactly what it sounds like </span>
+</span></span><span style="display:flex;"><span><span style="color:#8a93a5;font-style:italic">;; pull archvies and prevent warning messages only on very first startup</span>
+</span></span><span style="display:flex;"><span>(<span style="color:#ef8383">unless</span> <span style="color:#dcaeea">package-archive-contents</span>
+</span></span><span style="display:flex;"><span>  (<span style="color:#ef8383">progn</span>
+</span></span><span style="display:flex;"><span>    (<span style="color:#ef8383">setq</span> <span style="color:#dcaeea">warning-minimum-level</span> <span style="color:#ef8383">:emergency</span>) 
+</span></span><span style="display:flex;"><span>    (<span style="color:#dcaeea">package-refresh-contents</span>)))</span></span></code></pre></div>
+</div>
+<p>
+This will load the package manager, and pull the package archives and <a href="https://melpa.org/#/">MELPA</a> and the default <a href="https://elpa.gnu.org">ELPA</a> on the first startup.</p>
+<p>
+Next, we can setup <code class="verbatim">use-package</code> which is a unified framework that simplifies and consilidates the installation and configuration
+of packages. </p>
+<p>
+To do so, drop the following into your configuration:</p>
+<div class="src src-emacs-lisp">
+<div class="highlight"><pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span style="display:flex;"><span><span style="color:#8a93a5;font-style:italic">;; install use-package if it doesn&#39;t exist yet</span>
+</span></span><span style="display:flex;"><span>(<span style="color:#ef8383">unless</span> (<span style="color:#dcaeea">package-installed-p</span> <span style="color:#56b6c2">&#39;use-package</span>) 
+</span></span><span style="display:flex;"><span>  (<span style="color:#dcaeea">package-install</span> <span style="color:#56b6c2">&#39;use-package</span>))          
+</span></span><span style="display:flex;"><span>(<span style="color:#ef8383">require</span> <span style="color:#56b6c2">&#39;use-package</span>) <span style="color:#8a93a5;font-style:italic">; load use-package</span>
+</span></span><span style="display:flex;"><span><span style="color:#8a93a5;font-style:italic">;; Make use-package uses package.el, prevents having to use :ensure t on everything</span>
+</span></span><span style="display:flex;"><span>(<span style="color:#ef8383">setq</span> <span style="color:#dcaeea">use-package-always-ensure</span> <span style="color:#b756ff;font-weight:bold">t</span>)</span></span></code></pre></div>
+</div>
+<p>
+The above elisp will install use-package if it doesn&#39;t exist, and integrate it with the package manager.</p>
+<p>
+You&#39;ll see many keywords with use-package during this guide. To see them all, you can use the keybind <code>C-h f</code> on <code>use-package</code> 
+to see them all, but here are the ones used in this guide:</p>
+<ul>
+<li><code class="verbatim">init</code> - This section is run before the package is loaded</li>
+<li><code class="verbatim">config</code> - This section is run after the package is loaded</li>
+<li><code class="verbatim">after</code> - Load the package only after a differnt specified package is loaded</li>
+<li><code class="verbatim">general</code> - Used for general integration for keybinds, which I will cover a bit further down, this is only an option if you have general.el installed</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-8" class="outline-3">
+<h3 id="headline-8">
+Evil Mode 
+</h3>
+<div id="outline-text-headline-8" class="outline-text-3">
+<p>Definitely the most important package for someone migrating from neovim/vim. This packages enables emacs to ues 
+Vim bindings in almost the exact same fashion you may be used to. For me, vim bindings are essential.</p>
+<p>
+To install and use evil, you can use the following:</p>
+<div class="src src-emacs-lisp">
+<div class="highlight"><pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span style="display:flex;"><span>(<span style="color:#ef8383">use-package</span> <span style="color:#dcaeea">evil</span> 
+</span></span><span style="display:flex;"><span>  <span style="color:#ef8383">:init</span>
+</span></span><span style="display:flex;"><span>  (<span style="color:#ef8383">setq</span> <span style="color:#dcaeea">evil-want-keybinding</span> <span style="color:#b756ff;font-weight:bold">nil</span>) <span style="color:#8a93a5;font-style:italic">; needed when using with evil collection</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#ef8383">:config</span>
+</span></span><span style="display:flex;"><span>  (<span style="color:#dcaeea">evil-mode</span> <span style="color:#d19a66">1</span>))
+</span></span><span style="display:flex;"><span>(<span style="color:#ef8383">use-package</span> <span style="color:#dcaeea">evil-collection</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#ef8383">:after</span> <span style="color:#dcaeea">evil</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#ef8383">:config</span>
+</span></span><span style="display:flex;"><span>  (<span style="color:#ef8383">setq</span> <span style="color:#dcaeea">evil-collection-mode-list</span> <span style="color:#c7bf54">&#39;</span>(<span style="color:#dcaeea">magit</span> <span style="color:#dcaeea">term</span> <span style="color:#dcaeea">help</span> <span style="color:#dcaeea">dashboard</span> <span style="color:#dcaeea">dired</span> <span style="color:#dcaeea">ibuffer</span> <span style="color:#dcaeea">tetris</span>))
+</span></span><span style="display:flex;"><span>  (<span style="color:#dcaeea">evil-collection-init</span>))</span></span></code></pre></div>
+</div>
+<p>
+This will install and configure <code class="verbatim">evil-mode</code> and <code class="verbatim">evil-collection</code>. Evil-collection is a set of predefined
+vim bindings for many popular build in modes, and other popular packages. You can see the defined modes we added
+to this example are magit, term, help, dashboard, dired, and ibuffer. (also tetris)</p>
+</div>
+</div>
+<div id="outline-container-headline-9" class="outline-3">
+<h3 id="headline-9">
+Keybinds
+</h3>
+<div id="outline-text-headline-9" class="outline-text-3">
+<div id="outline-container-headline-10" class="outline-4">
+<h4 id="headline-10">
+General 
+</h4>
+<div id="outline-text-headline-10" class="outline-text-4">
+<p>Now that we have evil mode setup, we can start defining our own personal binds. Working with bindings with Evil-Mode can
+be tricky and there can be some gotcha&#39;s, so, I recommend using a package called <code class="verbatim">general</code> to simply this.</p>
+<p>
+Similar to <code class="verbatim">use-package</code>, general is a unified framework to operate on keybindings, and has special integration 
+with evil.</p>
+<p>
+To start using it, we can add the following:</p>
+<div class="src src-emacs-lisp">
+<div class="highlight"><pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span style="display:flex;"><span>(<span style="color:#ef8383">use-package</span> <span style="color:#dcaeea">general</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#ef8383">:config</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8a93a5;font-style:italic">;; By default, to escape the mini-buffer, you need to hit ESC 3 times, this</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8a93a5;font-style:italic">;; bind changes that, so it only takes one.</span>
+</span></span><span style="display:flex;"><span>  (<span style="color:#dcaeea">general-define-key</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ef8383">:keymaps</span> <span style="color:#56b6c2">&#39;minibuffer-local-map</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#98c379">&#34;&lt;escape&gt;&#34;</span> <span style="color:#00b1f7">#&#39;</span><span style="color:#dcaeea">keyboard-escape-quit</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8a93a5;font-style:italic">;; Let an active leader key for normal, visual, and emacs states</span>
+</span></span><span style="display:flex;"><span>  (<span style="color:#dcaeea">general-create-definer</span> <span style="color:#dcaeea">leader</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ef8383">:states</span> <span style="color:#c7bf54">&#39;</span>(<span style="color:#dcaeea">normal</span> <span style="color:#dcaeea">visual</span> <span style="color:#dcaeea">emacs</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#ef8383">:keymaps</span> <span style="color:#56b6c2">&#39;override</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ef8383">:prefix</span> <span style="color:#98c379">&#34;SPC&#34;</span> <span style="color:#8a93a5;font-style:italic">;; set leader</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ef8383">:global-prefix</span> <span style="color:#98c379">&#34;M-SPC&#34;</span>) <span style="color:#8a93a5;font-style:italic">;; access leader in insert mode</span>
+</span></span><span style="display:flex;"><span>  (<span style="color:#dcaeea">leader</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#98c379">&#34;f&#34;</span> <span style="color:#c7bf54">&#39;</span>(<span style="color:#ef8383">:ignore</span> <span style="color:#b756ff;font-weight:bold">t</span> <span style="color:#ef8383">:wk</span> <span style="color:#98c379">&#34;Find file&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#98c379">&#34;f f&#34;</span> <span style="color:#c7bf54">&#39;</span>(<span style="color:#dcaeea">find-file</span> <span style="color:#ef8383">:wk</span> <span style="color:#98c379">&#34;Find file directly&#34;</span>))
+</span></span><span style="display:flex;"><span>  (<span style="color:#dcaeea">leader</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#98c379">&#34;b&#34;</span> <span style="color:#c7bf54">&#39;</span>(<span style="color:#ef8383">:ignore</span> <span style="color:#b756ff;font-weight:bold">t</span> <span style="color:#ef8383">:wk</span> <span style="color:#98c379">&#34;Buffer&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#98c379">&#34;b f&#34;</span> <span style="color:#c7bf54">&#39;</span>(<span style="color:#dcaeea">switch-to-buffer*</span> <span style="color:#ef8383">:wk</span> <span style="color:#98c379">&#34;Find a buffer, or create a new one&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#98c379">&#34;b k&#34;</span> <span style="color:#c7bf54">&#39;</span>(<span style="color:#dcaeea">kill-this-buffer</span> <span style="color:#ef8383">:wk</span> <span style="color:#98c379">&#34;Kill the current buffer&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#98c379">&#34;b r&#34;</span> <span style="color:#c7bf54">&#39;</span>(<span style="color:#dcaeea">revert-buffer</span> <span style="color:#ef8383">:wk</span> <span style="color:#98c379">&#34;Reload the current buffer&#34;</span>))
+</span></span><span style="display:flex;"><span>  (<span style="color:#dcaeea">leader</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#98c379">&#34;c&#34;</span> <span style="color:#c7bf54">&#39;</span>(<span style="color:#ef8383">:ignore</span> <span style="color:#b756ff;font-weight:bold">t</span> <span style="color:#ef8383">:wk</span> <span style="color:#98c379">&#34;Comment&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#98c379">&#34;c r&#34;</span> <span style="color:#c7bf54">&#39;</span>(<span style="color:#dcaeea">comment-region</span> <span style="color:#ef8383">:wk</span> <span style="color:#98c379">&#34;Comment selection&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#98c379">&#34;c l&#34;</span> <span style="color:#c7bf54">&#39;</span>(<span style="color:#dcaeea">comment-line</span> <span style="color:#ef8383">:wk</span> <span style="color:#98c379">&#34;Comment line&#34;</span>))
+</span></span><span style="display:flex;"><span>  (<span style="color:#dcaeea">leader</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#98c379">&#34;h&#34;</span> <span style="color:#c7bf54">&#39;</span>(<span style="color:#ef8383">:ignore</span> <span style="color:#b756ff;font-weight:bold">t</span> <span style="color:#ef8383">:wk</span> <span style="color:#98c379">&#34;Help&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#98c379">&#34;h f&#34;</span> <span style="color:#c7bf54">&#39;</span>(<span style="color:#dcaeea">describe-function</span> <span style="color:#ef8383">:wk</span> <span style="color:#98c379">&#34;Help function&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#98c379">&#34;h v&#34;</span> <span style="color:#c7bf54">&#39;</span>(<span style="color:#dcaeea">describe-variable</span> <span style="color:#ef8383">:wk</span> <span style="color:#98c379">&#34;Help variable&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#98c379">&#34;h m&#34;</span> <span style="color:#c7bf54">&#39;</span>(<span style="color:#dcaeea">describe-mode</span> <span style="color:#ef8383">:wk</span> <span style="color:#98c379">&#34;Help mode&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#98c379">&#34;h c&#34;</span> <span style="color:#c7bf54">&#39;</span>(<span style="color:#dcaeea">describe-char</span> <span style="color:#ef8383">:wk</span> <span style="color:#98c379">&#34;Help character&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#98c379">&#34;h k&#34;</span> <span style="color:#c7bf54">&#39;</span>(<span style="color:#dcaeea">describe-key</span> <span style="color:#ef8383">:wk</span> <span style="color:#98c379">&#34;Help key/keybind&#34;</span>)))</span></span></code></pre></div>
+</div>
+<p>
+In this example, we define a key-override for the minibuffer-local-map. This keymap is used when interacting
+with the minibuffer, such as when using <code>M-x</code>.</p>
+<p>
+Following that, we setup a leader key, which I use space for. The <code>:ignore</code> keyword will ignore the keypress
+so no action is triggered until a followup key defined it pressed. The <code>:wk</code> keyword adds a description used for which-key integration, which
+we will setup shortly.</p>
+</div>
+</div>
+<div id="outline-container-headline-11" class="outline-4">
+<h4 id="headline-11">
+Keychord
+</h4>
+<div id="outline-text-headline-11" class="outline-text-4">
+<p>If you&#39;re like me, I always prefered to have <code>ESCAPE</code> mapped to <code>jj</code> in vim. You can recreate this behavior in Emacs with
+the keychord package.</p>
+<p>
+Heres an examle:</p>
+<div class="src src-emacs-lisp">
+<div class="highlight"><pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span style="display:flex;"><span>(<span style="color:#ef8383">use-package</span> <span style="color:#dcaeea">key-chord</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#ef8383">:init</span>
+</span></span><span style="display:flex;"><span>  (<span style="color:#dcaeea">key-chord-mode</span> <span style="color:#d19a66">1</span>)
+</span></span><span style="display:flex;"><span>  <span style="color:#ef8383">:config</span>
+</span></span><span style="display:flex;"><span>  (<span style="color:#ef8383">setq</span> <span style="color:#dcaeea">key-chord-two-keys-delay</span> <span style="color:#d19a66">1</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#dcaeea">key-chord-one-key-delay</span> <span style="color:#d19a66">1.2</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#dcaeea">key-chord-safety-interval-forward</span> <span style="color:#d19a66">0.1</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#dcaeea">key-chord-safety-interval-backward</span> <span style="color:#d19a66">1</span>)
+</span></span><span style="display:flex;"><span>  (<span style="color:#dcaeea">key-chord-define</span> <span style="color:#dcaeea">evil-insert-state-map</span>  <span style="color:#98c379">&#34;jj&#34;</span> <span style="color:#56b6c2">&#39;evil-normal-state</span>))</span></span></code></pre></div>
+</div>
+<p>
+The settings defined in the config are what I feel to be the closest to the default neovim/vim settings. Here, we map 
+<code>jj</code> to return to the <code>evil-normal-state</code>.</p>
+</div>
+</div>
+<div id="outline-container-headline-12" class="outline-4">
+<h4 id="headline-12">
+Which Key
+</h4>
+<div id="outline-text-headline-12" class="outline-text-4">
+<p>If you&#39;ve used neovim/vim, you&#39;ve probably setup <code class="verbatim">which-key</code> there at some point as well. <code class="verbatim">Which-key</code> shows a menu
+displaying possible followup keybinds corresponding to the given key you pressed.</p>
+<p>
+Here&#39;s how we can set it up:</p>
+<div class="src src-emacs-lisp">
+<div class="highlight"><pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span style="display:flex;"><span>(<span style="color:#ef8383">use-package</span> <span style="color:#dcaeea">which-key</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#ef8383">:init</span>
+</span></span><span style="display:flex;"><span>  (<span style="color:#dcaeea">which-key-mode</span> <span style="color:#d19a66">1</span>)
+</span></span><span style="display:flex;"><span>  <span style="color:#ef8383">:config</span>
+</span></span><span style="display:flex;"><span>  (<span style="color:#ef8383">setq</span> <span style="color:#dcaeea">which-key-side-window-location</span> <span style="color:#56b6c2">&#39;bottom</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#dcaeea">which-key-sort-order</span> <span style="color:#00b1f7">#&#39;</span><span style="color:#dcaeea">which-key-key-order-alpha</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#dcaeea">which-key-sort-uppercase-first</span> <span style="color:#b756ff;font-weight:bold">nil</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#dcaeea">which-key-add-column-padding</span> <span style="color:#d19a66">1</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#dcaeea">which-key-max-display-columns</span> <span style="color:#b756ff;font-weight:bold">nil</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#dcaeea">which-key-min-display-lines</span> <span style="color:#d19a66">6</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#dcaeea">which-key-side-window-slot</span> <span style="color:#d19a66">-10</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#dcaeea">which-key-side-window-max-height</span> <span style="color:#d19a66">0.25</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#dcaeea">which-key-idle-delay</span> <span style="color:#d19a66">0.8</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#dcaeea">which-key-max-description-length</span> <span style="color:#d19a66">25</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#dcaeea">which-key-allow-imprecise-window-fit</span> <span style="color:#b756ff;font-weight:bold">t</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#dcaeea">which-key-separator</span> <span style="color:#98c379">&#34; → &#34;</span> ))</span></span></code></pre></div>
+</div>
+<p>
+Now, whenever we hit a key that has a possible key-sequence, we&#39;ll kind a nice menu reminding us of the keybinds
+we have setup. In this configuration, if I hit <code>SPC-b</code>, I&#39;ll get the following prompt:</p>
+<p>
+<img src="./which-key.png" alt="./which-key.png" title="./which-key.png" /></p>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-headline-13" class="outline-3">
+<h3 id="headline-13">
+Minibuffer
+</h3>
+<div id="outline-text-headline-13" class="outline-text-3">
+<p>The default mini-buffer area (where you are prompted when using the <code>M-x</code> command for example) is pretty lacking by default.
+There are a few packages we can use to make things much better in this regard.</p>
+<div id="outline-container-headline-14" class="outline-4">
+<h4 id="headline-14">
+Vertico
+</h4>
+<div id="outline-text-headline-14" class="outline-text-4">
+<p>This replaces the default mini-buffer with a vertical and much more descriptive prompt, we can set it up using:</p>
+<div class="src src-emacs-lisp">
+<div class="highlight"><pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span style="display:flex;"><span>(<span style="color:#ef8383">use-package</span> <span style="color:#dcaeea">vertico</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#ef8383">:general</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8a93a5;font-style:italic">;; you probably want this, lets backspace delete and entire directory completion, instead of</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8a93a5;font-style:italic">;; one char at a time.</span>
+</span></span><span style="display:flex;"><span>  (<span style="color:#ef8383">:keymaps</span> <span style="color:#56b6c2">&#39;vertico-map</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#98c379">&#34;&lt;backspace&gt;&#34;</span> <span style="color:#00b1f7">#&#39;</span><span style="color:#dcaeea">vertico-directory-delete-char</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#98c379">&#34;DEL&#34;</span> <span style="color:#00b1f7">#&#39;</span><span style="color:#dcaeea">vertico-directory-delete-char</span>)
+</span></span><span style="display:flex;"><span>  <span style="color:#ef8383">:init</span>
+</span></span><span style="display:flex;"><span>  (<span style="color:#dcaeea">vertico-mode</span>))</span></span></code></pre></div>
+</div>
+<p>
+Here you can also see we use the <code class="verbatim">:general</code> use-package keyword. This allows us to setup general bindings for the 
+package/keymap we specify.</p>
+<p>
+Heres what the mini-buffer prompt looked like before we installed this package:
+<img src="./vertico-before.png" alt="./vertico-before.png" title="./vertico-before.png" /></p>
+<p>
+And heres what it looks like after:
+<img src="./vertico-after.png" alt="./vertico-after.png" title="./vertico-after.png" /></p>
+</div>
+</div>
+<div id="outline-container-headline-15" class="outline-4">
+<h4 id="headline-15">
+Marginalia 
+</h4>
+<div id="outline-text-headline-15" class="outline-text-4">
+<p>Marginalia provides descriptive annoations to the mini-buffer, and overall makes searching for information a lot easier.</p>
+<p>
+We can install it by using the definition:</p>
+<div class="src src-emacs-lisp">
+<div class="highlight"><pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span style="display:flex;"><span>(<span style="color:#ef8383">use-package</span> <span style="color:#dcaeea">marginalia</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#ef8383">:init</span>
+</span></span><span style="display:flex;"><span>  (<span style="color:#dcaeea">marginalia-mode</span>))</span></span></code></pre></div>
+</div>
+<p>
+Now, our output is much more descriptive:
+<img src="./marginalia.png" alt="./marginalia.png" title="./marginalia.png" /></p>
+</div>
+</div>
+<div id="outline-container-headline-16" class="outline-4">
+<h4 id="headline-16">
+Orderless
+</h4>
+<div id="outline-text-headline-16" class="outline-text-4">
+<p>Orderless makes is a completion style that divides searches into space seperated characters or words, and doesn&#39;t need
+to be sequential. It ammends this style to both the mini-buffer as well as corfu which we will setup after this.</p>
+<p>
+For example, if I did ran <code>M+x</code> and input &#34;key desc&#34;, without orderless, I would get the following output:
+<img src="./orderless-before.png" alt="./orderless-before.png" title="./orderless-before.png" /></p>
+<p>
+After installing orderless, it can match based on my search terms seen here:
+<img src="./orderless-after.png" alt="./orderless-after.png" title="./orderless-after.png" /></p>
+<p>
+Installing orderless is simple enough, just use the following:</p>
+<div class="src src-emacs-lisp">
+<div class="highlight"><pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span style="display:flex;"><span>(<span style="color:#ef8383">use-package</span> <span style="color:#dcaeea">orderless</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#ef8383">:config</span>
+</span></span><span style="display:flex;"><span>  (<span style="color:#ef8383">setq</span> <span style="color:#dcaeea">completion-styles</span> <span style="color:#c7bf54">&#39;</span>(<span style="color:#dcaeea">orderless</span> <span style="color:#dcaeea">basic</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#dcaeea">completion-category-overrides</span> <span style="color:#c7bf54">&#39;</span>((<span style="color:#dcaeea">file</span> (<span style="color:#dcaeea">styles</span> <span style="color:#dcaeea">basic</span> <span style="color:#dcaeea">partial-completion</span>)))))</span></span></code></pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-headline-17" class="outline-3">
+<h3 id="headline-17">
+Completions
+</h3>
+<div id="outline-text-headline-17" class="outline-text-3">
+<div id="outline-container-headline-18" class="outline-4">
+<h4 id="headline-18">
+Corfu + Cape
+</h4>
+<div id="outline-text-headline-18" class="outline-text-4">
+<p>Emacs has a few different completion framworks you can use, but the best I&#39;ve found is <code class="verbatim">Corfu</code>. Corfu can be integrated 
+with many completion methods like an LSP, and/or other packages such as <code class="verbatim">Cape</code> which provides completion functions for things
+like elisp code, keywords, and words present in the buffer. </p>
+<p>
+We can set these up with the following:</p>
+<div class="src src-emacs-lisp">
+<div class="highlight"><pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span style="display:flex;"><span>(<span style="color:#ef8383">use-package</span> <span style="color:#dcaeea">corfu</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#ef8383">:config</span>
+</span></span><span style="display:flex;"><span>  (<span style="color:#ef8383">setq</span> <span style="color:#dcaeea">corfu-popupinfo-delay</span> <span style="color:#d19a66">0</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#dcaeea">corfu-auto</span> <span style="color:#b756ff;font-weight:bold">t</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#dcaeea">corfu-cycle</span> <span style="color:#b756ff;font-weight:bold">t</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#dcaeea">corfu-preselect</span> <span style="color:#56b6c2">&#39;prompt</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#dcaeea">corfu-auto-delay</span> <span style="color:#d19a66">0.2</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#dcaeea">corfu-auto-prefix</span> <span style="color:#d19a66">2</span>)
+</span></span><span style="display:flex;"><span>  (<span style="color:#dcaeea">advice-add</span> <span style="color:#56b6c2">&#39;eglot-completion-at-point</span> <span style="color:#ef8383">:around</span> <span style="color:#00b1f7">#&#39;</span><span style="color:#dcaeea">cape-wrap-buster</span>)
+</span></span><span style="display:flex;"><span>  <span style="color:#ef8383">:init</span>
+</span></span><span style="display:flex;"><span>  (<span style="color:#dcaeea">corfu-popupinfo-mode</span>)
+</span></span><span style="display:flex;"><span>  (<span style="color:#dcaeea">global-corfu-mode</span>)
+</span></span><span style="display:flex;"><span>  (<span style="color:#dcaeea">corfu-history-mode</span>))
+</span></span><span style="display:flex;"><span>(<span style="color:#ef8383">use-package</span> <span style="color:#dcaeea">cape</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#ef8383">:init</span>
+</span></span><span style="display:flex;"><span>  (<span style="color:#dcaeea">add-to-list</span> <span style="color:#56b6c2">&#39;completion-at-point-functions</span> <span style="color:#00b1f7">#&#39;</span><span style="color:#dcaeea">cape-dabbrev</span>)
+</span></span><span style="display:flex;"><span>  (<span style="color:#dcaeea">add-to-list</span> <span style="color:#56b6c2">&#39;completion-at-point-functions</span> <span style="color:#00b1f7">#&#39;</span><span style="color:#dcaeea">cape-file</span>)
+</span></span><span style="display:flex;"><span>  (<span style="color:#dcaeea">add-to-list</span> <span style="color:#56b6c2">&#39;completion-at-point-functions</span> <span style="color:#00b1f7">#&#39;</span><span style="color:#dcaeea">cape-elisp-block</span>)
+</span></span><span style="display:flex;"><span>  (<span style="color:#dcaeea">add-to-list</span> <span style="color:#56b6c2">&#39;completion-at-point-functions</span> <span style="color:#00b1f7">#&#39;</span><span style="color:#dcaeea">cape-keyword</span>))</span></span></code></pre></div>
+</div>
+<p>
+Now we&#39;ll be prompted for completions when entering in emacs function or variable names, and will provide
+the documentation for them. This makes things a bit easier to write/undertand when starting out. </p>
+<p>
+Heres what those completions may look like:
+<img src="./corfu.png" alt="./corfu.png" title="./corfu.png" /></p>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-headline-19" class="outline-3">
+<h3 id="headline-19">
+Look and Feel
+</h3>
+<div id="outline-text-headline-19" class="outline-text-3">
+<div id="outline-container-headline-20" class="outline-4">
+<h4 id="headline-20">
+Theme
+</h4>
+<div id="outline-text-headline-20" class="outline-text-4">
+<p>Emacs by default is in light mode, which disturbs me to the core of my soul. We can replace it with a dark theme.
+In this example, we will use <a href="https://catppuccin.com/ports?q=emacs">Catpuccin</a>, but you can find some others <a href="https://emacsthemes.com/">here</a>. </p>
+<p>
+To install, we can add the following:</p>
+<div class="src src-emacs-lisp">
+<div class="highlight"><pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span style="display:flex;"><span>(<span style="color:#ef8383">use-package</span> <span style="color:#dcaeea">catppuccin-theme</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#ef8383">:config</span>
+</span></span><span style="display:flex;"><span>  (<span style="color:#ef8383">setq</span> <span style="color:#dcaeea">catppuccin-highlight-matches</span> <span style="color:#b756ff;font-weight:bold">t</span>)
+</span></span><span style="display:flex;"><span>  (<span style="color:#dcaeea">load-theme</span> <span style="color:#56b6c2">&#39;catppuccin</span> <span style="color:#b756ff;font-weight:bold">t</span>))</span></span></code></pre></div>
+</div>
+<p>
+Now our eyes wont be fried anytime we open emacs:
+<img src="./theme.png" alt="./theme.png" title="./theme.png" /></p>
+</div>
+</div>
+<div id="outline-container-headline-21" class="outline-4">
+<h4 id="headline-21">
+Dashboard
+</h4>
+<div id="outline-text-headline-21" class="outline-text-4">
+<p>Every good editor needs a sick dashboard. The main option used in emacs is <code class="verbatim">dashboard.el</code>. Lets add it in:</p>
+<div class="src src-emacs-lisp">
+<div class="highlight"><pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span style="display:flex;"><span>(<span style="color:#ef8383">use-package</span> <span style="color:#dcaeea">dashboard</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#ef8383">:config</span>
+</span></span><span style="display:flex;"><span>  (<span style="color:#dcaeea">dashboard-setup-startup-hook</span>))</span></span></code></pre></div>
+</div>
+<p>
+Now we&#39;re cooking:
+<img src="./dashboard.png" alt="./dashboard.png" title="./dashboard.png" /></p>
+</div>
+</div>
+<div id="outline-container-headline-22" class="outline-4">
+<h4 id="headline-22">
+Diredfl
+</h4>
+<div id="outline-text-headline-22" class="outline-text-4">
+<p>This package changed the highlighting used in <code class="verbatim">dired</code> buffers. As stated in the preface, dired is one of the best
+file browsers I&#39;ve ever used in general, so you&#39;ll probably spending a lot of time looking at it. We can install using:</p>
+<div class="src src-emacs-lisp">
+<div class="highlight"><pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span style="display:flex;"><span>(<span style="color:#ef8383">use-package</span> <span style="color:#dcaeea">diredfl</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#ef8383">:config</span>
+</span></span><span style="display:flex;"><span>  (<span style="color:#dcaeea">diredfl-global-mode</span>))</span></span></code></pre></div>
+</div>
+<p>
+Heres a before and after:
+<img src="./dired-before.png" alt="./dired-before.png" title="./dired-before.png" />
+<img src="./dired-after.png" alt="./dired-after.png" title="./dired-after.png" /></p>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-headline-23" class="outline-3">
+<h3 id="headline-23">
+Preferences
+</h3>
+<div id="outline-text-headline-23" class="outline-text-3">
+<p>Here are some other useful tweaks/peferences you can add in if you&#39;re inclinded to do so:</p>
+<div class="src src-emacs-lisp">
+<div class="highlight"><pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span style="display:flex;"><span><span style="color:#8a93a5;font-style:italic">;; set font size to 12 point</span>
+</span></span><span style="display:flex;"><span>(<span style="color:#dcaeea">set-face-attribute</span> <span style="color:#56b6c2">&#39;default</span> <span style="color:#b756ff;font-weight:bold">nil</span> <span style="color:#ef8383">:height</span> <span style="color:#d19a66">120</span>)
+</span></span><span style="display:flex;"><span><span style="color:#8a93a5;font-style:italic">;; disable menus</span>
+</span></span><span style="display:flex;"><span>(<span style="color:#dcaeea">menu-bar-mode</span> <span style="color:#d19a66">-1</span>)
+</span></span><span style="display:flex;"><span><span style="color:#8a93a5;font-style:italic">;; disable toolbar</span>
+</span></span><span style="display:flex;"><span>(<span style="color:#dcaeea">tool-bar-mode</span> <span style="color:#d19a66">-1</span>)
+</span></span><span style="display:flex;"><span><span style="color:#8a93a5;font-style:italic">;; disable scrollbar</span>
+</span></span><span style="display:flex;"><span>(<span style="color:#dcaeea">scroll-bar-mode</span> <span style="color:#d19a66">-1</span>)
+</span></span><span style="display:flex;"><span><span style="color:#8a93a5;font-style:italic">;; automatically close pairs like (), [] and {}</span>
+</span></span><span style="display:flex;"><span>(<span style="color:#dcaeea">electric-pair-mode</span> <span style="color:#d19a66">1</span>)
+</span></span><span style="display:flex;"><span><span style="color:#8a93a5;font-style:italic">;; highlight the current line</span>
+</span></span><span style="display:flex;"><span>(<span style="color:#dcaeea">global-hl-line-mode</span>)
+</span></span><span style="display:flex;"><span><span style="color:#8a93a5;font-style:italic">;; automatically indent</span>
+</span></span><span style="display:flex;"><span>(<span style="color:#dcaeea">electric-indent-mode</span> <span style="color:#b756ff;font-weight:bold">t</span>)
+</span></span><span style="display:flex;"><span><span style="color:#8a93a5;font-style:italic">;; display line numbers</span>
+</span></span><span style="display:flex;"><span>(<span style="color:#dcaeea">global-display-line-numbers-mode</span> <span style="color:#d19a66">1</span>)
+</span></span><span style="display:flex;"><span><span style="color:#8a93a5;font-style:italic">;; truncate lines, nowrap</span>
+</span></span><span style="display:flex;"><span>(<span style="color:#ef8383">setq-default</span> <span style="color:#dcaeea">truncate-lines</span> <span style="color:#b756ff;font-weight:bold">t</span>)
+</span></span><span style="display:flex;"><span><span style="color:#8a93a5;font-style:italic">;; stop emacs from inserting impertive configs into init.el</span>
+</span></span><span style="display:flex;"><span><span style="color:#8a93a5;font-style:italic">;; by dumping them into a custom.el file that will never be loaded</span>
+</span></span><span style="display:flex;"><span>(<span style="color:#ef8383">setq</span> <span style="color:#dcaeea">custom-file</span> (<span style="color:#00b1f7">concat</span> <span style="color:#dcaeea">user-emacs-directory</span> <span style="color:#98c379">&#34;/custom.el&#34;</span>) 
+</span></span><span style="display:flex;"><span>      <span style="color:#dcaeea">make-backup-files</span> <span style="color:#b756ff;font-weight:bold">nil</span> <span style="color:#8a93a5;font-style:italic">; stop creating backup ~ files</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#dcaeea">auto-save-default</span> <span style="color:#b756ff;font-weight:bold">nil</span> <span style="color:#8a93a5;font-style:italic">; stop creating autosave # files</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#dcaeea">create-lockfiles</span> <span style="color:#b756ff;font-weight:bold">nil</span>  <span style="color:#8a93a5;font-style:italic">; stop creating lock .# files</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#dcaeea">blink-cursor-mode</span> <span style="color:#b756ff;font-weight:bold">nil</span> <span style="color:#8a93a5;font-style:italic">; exactly what is sounds like</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#dcaeea">use-short-answers</span> <span style="color:#b756ff;font-weight:bold">t</span>   <span style="color:#8a93a5;font-style:italic">; lets you type y,n instead of yes,no when prompted</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#dcaeea">use-dialog-box</span> <span style="color:#b756ff;font-weight:bold">nil</span>    <span style="color:#8a93a5;font-style:italic">; disable gui menu pop-ups</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#dcaeea">display-line-numbers-type</span> <span style="color:#56b6c2">&#39;relative</span> <span style="color:#8a93a5;font-style:italic">; enable relative line numbers</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#dcaeea">password-cache-expiry</span> <span style="color:#b756ff;font-weight:bold">nil</span>) <span style="color:#8a93a5;font-style:italic">; prevents tramp passwords from expiring</span>
+</span></span><span style="display:flex;"><span><span style="color:#8a93a5;font-style:italic">;; Automatically refresh dired buffer when a change on disk is made</span>
+</span></span><span style="display:flex;"><span>(<span style="color:#dcaeea">add-hook</span> <span style="color:#56b6c2">&#39;dired-mode-hook</span> <span style="color:#56b6c2">&#39;auto-revert-mode</span>)</span></span></code></pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-headline-24" class="outline-2">
+<h2 id="headline-24">
+Final Product
+</h2>
+<div id="outline-text-headline-24" class="outline-text-2">
+<p><img src="./final.png" alt="./final.png" title="./final.png" /></p>
+<div id="outline-container-headline-25" class="outline-3">
+<h3 id="headline-25">
+Summary
+</h3>
+<div id="outline-text-headline-25" class="outline-text-3">
+<p>The gist of this setup was getting Vim bindings setup, and some quality of life improvements to fix the default 
+look and functionality of Emacs. From here, you can check into some other packages you&#39;re interested in. Typically on a 
+package&#39;s documention, they have setup steps included for setting up, along with using with <code class="verbatim">use-package</code>.</p>
+<p>
+The corresponding <code class="verbatim">init.el</code> we&#39;ve written in this guide an be found <a href="https://github.com/justinlime/emacs-starter/blob/main/init.el">here</a>. </p>
+<p>
+Here are some other awesome packages I recommend you check out and look into configuring. </p>
+<p>
+<code class="verbatim">%</code> - means the package is built into emacs by default</p>
+<ul>
+<li><code class="verbatim">eglot %</code> - LSP Client for Emacs </li>
+<li><code class="verbatim">org mode %</code> - Tool for writing notes and documents in emacs</li>
+<li><code class="verbatim">tramp %</code> - Tool for connecting and editing remote files</li>
+<li><code class="verbatim">magit</code> - One of the best git clients ever created, build directly into emacs</li>
+<li><code class="verbatim">yasnippet</code> - Provide snippets for completion for use with corfu</li>
+<li><code class="verbatim">sideline</code> - Provide LSP diagnostic info directly in the buffer</li>
+<li><code class="verbatim">perspective</code> - Different workspaces with different sets of buffers visible to it</li>
+<li><code class="verbatim">org-modern</code> - Enhances the look and rendering of org documents</li>
+<li><code class="verbatim">org-roam</code> - A note-takers best friend</li>
+<li><code class="verbatim">consult</code> - Can be used as a fuzzy finder</li>
+<li><code class="verbatim">affe</code> - Fuzzy Finder like consult, faster but more experimental</li>
+<li><code class="verbatim">undo-tree</code> - Better handling of undo/redo actions in emacs</li>
+<li><code class="verbatim">rainbow-delimters</code> - Uses color to distinguish matching pairs like {} and ()</li>
+<li><code class="verbatim">rainbow-mode</code> - Render hex and RGB values directly in the buffer </li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/neovim/">Neovim</a>
+        
+            <a href="/tags/emacs/">Emacs</a>
+        
+    </section>
+
+
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">Related content</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/emacs-crash-course/">
+        
+        
+            <div class="article-image">
+                <img src="/p/emacs-crash-course/stallman.a06288b8ccd30d2238f1593a8f6e8adf_huf63ab074f8bc0286d608269ec9aaca25_952069_250x150_fill_q75_box_smart1.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Emacs and Elisp Crash Course"
+                        data-key="emacs-crash-course" 
+                        data-hash="md5-oGKIuMzTDSI48Vk6j26K3w==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Emacs and Elisp Crash Course</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/nix/">
+        
+        
+            <div class="article-image">
+                <img src="/p/nix/nix.b70d68040c1e946dd72c6e84802a6b8e_hu8401412b500aa3e1a123550dda49eaae_42187_250x150_fill_box_smart1_3.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Direnv and Nix"
+                        data-key="nix" 
+                        data-hash="md5-tw1oBAwelG3XLG6EgCprjg==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Direnv and Nix</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2023 - 
+        
+        2024 Justinlime&#39;s Dev Blog
+    </section>
+    <section class="powerby">
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

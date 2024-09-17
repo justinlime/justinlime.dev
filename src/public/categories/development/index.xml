@@ -1,0 +1,899 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Development on Justinlime&#39;s Dev Blog</title>
+        <link>https://justinlime.dev/categories/development/</link>
+        <description>Recent content in Development on Justinlime&#39;s Dev Blog</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>en-us</language>
+        <lastBuildDate>Sun, 28 Apr 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://justinlime.dev/categories/development/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Switching from Neovim to Emacs</title>
+        <link>https://justinlime.dev/p/nvim-to-emacs/</link>
+        <pubDate>Sun, 28 Apr 2024 00:00:00 +0000</pubDate>
+        
+        <guid>https://justinlime.dev/p/nvim-to-emacs/</guid>
+        <description>&lt;img src="https://justinlime.dev/p/nvim-to-emacs/emacs.png" alt="Featured image of post Switching from Neovim to Emacs" /&gt;
+&lt;div id=&#34;outline-container-headline-2&#34; class=&#34;outline-2&#34;&gt;
+&lt;h2 id=&#34;headline-2&#34;&gt;
+Preface
+&lt;/h2&gt;
+&lt;div id=&#34;outline-text-headline-2&#34; class=&#34;outline-text-2&#34;&gt;
+&lt;p&gt;This is a starters&amp;#39; guide for somebody wanting to try out emacs, coming from nvim. This is written from my perspective
+as somebody who used Neovim for a while. I had a configuration I was really happy with when using nvim, but its&amp;#39; 
+limitations made my eyes wander to other options.&lt;/p&gt;
+&lt;p&gt;
+Since then, I&amp;#39;ve switched and landed on emacs as my preferred editor, and I&amp;#39;m extremely happy with it. My main reasons
+for switching to emacs compared to neovim:&lt;/p&gt;
+&lt;div id=&#34;outline-container-headline-3&#34; class=&#34;outline-3&#34;&gt;
+&lt;h3 id=&#34;headline-3&#34;&gt;
+Configuration and Extensiblity 
+&lt;/h3&gt;
+&lt;div id=&#34;outline-text-headline-3&#34; class=&#34;outline-text-3&#34;&gt;
+&lt;p&gt;Emacs is entirely configured in a single language, &lt;code class=&#34;verbatim&#34;&gt;elisp&lt;/code&gt;, and emacs itself
+is primarily written using this language. With this being the case, when you configure emacs, you&amp;#39;re basically editing
+the source code itself, instead of interacting with a predefined API such as neovim. Emacs lets you configure the
+core functionality of emacs itself, and do many things which just aren&amp;#39;t possible in neovim.&lt;/p&gt;
+&lt;p&gt;
+This allows for a far greater degree of customizability, which is important because I feel an editor you spend
+a large amount of time in should be custom suited to your needs or prefernces, no matter how granular. &lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;outline-container-headline-4&#34; class=&#34;outline-3&#34;&gt;
+&lt;h3 id=&#34;headline-4&#34;&gt;
+Documentation
+&lt;/h3&gt;
+&lt;div id=&#34;outline-text-headline-4&#34; class=&#34;outline-text-3&#34;&gt;
+&lt;p&gt;Emacs is self-documenting. You can view definitions of functions and variables directly from within emacs to see
+what they&amp;#39;re meant to do and why they are there. Anytime you see a function in someone&amp;#39;s configuration, and you wonder:
+&amp;#34;What is this even doing&amp;#34;, you can use build in functions like &lt;code&gt;describe-variable&lt;/code&gt; or &lt;code&gt;describe-function&lt;/code&gt; to view them.&lt;/p&gt;
+&lt;p&gt;
+For example, if I use the &lt;code&gt;describe-variable&lt;/code&gt; function to view the definition of the &lt;code&gt;gc-cons-threshold&lt;/code&gt; I would get 
+the following display:&lt;/p&gt;
+&lt;p&gt;
+&lt;img src=&#34;./describe.png&#34; alt=&#34;./describe.png&#34; title=&#34;./describe.png&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;outline-container-headline-5&#34; class=&#34;outline-3&#34;&gt;
+&lt;h3 id=&#34;headline-5&#34;&gt;
+Packages
+&lt;/h3&gt;
+&lt;div id=&#34;outline-text-headline-5&#34; class=&#34;outline-text-3&#34;&gt;
+&lt;p&gt;Emacs has packages/plugins written for it that I cannot find a suitable replacement for in neovim. Whether that be 
+due to the fact that they simply haven&amp;#39;t been written yet, or phycially can&amp;#39;t exist within neovim due to previously
+mentioned API limitations, or the lack of a GUI.&lt;/p&gt;
+&lt;p&gt;
+A few examples of these packages/features in my case include:&lt;/p&gt;
+&lt;dl&gt;
+&lt;dt&gt;
+&lt;code class=&#34;verbatim&#34;&gt;Magit&lt;/code&gt;
+&lt;/dt&gt;
+&lt;dd&gt;An unbeatable git client&lt;/dd&gt;
+&lt;dt&gt;
+&lt;code class=&#34;verbatim&#34;&gt;Org Mode&lt;/code&gt;
+&lt;/dt&gt;
+&lt;dd&gt;A mode for writing notes and documents in markup (this webpage is written in org)&lt;/dd&gt;
+&lt;dt&gt;
+&lt;code class=&#34;verbatim&#34;&gt;Tramp&lt;/code&gt;
+&lt;/dt&gt;
+&lt;dd&gt;The built-in remote connection client, allows connecting and editing files over SSH, SMB, etc, without having to install another instance of the editor on a remote device.&lt;/dd&gt;
+&lt;dt&gt;
+&lt;code class=&#34;verbatim&#34;&gt;Dired&lt;/code&gt;
+&lt;/dt&gt;
+&lt;dd&gt;The built-in file browser. Dired is one of the best file browsers I&amp;#39;ve used in general, not just in regards to editors.&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;outline-container-headline-6&#34; class=&#34;outline-2&#34;&gt;
+&lt;h2 id=&#34;headline-6&#34;&gt;
+Getting Started
+&lt;/h2&gt;
+&lt;div id=&#34;outline-text-headline-6&#34; class=&#34;outline-text-2&#34;&gt;
+&lt;p&gt;With the preface in mind, this will be a short guide to start building your emacs configuration, including some 
+packages which I feel are essential to the experience for anyone coming from neovim. This is not meant to be the full
+experience, and I may delve into deeper configuration with things like LSP and Treesitter in a later article. This guilde
+is meant to serve as a starter point.&lt;/p&gt;
+&lt;p&gt;
+As previously mentioned, emacs is written and configured using &lt;code class=&#34;verbatim&#34;&gt;elisp&lt;/code&gt;. For a run-down on how the language works,
+check out my &lt;a href=&#34;https://justinlime.dev/p/nvim-to-emacs/&#34;&gt;other guide here&lt;/a&gt;. &lt;/p&gt;
+&lt;p&gt;
+Emacs searches for an &lt;code class=&#34;verbatim&#34;&gt;init.el&lt;/code&gt; file in the &lt;code&gt;~/.emacs.d&lt;/code&gt; first, then &lt;code&gt;~/.config/emacs&lt;/code&gt; OR &lt;code&gt;$XDG_CONFIG_HOME/emacs&lt;/code&gt; if it is set.&lt;/p&gt;
+&lt;p&gt;
+Here are some useful keybinds for when getting started &lt;code class=&#34;verbatim&#34;&gt;(C = Ctrl, M = Meta/Alt)&lt;/code&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;M-x&lt;/code&gt; - The command launcher, you can use this to execute any interactive function in emacs, like &lt;code&gt;describe-variable&lt;/code&gt; or &lt;code&gt;describe-function&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;C-h v&lt;/code&gt; - Built in shortcut for using the &lt;code&gt;describe-variable&lt;/code&gt; function to view a variable&amp;#39;s definition &lt;/li&gt;
+&lt;li&gt;&lt;code&gt;C-h f&lt;/code&gt; - Built in shortcut for using the &lt;code&gt;describe-function&lt;/code&gt; function to view a function&amp;#39;s definition &lt;/li&gt;
+&lt;/ul&gt;
+&lt;div id=&#34;outline-container-headline-7&#34; class=&#34;outline-3&#34;&gt;
+&lt;h3 id=&#34;headline-7&#34;&gt;
+Package Manager 
+&lt;/h3&gt;
+&lt;div id=&#34;outline-text-headline-7&#34; class=&#34;outline-text-3&#34;&gt;
+&lt;p&gt;To start things out, we&amp;#39;ll need to enable and use the build in package-manager, &lt;code class=&#34;verbatim&#34;&gt;package.el&lt;/code&gt;. We can add the following
+lines to our configuration to start using it:&lt;/p&gt;
+&lt;div class=&#34;src src-emacs-lisp&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-emacs-lisp&#34; data-lang=&#34;emacs-lisp&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#ef8383&#34;&gt;require&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;#39;package&lt;/span&gt;) &lt;span style=&#34;color:#8a93a5;font-style:italic&#34;&gt;; load the package manager&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#ef8383&#34;&gt;setq&lt;/span&gt; &lt;span style=&#34;color:#dcaeea&#34;&gt;package-check-signature&lt;/span&gt; &lt;span style=&#34;color:#b756ff;font-weight:bold&#34;&gt;nil&lt;/span&gt;) &lt;span style=&#34;color:#8a93a5;font-style:italic&#34;&gt;; override signature errors&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8a93a5;font-style:italic&#34;&gt;;; add package archives to package manager&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#dcaeea&#34;&gt;add-to-list&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;#39;package-archives&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;             &lt;span style=&#34;color:#c7bf54&#34;&gt;&amp;#39;&lt;/span&gt;(&lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;melpa&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#c7bf54&#34;&gt;.&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;https://melpa.org/packages/&amp;#34;&lt;/span&gt;) &lt;span style=&#34;color:#b756ff;font-weight:bold&#34;&gt;t&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#dcaeea&#34;&gt;package-initialize&lt;/span&gt;) &lt;span style=&#34;color:#8a93a5;font-style:italic&#34;&gt;; exactly what it sounds like &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8a93a5;font-style:italic&#34;&gt;;; pull archvies and prevent warning messages only on very first startup&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#ef8383&#34;&gt;unless&lt;/span&gt; &lt;span style=&#34;color:#dcaeea&#34;&gt;package-archive-contents&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  (&lt;span style=&#34;color:#ef8383&#34;&gt;progn&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    (&lt;span style=&#34;color:#ef8383&#34;&gt;setq&lt;/span&gt; &lt;span style=&#34;color:#dcaeea&#34;&gt;warning-minimum-level&lt;/span&gt; &lt;span style=&#34;color:#ef8383&#34;&gt;:emergency&lt;/span&gt;) 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    (&lt;span style=&#34;color:#dcaeea&#34;&gt;package-refresh-contents&lt;/span&gt;)))&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;
+This will load the package manager, and pull the package archives and &lt;a href=&#34;https://melpa.org/#/&#34;&gt;MELPA&lt;/a&gt; and the default &lt;a href=&#34;https://elpa.gnu.org&#34;&gt;ELPA&lt;/a&gt; on the first startup.&lt;/p&gt;
+&lt;p&gt;
+Next, we can setup &lt;code class=&#34;verbatim&#34;&gt;use-package&lt;/code&gt; which is a unified framework that simplifies and consilidates the installation and configuration
+of packages. &lt;/p&gt;
+&lt;p&gt;
+To do so, drop the following into your configuration:&lt;/p&gt;
+&lt;div class=&#34;src src-emacs-lisp&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-emacs-lisp&#34; data-lang=&#34;emacs-lisp&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8a93a5;font-style:italic&#34;&gt;;; install use-package if it doesn&amp;#39;t exist yet&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#ef8383&#34;&gt;unless&lt;/span&gt; (&lt;span style=&#34;color:#dcaeea&#34;&gt;package-installed-p&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;#39;use-package&lt;/span&gt;) 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  (&lt;span style=&#34;color:#dcaeea&#34;&gt;package-install&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;#39;use-package&lt;/span&gt;))          
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#ef8383&#34;&gt;require&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;#39;use-package&lt;/span&gt;) &lt;span style=&#34;color:#8a93a5;font-style:italic&#34;&gt;; load use-package&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8a93a5;font-style:italic&#34;&gt;;; Make use-package uses package.el, prevents having to use :ensure t on everything&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#ef8383&#34;&gt;setq&lt;/span&gt; &lt;span style=&#34;color:#dcaeea&#34;&gt;use-package-always-ensure&lt;/span&gt; &lt;span style=&#34;color:#b756ff;font-weight:bold&#34;&gt;t&lt;/span&gt;)&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;
+The above elisp will install use-package if it doesn&amp;#39;t exist, and integrate it with the package manager.&lt;/p&gt;
+&lt;p&gt;
+You&amp;#39;ll see many keywords with use-package during this guide. To see them all, you can use the keybind &lt;code&gt;C-h f&lt;/code&gt; on &lt;code&gt;use-package&lt;/code&gt; 
+to see them all, but here are the ones used in this guide:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code class=&#34;verbatim&#34;&gt;init&lt;/code&gt; - This section is run before the package is loaded&lt;/li&gt;
+&lt;li&gt;&lt;code class=&#34;verbatim&#34;&gt;config&lt;/code&gt; - This section is run after the package is loaded&lt;/li&gt;
+&lt;li&gt;&lt;code class=&#34;verbatim&#34;&gt;after&lt;/code&gt; - Load the package only after a differnt specified package is loaded&lt;/li&gt;
+&lt;li&gt;&lt;code class=&#34;verbatim&#34;&gt;general&lt;/code&gt; - Used for general integration for keybinds, which I will cover a bit further down, this is only an option if you have general.el installed&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;outline-container-headline-8&#34; class=&#34;outline-3&#34;&gt;
+&lt;h3 id=&#34;headline-8&#34;&gt;
+Evil Mode 
+&lt;/h3&gt;
+&lt;div id=&#34;outline-text-headline-8&#34; class=&#34;outline-text-3&#34;&gt;
+&lt;p&gt;Definitely the most important package for someone migrating from neovim/vim. This packages enables emacs to ues 
+Vim bindings in almost the exact same fashion you may be used to. For me, vim bindings are essential.&lt;/p&gt;
+&lt;p&gt;
+To install and use evil, you can use the following:&lt;/p&gt;
+&lt;div class=&#34;src src-emacs-lisp&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-emacs-lisp&#34; data-lang=&#34;emacs-lisp&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#ef8383&#34;&gt;use-package&lt;/span&gt; &lt;span style=&#34;color:#dcaeea&#34;&gt;evil&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#ef8383&#34;&gt;:init&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  (&lt;span style=&#34;color:#ef8383&#34;&gt;setq&lt;/span&gt; &lt;span style=&#34;color:#dcaeea&#34;&gt;evil-want-keybinding&lt;/span&gt; &lt;span style=&#34;color:#b756ff;font-weight:bold&#34;&gt;nil&lt;/span&gt;) &lt;span style=&#34;color:#8a93a5;font-style:italic&#34;&gt;; needed when using with evil collection&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#ef8383&#34;&gt;:config&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  (&lt;span style=&#34;color:#dcaeea&#34;&gt;evil-mode&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#ef8383&#34;&gt;use-package&lt;/span&gt; &lt;span style=&#34;color:#dcaeea&#34;&gt;evil-collection&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#ef8383&#34;&gt;:after&lt;/span&gt; &lt;span style=&#34;color:#dcaeea&#34;&gt;evil&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#ef8383&#34;&gt;:config&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  (&lt;span style=&#34;color:#ef8383&#34;&gt;setq&lt;/span&gt; &lt;span style=&#34;color:#dcaeea&#34;&gt;evil-collection-mode-list&lt;/span&gt; &lt;span style=&#34;color:#c7bf54&#34;&gt;&amp;#39;&lt;/span&gt;(&lt;span style=&#34;color:#dcaeea&#34;&gt;magit&lt;/span&gt; &lt;span style=&#34;color:#dcaeea&#34;&gt;term&lt;/span&gt; &lt;span style=&#34;color:#dcaeea&#34;&gt;help&lt;/span&gt; &lt;span style=&#34;color:#dcaeea&#34;&gt;dashboard&lt;/span&gt; &lt;span style=&#34;color:#dcaeea&#34;&gt;dired&lt;/span&gt; &lt;span style=&#34;color:#dcaeea&#34;&gt;ibuffer&lt;/span&gt; &lt;span style=&#34;color:#dcaeea&#34;&gt;tetris&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  (&lt;span style=&#34;color:#dcaeea&#34;&gt;evil-collection-init&lt;/span&gt;))&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;
+This will install and configure &lt;code class=&#34;verbatim&#34;&gt;evil-mode&lt;/code&gt; and &lt;code class=&#34;verbatim&#34;&gt;evil-collection&lt;/code&gt;. Evil-collection is a set of predefined
+vim bindings for many popular build in modes, and other popular packages. You can see the defined modes we added
+to this example are magit, term, help, dashboard, dired, and ibuffer. (also tetris)&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;outline-container-headline-9&#34; class=&#34;outline-3&#34;&gt;
+&lt;h3 id=&#34;headline-9&#34;&gt;
+Keybinds
+&lt;/h3&gt;
+&lt;div id=&#34;outline-text-headline-9&#34; class=&#34;outline-text-3&#34;&gt;
+&lt;div id=&#34;outline-container-headline-10&#34; class=&#34;outline-4&#34;&gt;
+&lt;h4 id=&#34;headline-10&#34;&gt;
+General 
+&lt;/h4&gt;
+&lt;div id=&#34;outline-text-headline-10&#34; class=&#34;outline-text-4&#34;&gt;
+&lt;p&gt;Now that we have evil mode setup, we can start defining our own personal binds. Working with bindings with Evil-Mode can
+be tricky and there can be some gotcha&amp;#39;s, so, I recommend using a package called &lt;code class=&#34;verbatim&#34;&gt;general&lt;/code&gt; to simply this.&lt;/p&gt;
+&lt;p&gt;
+Similar to &lt;code class=&#34;verbatim&#34;&gt;use-package&lt;/code&gt;, general is a unified framework to operate on keybindings, and has special integration 
+with evil.&lt;/p&gt;
+&lt;p&gt;
+To start using it, we can add the following:&lt;/p&gt;
+&lt;div class=&#34;src src-emacs-lisp&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-emacs-lisp&#34; data-lang=&#34;emacs-lisp&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#ef8383&#34;&gt;use-package&lt;/span&gt; &lt;span style=&#34;color:#dcaeea&#34;&gt;general&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#ef8383&#34;&gt;:config&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#8a93a5;font-style:italic&#34;&gt;;; By default, to escape the mini-buffer, you need to hit ESC 3 times, this&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#8a93a5;font-style:italic&#34;&gt;;; bind changes that, so it only takes one.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  (&lt;span style=&#34;color:#dcaeea&#34;&gt;general-define-key&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#ef8383&#34;&gt;:keymaps&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;#39;minibuffer-local-map&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;&amp;lt;escape&amp;gt;&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#00b1f7&#34;&gt;#&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#dcaeea&#34;&gt;keyboard-escape-quit&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#8a93a5;font-style:italic&#34;&gt;;; Let an active leader key for normal, visual, and emacs states&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  (&lt;span style=&#34;color:#dcaeea&#34;&gt;general-create-definer&lt;/span&gt; &lt;span style=&#34;color:#dcaeea&#34;&gt;leader&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#ef8383&#34;&gt;:states&lt;/span&gt; &lt;span style=&#34;color:#c7bf54&#34;&gt;&amp;#39;&lt;/span&gt;(&lt;span style=&#34;color:#dcaeea&#34;&gt;normal&lt;/span&gt; &lt;span style=&#34;color:#dcaeea&#34;&gt;visual&lt;/span&gt; &lt;span style=&#34;color:#dcaeea&#34;&gt;emacs&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#ef8383&#34;&gt;:keymaps&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;#39;override&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#ef8383&#34;&gt;:prefix&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;SPC&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#8a93a5;font-style:italic&#34;&gt;;; set leader&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#ef8383&#34;&gt;:global-prefix&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;M-SPC&amp;#34;&lt;/span&gt;) &lt;span style=&#34;color:#8a93a5;font-style:italic&#34;&gt;;; access leader in insert mode&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  (&lt;span style=&#34;color:#dcaeea&#34;&gt;leader&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;f&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#c7bf54&#34;&gt;&amp;#39;&lt;/span&gt;(&lt;span style=&#34;color:#ef8383&#34;&gt;:ignore&lt;/span&gt; &lt;span style=&#34;color:#b756ff;font-weight:bold&#34;&gt;t&lt;/span&gt; &lt;span style=&#34;color:#ef8383&#34;&gt;:wk&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Find file&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;f f&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#c7bf54&#34;&gt;&amp;#39;&lt;/span&gt;(&lt;span style=&#34;color:#dcaeea&#34;&gt;find-file&lt;/span&gt; &lt;span style=&#34;color:#ef8383&#34;&gt;:wk&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Find file directly&amp;#34;&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  (&lt;span style=&#34;color:#dcaeea&#34;&gt;leader&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;b&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#c7bf54&#34;&gt;&amp;#39;&lt;/span&gt;(&lt;span style=&#34;color:#ef8383&#34;&gt;:ignore&lt;/span&gt; &lt;span style=&#34;color:#b756ff;font-weight:bold&#34;&gt;t&lt;/span&gt; &lt;span style=&#34;color:#ef8383&#34;&gt;:wk&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Buffer&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;b f&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#c7bf54&#34;&gt;&amp;#39;&lt;/span&gt;(&lt;span style=&#34;color:#dcaeea&#34;&gt;switch-to-buffer*&lt;/span&gt; &lt;span style=&#34;color:#ef8383&#34;&gt;:wk&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Find a buffer, or create a new one&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;b k&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#c7bf54&#34;&gt;&amp;#39;&lt;/span&gt;(&lt;span style=&#34;color:#dcaeea&#34;&gt;kill-this-buffer&lt;/span&gt; &lt;span style=&#34;color:#ef8383&#34;&gt;:wk&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Kill the current buffer&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;b r&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#c7bf54&#34;&gt;&amp;#39;&lt;/span&gt;(&lt;span style=&#34;color:#dcaeea&#34;&gt;revert-buffer&lt;/span&gt; &lt;span style=&#34;color:#ef8383&#34;&gt;:wk&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Reload the current buffer&amp;#34;&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  (&lt;span style=&#34;color:#dcaeea&#34;&gt;leader&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;c&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#c7bf54&#34;&gt;&amp;#39;&lt;/span&gt;(&lt;span style=&#34;color:#ef8383&#34;&gt;:ignore&lt;/span&gt; &lt;span style=&#34;color:#b756ff;font-weight:bold&#34;&gt;t&lt;/span&gt; &lt;span style=&#34;color:#ef8383&#34;&gt;:wk&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Comment&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;c r&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#c7bf54&#34;&gt;&amp;#39;&lt;/span&gt;(&lt;span style=&#34;color:#dcaeea&#34;&gt;comment-region&lt;/span&gt; &lt;span style=&#34;color:#ef8383&#34;&gt;:wk&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Comment selection&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;c l&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#c7bf54&#34;&gt;&amp;#39;&lt;/span&gt;(&lt;span style=&#34;color:#dcaeea&#34;&gt;comment-line&lt;/span&gt; &lt;span style=&#34;color:#ef8383&#34;&gt;:wk&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Comment line&amp;#34;&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  (&lt;span style=&#34;color:#dcaeea&#34;&gt;leader&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;h&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#c7bf54&#34;&gt;&amp;#39;&lt;/span&gt;(&lt;span style=&#34;color:#ef8383&#34;&gt;:ignore&lt;/span&gt; &lt;span style=&#34;color:#b756ff;font-weight:bold&#34;&gt;t&lt;/span&gt; &lt;span style=&#34;color:#ef8383&#34;&gt;:wk&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Help&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;h f&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#c7bf54&#34;&gt;&amp;#39;&lt;/span&gt;(&lt;span style=&#34;color:#dcaeea&#34;&gt;describe-function&lt;/span&gt; &lt;span style=&#34;color:#ef8383&#34;&gt;:wk&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Help function&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;h v&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#c7bf54&#34;&gt;&amp;#39;&lt;/span&gt;(&lt;span style=&#34;color:#dcaeea&#34;&gt;describe-variable&lt;/span&gt; &lt;span style=&#34;color:#ef8383&#34;&gt;:wk&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Help variable&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;h m&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#c7bf54&#34;&gt;&amp;#39;&lt;/span&gt;(&lt;span style=&#34;color:#dcaeea&#34;&gt;describe-mode&lt;/span&gt; &lt;span style=&#34;color:#ef8383&#34;&gt;:wk&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Help mode&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;h c&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#c7bf54&#34;&gt;&amp;#39;&lt;/span&gt;(&lt;span style=&#34;color:#dcaeea&#34;&gt;describe-char&lt;/span&gt; &lt;span style=&#34;color:#ef8383&#34;&gt;:wk&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Help character&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;h k&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#c7bf54&#34;&gt;&amp;#39;&lt;/span&gt;(&lt;span style=&#34;color:#dcaeea&#34;&gt;describe-key&lt;/span&gt; &lt;span style=&#34;color:#ef8383&#34;&gt;:wk&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;Help key/keybind&amp;#34;&lt;/span&gt;)))&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;
+In this example, we define a key-override for the minibuffer-local-map. This keymap is used when interacting
+with the minibuffer, such as when using &lt;code&gt;M-x&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;
+Following that, we setup a leader key, which I use space for. The &lt;code&gt;:ignore&lt;/code&gt; keyword will ignore the keypress
+so no action is triggered until a followup key defined it pressed. The &lt;code&gt;:wk&lt;/code&gt; keyword adds a description used for which-key integration, which
+we will setup shortly.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;outline-container-headline-11&#34; class=&#34;outline-4&#34;&gt;
+&lt;h4 id=&#34;headline-11&#34;&gt;
+Keychord
+&lt;/h4&gt;
+&lt;div id=&#34;outline-text-headline-11&#34; class=&#34;outline-text-4&#34;&gt;
+&lt;p&gt;If you&amp;#39;re like me, I always prefered to have &lt;code&gt;ESCAPE&lt;/code&gt; mapped to &lt;code&gt;jj&lt;/code&gt; in vim. You can recreate this behavior in Emacs with
+the keychord package.&lt;/p&gt;
+&lt;p&gt;
+Heres an examle:&lt;/p&gt;
+&lt;div class=&#34;src src-emacs-lisp&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-emacs-lisp&#34; data-lang=&#34;emacs-lisp&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#ef8383&#34;&gt;use-package&lt;/span&gt; &lt;span style=&#34;color:#dcaeea&#34;&gt;key-chord&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#ef8383&#34;&gt;:init&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  (&lt;span style=&#34;color:#dcaeea&#34;&gt;key-chord-mode&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#ef8383&#34;&gt;:config&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  (&lt;span style=&#34;color:#ef8383&#34;&gt;setq&lt;/span&gt; &lt;span style=&#34;color:#dcaeea&#34;&gt;key-chord-two-keys-delay&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#dcaeea&#34;&gt;key-chord-one-key-delay&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;1.2&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#dcaeea&#34;&gt;key-chord-safety-interval-forward&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0.1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#dcaeea&#34;&gt;key-chord-safety-interval-backward&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  (&lt;span style=&#34;color:#dcaeea&#34;&gt;key-chord-define&lt;/span&gt; &lt;span style=&#34;color:#dcaeea&#34;&gt;evil-insert-state-map&lt;/span&gt;  &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;jj&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;#39;evil-normal-state&lt;/span&gt;))&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;
+The settings defined in the config are what I feel to be the closest to the default neovim/vim settings. Here, we map 
+&lt;code&gt;jj&lt;/code&gt; to return to the &lt;code&gt;evil-normal-state&lt;/code&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;outline-container-headline-12&#34; class=&#34;outline-4&#34;&gt;
+&lt;h4 id=&#34;headline-12&#34;&gt;
+Which Key
+&lt;/h4&gt;
+&lt;div id=&#34;outline-text-headline-12&#34; class=&#34;outline-text-4&#34;&gt;
+&lt;p&gt;If you&amp;#39;ve used neovim/vim, you&amp;#39;ve probably setup &lt;code class=&#34;verbatim&#34;&gt;which-key&lt;/code&gt; there at some point as well. &lt;code class=&#34;verbatim&#34;&gt;Which-key&lt;/code&gt; shows a menu
+displaying possible followup keybinds corresponding to the given key you pressed.&lt;/p&gt;
+&lt;p&gt;
+Here&amp;#39;s how we can set it up:&lt;/p&gt;
+&lt;div class=&#34;src src-emacs-lisp&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-emacs-lisp&#34; data-lang=&#34;emacs-lisp&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#ef8383&#34;&gt;use-package&lt;/span&gt; &lt;span style=&#34;color:#dcaeea&#34;&gt;which-key&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#ef8383&#34;&gt;:init&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  (&lt;span style=&#34;color:#dcaeea&#34;&gt;which-key-mode&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#ef8383&#34;&gt;:config&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  (&lt;span style=&#34;color:#ef8383&#34;&gt;setq&lt;/span&gt; &lt;span style=&#34;color:#dcaeea&#34;&gt;which-key-side-window-location&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;#39;bottom&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#dcaeea&#34;&gt;which-key-sort-order&lt;/span&gt; &lt;span style=&#34;color:#00b1f7&#34;&gt;#&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#dcaeea&#34;&gt;which-key-key-order-alpha&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#dcaeea&#34;&gt;which-key-sort-uppercase-first&lt;/span&gt; &lt;span style=&#34;color:#b756ff;font-weight:bold&#34;&gt;nil&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#dcaeea&#34;&gt;which-key-add-column-padding&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#dcaeea&#34;&gt;which-key-max-display-columns&lt;/span&gt; &lt;span style=&#34;color:#b756ff;font-weight:bold&#34;&gt;nil&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#dcaeea&#34;&gt;which-key-min-display-lines&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;6&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#dcaeea&#34;&gt;which-key-side-window-slot&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;-10&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#dcaeea&#34;&gt;which-key-side-window-max-height&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0.25&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#dcaeea&#34;&gt;which-key-idle-delay&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0.8&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#dcaeea&#34;&gt;which-key-max-description-length&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;25&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#dcaeea&#34;&gt;which-key-allow-imprecise-window-fit&lt;/span&gt; &lt;span style=&#34;color:#b756ff;font-weight:bold&#34;&gt;t&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#dcaeea&#34;&gt;which-key-separator&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34; → &amp;#34;&lt;/span&gt; ))&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;
+Now, whenever we hit a key that has a possible key-sequence, we&amp;#39;ll kind a nice menu reminding us of the keybinds
+we have setup. In this configuration, if I hit &lt;code&gt;SPC-b&lt;/code&gt;, I&amp;#39;ll get the following prompt:&lt;/p&gt;
+&lt;p&gt;
+&lt;img src=&#34;./which-key.png&#34; alt=&#34;./which-key.png&#34; title=&#34;./which-key.png&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;outline-container-headline-13&#34; class=&#34;outline-3&#34;&gt;
+&lt;h3 id=&#34;headline-13&#34;&gt;
+Minibuffer
+&lt;/h3&gt;
+&lt;div id=&#34;outline-text-headline-13&#34; class=&#34;outline-text-3&#34;&gt;
+&lt;p&gt;The default mini-buffer area (where you are prompted when using the &lt;code&gt;M-x&lt;/code&gt; command for example) is pretty lacking by default.
+There are a few packages we can use to make things much better in this regard.&lt;/p&gt;
+&lt;div id=&#34;outline-container-headline-14&#34; class=&#34;outline-4&#34;&gt;
+&lt;h4 id=&#34;headline-14&#34;&gt;
+Vertico
+&lt;/h4&gt;
+&lt;div id=&#34;outline-text-headline-14&#34; class=&#34;outline-text-4&#34;&gt;
+&lt;p&gt;This replaces the default mini-buffer with a vertical and much more descriptive prompt, we can set it up using:&lt;/p&gt;
+&lt;div class=&#34;src src-emacs-lisp&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-emacs-lisp&#34; data-lang=&#34;emacs-lisp&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#ef8383&#34;&gt;use-package&lt;/span&gt; &lt;span style=&#34;color:#dcaeea&#34;&gt;vertico&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#ef8383&#34;&gt;:general&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#8a93a5;font-style:italic&#34;&gt;;; you probably want this, lets backspace delete and entire directory completion, instead of&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#8a93a5;font-style:italic&#34;&gt;;; one char at a time.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  (&lt;span style=&#34;color:#ef8383&#34;&gt;:keymaps&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;#39;vertico-map&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;&amp;lt;backspace&amp;gt;&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#00b1f7&#34;&gt;#&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#dcaeea&#34;&gt;vertico-directory-delete-char&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;DEL&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#00b1f7&#34;&gt;#&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#dcaeea&#34;&gt;vertico-directory-delete-char&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#ef8383&#34;&gt;:init&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  (&lt;span style=&#34;color:#dcaeea&#34;&gt;vertico-mode&lt;/span&gt;))&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;
+Here you can also see we use the &lt;code class=&#34;verbatim&#34;&gt;:general&lt;/code&gt; use-package keyword. This allows us to setup general bindings for the 
+package/keymap we specify.&lt;/p&gt;
+&lt;p&gt;
+Heres what the mini-buffer prompt looked like before we installed this package:
+&lt;img src=&#34;./vertico-before.png&#34; alt=&#34;./vertico-before.png&#34; title=&#34;./vertico-before.png&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;
+And heres what it looks like after:
+&lt;img src=&#34;./vertico-after.png&#34; alt=&#34;./vertico-after.png&#34; title=&#34;./vertico-after.png&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;outline-container-headline-15&#34; class=&#34;outline-4&#34;&gt;
+&lt;h4 id=&#34;headline-15&#34;&gt;
+Marginalia 
+&lt;/h4&gt;
+&lt;div id=&#34;outline-text-headline-15&#34; class=&#34;outline-text-4&#34;&gt;
+&lt;p&gt;Marginalia provides descriptive annoations to the mini-buffer, and overall makes searching for information a lot easier.&lt;/p&gt;
+&lt;p&gt;
+We can install it by using the definition:&lt;/p&gt;
+&lt;div class=&#34;src src-emacs-lisp&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-emacs-lisp&#34; data-lang=&#34;emacs-lisp&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#ef8383&#34;&gt;use-package&lt;/span&gt; &lt;span style=&#34;color:#dcaeea&#34;&gt;marginalia&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#ef8383&#34;&gt;:init&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  (&lt;span style=&#34;color:#dcaeea&#34;&gt;marginalia-mode&lt;/span&gt;))&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;
+Now, our output is much more descriptive:
+&lt;img src=&#34;./marginalia.png&#34; alt=&#34;./marginalia.png&#34; title=&#34;./marginalia.png&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;outline-container-headline-16&#34; class=&#34;outline-4&#34;&gt;
+&lt;h4 id=&#34;headline-16&#34;&gt;
+Orderless
+&lt;/h4&gt;
+&lt;div id=&#34;outline-text-headline-16&#34; class=&#34;outline-text-4&#34;&gt;
+&lt;p&gt;Orderless makes is a completion style that divides searches into space seperated characters or words, and doesn&amp;#39;t need
+to be sequential. It ammends this style to both the mini-buffer as well as corfu which we will setup after this.&lt;/p&gt;
+&lt;p&gt;
+For example, if I did ran &lt;code&gt;M+x&lt;/code&gt; and input &amp;#34;key desc&amp;#34;, without orderless, I would get the following output:
+&lt;img src=&#34;./orderless-before.png&#34; alt=&#34;./orderless-before.png&#34; title=&#34;./orderless-before.png&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;
+After installing orderless, it can match based on my search terms seen here:
+&lt;img src=&#34;./orderless-after.png&#34; alt=&#34;./orderless-after.png&#34; title=&#34;./orderless-after.png&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;
+Installing orderless is simple enough, just use the following:&lt;/p&gt;
+&lt;div class=&#34;src src-emacs-lisp&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-emacs-lisp&#34; data-lang=&#34;emacs-lisp&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#ef8383&#34;&gt;use-package&lt;/span&gt; &lt;span style=&#34;color:#dcaeea&#34;&gt;orderless&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#ef8383&#34;&gt;:config&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  (&lt;span style=&#34;color:#ef8383&#34;&gt;setq&lt;/span&gt; &lt;span style=&#34;color:#dcaeea&#34;&gt;completion-styles&lt;/span&gt; &lt;span style=&#34;color:#c7bf54&#34;&gt;&amp;#39;&lt;/span&gt;(&lt;span style=&#34;color:#dcaeea&#34;&gt;orderless&lt;/span&gt; &lt;span style=&#34;color:#dcaeea&#34;&gt;basic&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#dcaeea&#34;&gt;completion-category-overrides&lt;/span&gt; &lt;span style=&#34;color:#c7bf54&#34;&gt;&amp;#39;&lt;/span&gt;((&lt;span style=&#34;color:#dcaeea&#34;&gt;file&lt;/span&gt; (&lt;span style=&#34;color:#dcaeea&#34;&gt;styles&lt;/span&gt; &lt;span style=&#34;color:#dcaeea&#34;&gt;basic&lt;/span&gt; &lt;span style=&#34;color:#dcaeea&#34;&gt;partial-completion&lt;/span&gt;)))))&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;outline-container-headline-17&#34; class=&#34;outline-3&#34;&gt;
+&lt;h3 id=&#34;headline-17&#34;&gt;
+Completions
+&lt;/h3&gt;
+&lt;div id=&#34;outline-text-headline-17&#34; class=&#34;outline-text-3&#34;&gt;
+&lt;div id=&#34;outline-container-headline-18&#34; class=&#34;outline-4&#34;&gt;
+&lt;h4 id=&#34;headline-18&#34;&gt;
+Corfu + Cape
+&lt;/h4&gt;
+&lt;div id=&#34;outline-text-headline-18&#34; class=&#34;outline-text-4&#34;&gt;
+&lt;p&gt;Emacs has a few different completion framworks you can use, but the best I&amp;#39;ve found is &lt;code class=&#34;verbatim&#34;&gt;Corfu&lt;/code&gt;. Corfu can be integrated 
+with many completion methods like an LSP, and/or other packages such as &lt;code class=&#34;verbatim&#34;&gt;Cape&lt;/code&gt; which provides completion functions for things
+like elisp code, keywords, and words present in the buffer. &lt;/p&gt;
+&lt;p&gt;
+We can set these up with the following:&lt;/p&gt;
+&lt;div class=&#34;src src-emacs-lisp&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-emacs-lisp&#34; data-lang=&#34;emacs-lisp&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#ef8383&#34;&gt;use-package&lt;/span&gt; &lt;span style=&#34;color:#dcaeea&#34;&gt;corfu&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#ef8383&#34;&gt;:config&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  (&lt;span style=&#34;color:#ef8383&#34;&gt;setq&lt;/span&gt; &lt;span style=&#34;color:#dcaeea&#34;&gt;corfu-popupinfo-delay&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#dcaeea&#34;&gt;corfu-auto&lt;/span&gt; &lt;span style=&#34;color:#b756ff;font-weight:bold&#34;&gt;t&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#dcaeea&#34;&gt;corfu-cycle&lt;/span&gt; &lt;span style=&#34;color:#b756ff;font-weight:bold&#34;&gt;t&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#dcaeea&#34;&gt;corfu-preselect&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;#39;prompt&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#dcaeea&#34;&gt;corfu-auto-delay&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;0.2&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#dcaeea&#34;&gt;corfu-auto-prefix&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;2&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  (&lt;span style=&#34;color:#dcaeea&#34;&gt;advice-add&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;#39;eglot-completion-at-point&lt;/span&gt; &lt;span style=&#34;color:#ef8383&#34;&gt;:around&lt;/span&gt; &lt;span style=&#34;color:#00b1f7&#34;&gt;#&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#dcaeea&#34;&gt;cape-wrap-buster&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#ef8383&#34;&gt;:init&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  (&lt;span style=&#34;color:#dcaeea&#34;&gt;corfu-popupinfo-mode&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  (&lt;span style=&#34;color:#dcaeea&#34;&gt;global-corfu-mode&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  (&lt;span style=&#34;color:#dcaeea&#34;&gt;corfu-history-mode&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#ef8383&#34;&gt;use-package&lt;/span&gt; &lt;span style=&#34;color:#dcaeea&#34;&gt;cape&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#ef8383&#34;&gt;:init&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  (&lt;span style=&#34;color:#dcaeea&#34;&gt;add-to-list&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;#39;completion-at-point-functions&lt;/span&gt; &lt;span style=&#34;color:#00b1f7&#34;&gt;#&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#dcaeea&#34;&gt;cape-dabbrev&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  (&lt;span style=&#34;color:#dcaeea&#34;&gt;add-to-list&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;#39;completion-at-point-functions&lt;/span&gt; &lt;span style=&#34;color:#00b1f7&#34;&gt;#&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#dcaeea&#34;&gt;cape-file&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  (&lt;span style=&#34;color:#dcaeea&#34;&gt;add-to-list&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;#39;completion-at-point-functions&lt;/span&gt; &lt;span style=&#34;color:#00b1f7&#34;&gt;#&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#dcaeea&#34;&gt;cape-elisp-block&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  (&lt;span style=&#34;color:#dcaeea&#34;&gt;add-to-list&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;#39;completion-at-point-functions&lt;/span&gt; &lt;span style=&#34;color:#00b1f7&#34;&gt;#&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#dcaeea&#34;&gt;cape-keyword&lt;/span&gt;))&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;
+Now we&amp;#39;ll be prompted for completions when entering in emacs function or variable names, and will provide
+the documentation for them. This makes things a bit easier to write/undertand when starting out. &lt;/p&gt;
+&lt;p&gt;
+Heres what those completions may look like:
+&lt;img src=&#34;./corfu.png&#34; alt=&#34;./corfu.png&#34; title=&#34;./corfu.png&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;outline-container-headline-19&#34; class=&#34;outline-3&#34;&gt;
+&lt;h3 id=&#34;headline-19&#34;&gt;
+Look and Feel
+&lt;/h3&gt;
+&lt;div id=&#34;outline-text-headline-19&#34; class=&#34;outline-text-3&#34;&gt;
+&lt;div id=&#34;outline-container-headline-20&#34; class=&#34;outline-4&#34;&gt;
+&lt;h4 id=&#34;headline-20&#34;&gt;
+Theme
+&lt;/h4&gt;
+&lt;div id=&#34;outline-text-headline-20&#34; class=&#34;outline-text-4&#34;&gt;
+&lt;p&gt;Emacs by default is in light mode, which disturbs me to the core of my soul. We can replace it with a dark theme.
+In this example, we will use &lt;a href=&#34;https://catppuccin.com/ports?q=emacs&#34;&gt;Catpuccin&lt;/a&gt;, but you can find some others &lt;a href=&#34;https://emacsthemes.com/&#34;&gt;here&lt;/a&gt;. &lt;/p&gt;
+&lt;p&gt;
+To install, we can add the following:&lt;/p&gt;
+&lt;div class=&#34;src src-emacs-lisp&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-emacs-lisp&#34; data-lang=&#34;emacs-lisp&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#ef8383&#34;&gt;use-package&lt;/span&gt; &lt;span style=&#34;color:#dcaeea&#34;&gt;catppuccin-theme&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#ef8383&#34;&gt;:config&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  (&lt;span style=&#34;color:#ef8383&#34;&gt;setq&lt;/span&gt; &lt;span style=&#34;color:#dcaeea&#34;&gt;catppuccin-highlight-matches&lt;/span&gt; &lt;span style=&#34;color:#b756ff;font-weight:bold&#34;&gt;t&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  (&lt;span style=&#34;color:#dcaeea&#34;&gt;load-theme&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;#39;catppuccin&lt;/span&gt; &lt;span style=&#34;color:#b756ff;font-weight:bold&#34;&gt;t&lt;/span&gt;))&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;
+Now our eyes wont be fried anytime we open emacs:
+&lt;img src=&#34;./theme.png&#34; alt=&#34;./theme.png&#34; title=&#34;./theme.png&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;outline-container-headline-21&#34; class=&#34;outline-4&#34;&gt;
+&lt;h4 id=&#34;headline-21&#34;&gt;
+Dashboard
+&lt;/h4&gt;
+&lt;div id=&#34;outline-text-headline-21&#34; class=&#34;outline-text-4&#34;&gt;
+&lt;p&gt;Every good editor needs a sick dashboard. The main option used in emacs is &lt;code class=&#34;verbatim&#34;&gt;dashboard.el&lt;/code&gt;. Lets add it in:&lt;/p&gt;
+&lt;div class=&#34;src src-emacs-lisp&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-emacs-lisp&#34; data-lang=&#34;emacs-lisp&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#ef8383&#34;&gt;use-package&lt;/span&gt; &lt;span style=&#34;color:#dcaeea&#34;&gt;dashboard&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#ef8383&#34;&gt;:config&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  (&lt;span style=&#34;color:#dcaeea&#34;&gt;dashboard-setup-startup-hook&lt;/span&gt;))&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;
+Now we&amp;#39;re cooking:
+&lt;img src=&#34;./dashboard.png&#34; alt=&#34;./dashboard.png&#34; title=&#34;./dashboard.png&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;outline-container-headline-22&#34; class=&#34;outline-4&#34;&gt;
+&lt;h4 id=&#34;headline-22&#34;&gt;
+Diredfl
+&lt;/h4&gt;
+&lt;div id=&#34;outline-text-headline-22&#34; class=&#34;outline-text-4&#34;&gt;
+&lt;p&gt;This package changed the highlighting used in &lt;code class=&#34;verbatim&#34;&gt;dired&lt;/code&gt; buffers. As stated in the preface, dired is one of the best
+file browsers I&amp;#39;ve ever used in general, so you&amp;#39;ll probably spending a lot of time looking at it. We can install using:&lt;/p&gt;
+&lt;div class=&#34;src src-emacs-lisp&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-emacs-lisp&#34; data-lang=&#34;emacs-lisp&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#ef8383&#34;&gt;use-package&lt;/span&gt; &lt;span style=&#34;color:#dcaeea&#34;&gt;diredfl&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#ef8383&#34;&gt;:config&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  (&lt;span style=&#34;color:#dcaeea&#34;&gt;diredfl-global-mode&lt;/span&gt;))&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;
+Heres a before and after:
+&lt;img src=&#34;./dired-before.png&#34; alt=&#34;./dired-before.png&#34; title=&#34;./dired-before.png&#34; /&gt;
+&lt;img src=&#34;./dired-after.png&#34; alt=&#34;./dired-after.png&#34; title=&#34;./dired-after.png&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;outline-container-headline-23&#34; class=&#34;outline-3&#34;&gt;
+&lt;h3 id=&#34;headline-23&#34;&gt;
+Preferences
+&lt;/h3&gt;
+&lt;div id=&#34;outline-text-headline-23&#34; class=&#34;outline-text-3&#34;&gt;
+&lt;p&gt;Here are some other useful tweaks/peferences you can add in if you&amp;#39;re inclinded to do so:&lt;/p&gt;
+&lt;div class=&#34;src src-emacs-lisp&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-emacs-lisp&#34; data-lang=&#34;emacs-lisp&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8a93a5;font-style:italic&#34;&gt;;; set font size to 12 point&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#dcaeea&#34;&gt;set-face-attribute&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;#39;default&lt;/span&gt; &lt;span style=&#34;color:#b756ff;font-weight:bold&#34;&gt;nil&lt;/span&gt; &lt;span style=&#34;color:#ef8383&#34;&gt;:height&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;120&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8a93a5;font-style:italic&#34;&gt;;; disable menus&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#dcaeea&#34;&gt;menu-bar-mode&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;-1&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8a93a5;font-style:italic&#34;&gt;;; disable toolbar&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#dcaeea&#34;&gt;tool-bar-mode&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;-1&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8a93a5;font-style:italic&#34;&gt;;; disable scrollbar&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#dcaeea&#34;&gt;scroll-bar-mode&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;-1&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8a93a5;font-style:italic&#34;&gt;;; automatically close pairs like (), [] and {}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#dcaeea&#34;&gt;electric-pair-mode&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8a93a5;font-style:italic&#34;&gt;;; highlight the current line&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#dcaeea&#34;&gt;global-hl-line-mode&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8a93a5;font-style:italic&#34;&gt;;; automatically indent&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#dcaeea&#34;&gt;electric-indent-mode&lt;/span&gt; &lt;span style=&#34;color:#b756ff;font-weight:bold&#34;&gt;t&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8a93a5;font-style:italic&#34;&gt;;; display line numbers&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#dcaeea&#34;&gt;global-display-line-numbers-mode&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8a93a5;font-style:italic&#34;&gt;;; truncate lines, nowrap&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#ef8383&#34;&gt;setq-default&lt;/span&gt; &lt;span style=&#34;color:#dcaeea&#34;&gt;truncate-lines&lt;/span&gt; &lt;span style=&#34;color:#b756ff;font-weight:bold&#34;&gt;t&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8a93a5;font-style:italic&#34;&gt;;; stop emacs from inserting impertive configs into init.el&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8a93a5;font-style:italic&#34;&gt;;; by dumping them into a custom.el file that will never be loaded&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#ef8383&#34;&gt;setq&lt;/span&gt; &lt;span style=&#34;color:#dcaeea&#34;&gt;custom-file&lt;/span&gt; (&lt;span style=&#34;color:#00b1f7&#34;&gt;concat&lt;/span&gt; &lt;span style=&#34;color:#dcaeea&#34;&gt;user-emacs-directory&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#34;/custom.el&amp;#34;&lt;/span&gt;) 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#dcaeea&#34;&gt;make-backup-files&lt;/span&gt; &lt;span style=&#34;color:#b756ff;font-weight:bold&#34;&gt;nil&lt;/span&gt; &lt;span style=&#34;color:#8a93a5;font-style:italic&#34;&gt;; stop creating backup ~ files&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#dcaeea&#34;&gt;auto-save-default&lt;/span&gt; &lt;span style=&#34;color:#b756ff;font-weight:bold&#34;&gt;nil&lt;/span&gt; &lt;span style=&#34;color:#8a93a5;font-style:italic&#34;&gt;; stop creating autosave # files&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#dcaeea&#34;&gt;create-lockfiles&lt;/span&gt; &lt;span style=&#34;color:#b756ff;font-weight:bold&#34;&gt;nil&lt;/span&gt;  &lt;span style=&#34;color:#8a93a5;font-style:italic&#34;&gt;; stop creating lock .# files&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#dcaeea&#34;&gt;blink-cursor-mode&lt;/span&gt; &lt;span style=&#34;color:#b756ff;font-weight:bold&#34;&gt;nil&lt;/span&gt; &lt;span style=&#34;color:#8a93a5;font-style:italic&#34;&gt;; exactly what is sounds like&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#dcaeea&#34;&gt;use-short-answers&lt;/span&gt; &lt;span style=&#34;color:#b756ff;font-weight:bold&#34;&gt;t&lt;/span&gt;   &lt;span style=&#34;color:#8a93a5;font-style:italic&#34;&gt;; lets you type y,n instead of yes,no when prompted&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#dcaeea&#34;&gt;use-dialog-box&lt;/span&gt; &lt;span style=&#34;color:#b756ff;font-weight:bold&#34;&gt;nil&lt;/span&gt;    &lt;span style=&#34;color:#8a93a5;font-style:italic&#34;&gt;; disable gui menu pop-ups&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#dcaeea&#34;&gt;display-line-numbers-type&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;#39;relative&lt;/span&gt; &lt;span style=&#34;color:#8a93a5;font-style:italic&#34;&gt;; enable relative line numbers&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#dcaeea&#34;&gt;password-cache-expiry&lt;/span&gt; &lt;span style=&#34;color:#b756ff;font-weight:bold&#34;&gt;nil&lt;/span&gt;) &lt;span style=&#34;color:#8a93a5;font-style:italic&#34;&gt;; prevents tramp passwords from expiring&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8a93a5;font-style:italic&#34;&gt;;; Automatically refresh dired buffer when a change on disk is made&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#dcaeea&#34;&gt;add-hook&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;#39;dired-mode-hook&lt;/span&gt; &lt;span style=&#34;color:#56b6c2&#34;&gt;&amp;#39;auto-revert-mode&lt;/span&gt;)&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;outline-container-headline-24&#34; class=&#34;outline-2&#34;&gt;
+&lt;h2 id=&#34;headline-24&#34;&gt;
+Final Product
+&lt;/h2&gt;
+&lt;div id=&#34;outline-text-headline-24&#34; class=&#34;outline-text-2&#34;&gt;
+&lt;p&gt;&lt;img src=&#34;./final.png&#34; alt=&#34;./final.png&#34; title=&#34;./final.png&#34; /&gt;&lt;/p&gt;
+&lt;div id=&#34;outline-container-headline-25&#34; class=&#34;outline-3&#34;&gt;
+&lt;h3 id=&#34;headline-25&#34;&gt;
+Summary
+&lt;/h3&gt;
+&lt;div id=&#34;outline-text-headline-25&#34; class=&#34;outline-text-3&#34;&gt;
+&lt;p&gt;The gist of this setup was getting Vim bindings setup, and some quality of life improvements to fix the default 
+look and functionality of Emacs. From here, you can check into some other packages you&amp;#39;re interested in. Typically on a 
+package&amp;#39;s documention, they have setup steps included for setting up, along with using with &lt;code class=&#34;verbatim&#34;&gt;use-package&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;
+The corresponding &lt;code class=&#34;verbatim&#34;&gt;init.el&lt;/code&gt; we&amp;#39;ve written in this guide an be found &lt;a href=&#34;https://github.com/justinlime/emacs-starter/blob/main/init.el&#34;&gt;here&lt;/a&gt;. &lt;/p&gt;
+&lt;p&gt;
+Here are some other awesome packages I recommend you check out and look into configuring. &lt;/p&gt;
+&lt;p&gt;
+&lt;code class=&#34;verbatim&#34;&gt;%&lt;/code&gt; - means the package is built into emacs by default&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code class=&#34;verbatim&#34;&gt;eglot %&lt;/code&gt; - LSP Client for Emacs &lt;/li&gt;
+&lt;li&gt;&lt;code class=&#34;verbatim&#34;&gt;org mode %&lt;/code&gt; - Tool for writing notes and documents in emacs&lt;/li&gt;
+&lt;li&gt;&lt;code class=&#34;verbatim&#34;&gt;tramp %&lt;/code&gt; - Tool for connecting and editing remote files&lt;/li&gt;
+&lt;li&gt;&lt;code class=&#34;verbatim&#34;&gt;magit&lt;/code&gt; - One of the best git clients ever created, build directly into emacs&lt;/li&gt;
+&lt;li&gt;&lt;code class=&#34;verbatim&#34;&gt;yasnippet&lt;/code&gt; - Provide snippets for completion for use with corfu&lt;/li&gt;
+&lt;li&gt;&lt;code class=&#34;verbatim&#34;&gt;sideline&lt;/code&gt; - Provide LSP diagnostic info directly in the buffer&lt;/li&gt;
+&lt;li&gt;&lt;code class=&#34;verbatim&#34;&gt;perspective&lt;/code&gt; - Different workspaces with different sets of buffers visible to it&lt;/li&gt;
+&lt;li&gt;&lt;code class=&#34;verbatim&#34;&gt;org-modern&lt;/code&gt; - Enhances the look and rendering of org documents&lt;/li&gt;
+&lt;li&gt;&lt;code class=&#34;verbatim&#34;&gt;org-roam&lt;/code&gt; - A note-takers best friend&lt;/li&gt;
+&lt;li&gt;&lt;code class=&#34;verbatim&#34;&gt;consult&lt;/code&gt; - Can be used as a fuzzy finder&lt;/li&gt;
+&lt;li&gt;&lt;code class=&#34;verbatim&#34;&gt;affe&lt;/code&gt; - Fuzzy Finder like consult, faster but more experimental&lt;/li&gt;
+&lt;li&gt;&lt;code class=&#34;verbatim&#34;&gt;undo-tree&lt;/code&gt; - Better handling of undo/redo actions in emacs&lt;/li&gt;
+&lt;li&gt;&lt;code class=&#34;verbatim&#34;&gt;rainbow-delimters&lt;/code&gt; - Uses color to distinguish matching pairs like {} and ()&lt;/li&gt;
+&lt;li&gt;&lt;code class=&#34;verbatim&#34;&gt;rainbow-mode&lt;/code&gt; - Render hex and RGB values directly in the buffer &lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</description>
+        </item>
+        <item>
+        <title>Emacs and Elisp Crash Course</title>
+        <link>https://justinlime.dev/p/emacs-crash-course/</link>
+        <pubDate>Fri, 26 Apr 2024 00:00:00 +0000</pubDate>
+        
+        <guid>https://justinlime.dev/p/emacs-crash-course/</guid>
+        <description>&lt;img src="https://justinlime.dev/p/emacs-crash-course/stallman.jpg" alt="Featured image of post Emacs and Elisp Crash Course" /&gt;
+&lt;div id=&#34;outline-container-headline-1&#34; class=&#34;outline-2&#34;&gt;
+&lt;h2 id=&#34;headline-1&#34;&gt;
+Emacs
+&lt;/h2&gt;
+&lt;div id=&#34;outline-text-headline-1&#34; class=&#34;outline-text-2&#34;&gt;
+&lt;p&gt;Emacs is configured exclusively through code, &lt;strong&gt;99% of which is elisp code&lt;/strong&gt;. 
+See section 2 under elisp for why this is important. By default, 
+Emacs uses keychords. Due to the prevalence of modifier keys, these have a 
+special notation, using shortened aliases, for example &lt;code class=&#34;verbatim&#34;&gt;C-c g&lt;/code&gt;. Refer to the 
+Emacs tutorial for an explanation. &lt;/p&gt;
+&lt;p&gt;
+This notation can be transformed into an elisp 
+object via the &lt;code class=&#34;verbatim&#34;&gt;kbd&lt;/code&gt; macro. All but the last key pressed are prefixes, &amp;#34;branches&amp;#34; 
+in the keybindings where you have several other keys to choose from after pressing 
+them. The most important prefix is C-c, as this, by convention, contains all 
+user-defined keybindings. &lt;/p&gt;
+&lt;p&gt;
+For a list of common/mandatory keybindings 
+(including navigation, buffer and window management, and others), refer to the 
+Emacs tutorial. Emacs offers various GUI interfaces for configuration 
+(installing packages, setting options, etc), however these insert code into your 
+init file, and are not opaque state.&lt;/p&gt;
+&lt;div id=&#34;outline-container-headline-2&#34; class=&#34;outline-3&#34;&gt;
+&lt;h3 id=&#34;headline-2&#34;&gt;
+General tips for beginners
+&lt;/h3&gt;
+&lt;div id=&#34;outline-text-headline-2&#34; class=&#34;outline-text-3&#34;&gt;
+&lt;ul&gt;
+&lt;li&gt;Try to stick to built-in functionality wherever possible at the beginning.&lt;/li&gt;
+&lt;li&gt;Try to avoid the use of DSLs/complex macros (i.e. use-package).&lt;/li&gt;
+&lt;li&gt;Emacs has a built-in package manager, I recommend enabling the &lt;a href=&#34;https://melpa.org/#/getting-started&#34;&gt;MELPA&lt;/a&gt; community repo.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;outline-container-headline-3&#34; class=&#34;outline-2&#34;&gt;
+&lt;h2 id=&#34;headline-3&#34;&gt;
+Elisp
+&lt;/h2&gt;
+&lt;div id=&#34;outline-text-headline-3&#34; class=&#34;outline-text-2&#34;&gt;
+&lt;p&gt;Elisp is based on s-expressions, the syntax for which is &lt;code class=&#34;verbatim&#34;&gt;(function-name arg1 arg2 ...)&lt;/code&gt;. 
+This syntax is based on lists, to be covered in 2.3. As the name suggests, everything is an 
+expression, and thus every s-expression returns a value. Variables are evaluated via their name. 
+That means that &lt;code class=&#34;verbatim&#34;&gt;foo&lt;/code&gt; is both valid elisp and will evaluate the variable &lt;code class=&#34;verbatim&#34;&gt;foo&lt;/code&gt; and return its value. 
+The language makes no distinction between functions, macros and operators, everything is 
+called in the s-expression form. &lt;/p&gt;
+&lt;p&gt;
+Elisp (and lisps in general) use kebab-case names. Naming conventions include stars (&amp;#34;earmuffs&amp;#34;) around 
+the name of global variables and plus signs around the names of constants. There are no &amp;#34;decorators&amp;#34; for 
+function names and local variable names. Additionally, there are two special variables, &lt;code class=&#34;verbatim&#34;&gt;t&lt;/code&gt; 
+(analoguous to true) and &lt;code class=&#34;verbatim&#34;&gt;nil&lt;/code&gt;, which is analogous to both false and NULL in other languages.&lt;/p&gt;
+&lt;div id=&#34;outline-container-headline-4&#34; class=&#34;outline-3&#34;&gt;
+&lt;h3 id=&#34;headline-4&#34;&gt;
+Functions
+&lt;/h3&gt;
+&lt;div id=&#34;outline-text-headline-4&#34; class=&#34;outline-text-3&#34;&gt;
+&lt;p&gt;Functions are defined with the &lt;code class=&#34;verbatim&#34;&gt;defun&lt;/code&gt; macro (or &lt;code class=&#34;verbatim&#34;&gt;lambda&lt;/code&gt; for anonymous functions) 
+and have certain special properties. &lt;/p&gt;
+&lt;p&gt;
+Firstly, they have 3 types of arguments: required, optional and rest arguments. The first 2 are self-explanatory, 
+the 3rd collects all extra arguments passed into one list (similiar to variadic arguments). &lt;/p&gt;
+&lt;p&gt;
+Secondly, they have docstrings. Since functions work on lists (their body is a rest argument), 
+their definitions are composed of forms. Forms are either s-expressions or Lisp objects. If the 
+first form is a string and there are other forms, it becomes a docstring and will be available 
+through the help facility (again, refer to the Emacs tutorial for the usage of said help facility). &lt;/p&gt;
+&lt;p&gt;
+The last form of a function body will be automatically returned (of course, early returns are possible), 
+hence the necessity for further forms. The third special property of functions is the &lt;code class=&#34;verbatim&#34;&gt;interactive&lt;/code&gt; 
+specifier. It defines that the function is a command (callable through &lt;code class=&#34;verbatim&#34;&gt;execute-extended-command&lt;/code&gt; and via keybindings) 
+and defines how it&amp;#39;s arguments are supplied by the user.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;outline-container-headline-5&#34; class=&#34;outline-3&#34;&gt;
+&lt;h3 id=&#34;headline-5&#34;&gt;
+Data types and symbols
+&lt;/h3&gt;
+&lt;div id=&#34;outline-text-headline-5&#34; class=&#34;outline-text-3&#34;&gt;
+&lt;p&gt;Elisp is strongly typed, if you pass a wrong type to a function, you&amp;#39;ll receive an error. 
+However, it is also dynamically typed, meaning that values themselves have types (such as numbers and strings), 
+not variables. Generally, types are what you&amp;#39;d expect from any other language, with two exceptions: 
+the Lisp-specific data types, symbol and cons.&lt;/p&gt;
+&lt;div id=&#34;outline-container-headline-6&#34; class=&#34;outline-4&#34;&gt;
+&lt;h4 id=&#34;headline-6&#34;&gt;
+Symbols and quoting
+&lt;/h4&gt;
+&lt;div id=&#34;outline-text-headline-6&#34; class=&#34;outline-text-4&#34;&gt;
+&lt;p&gt;Symbols are similiar to identifiers	in other languages. The chief difference is that unlike in other languages, 
+you can operate on symbols. This done through the quoting mechanism. Ordinarily, when you call an identifier, 
+it will evaluate to it&amp;#39;s value. However, with the &lt;code class=&#34;verbatim&#34;&gt;&amp;#39;&lt;/code&gt; operator, it will instead evaluate to the symbol itself 
+(effectively removing the quote). Symbols are unique objects, differentiated by name, so are often preferred 
+to strings for options, both for ease of use and for peformance reasons. Quoting is the mechanism macros use to expand to code.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;outline-container-headline-7&#34; class=&#34;outline-4&#34;&gt;
+&lt;h4 id=&#34;headline-7&#34;&gt;
+Cons
+&lt;/h4&gt;
+&lt;div id=&#34;outline-text-headline-7&#34; class=&#34;outline-text-4&#34;&gt;
+&lt;p&gt;The cons is the most basic data type in Lisp, and is what makes up a list, the primary data type of Lisp. 
+Conses are important for list manipulation, and have special syntax (through reader macros, the same way &lt;code class=&#34;verbatim&#34;&gt;&amp;#39;&lt;/code&gt; works). 
+There are two ways of creating a cons, either the &lt;code class=&#34;verbatim&#34;&gt;cons&lt;/code&gt; function or the dot syntax: &lt;code class=&#34;verbatim&#34;&gt;(first . second)&lt;/code&gt;. 
+Here, we will create a cons of two elements, from the values of the &lt;code class=&#34;verbatim&#34;&gt;first&lt;/code&gt; and &lt;code class=&#34;verbatim&#34;&gt;second&lt;/code&gt; variables. 
+This will create a list with 3 elements, including the closing &lt;code class=&#34;verbatim&#34;&gt;nil&lt;/code&gt;. The function &lt;code class=&#34;verbatim&#34;&gt;list&lt;/code&gt; can be used to 
+create lists of an arbitrary number of elements, however lists under the hood are &amp;#34;cons cells&amp;#34;. &lt;/p&gt;
+&lt;p&gt;
+For example, the list &lt;code class=&#34;verbatim&#34;&gt;(1 2 3)&lt;/code&gt; is actually:&lt;/p&gt;
+&lt;div class=&#34;src src-emacs-lisp&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-emacs-lisp&#34; data-lang=&#34;emacs-lisp&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#c7bf54&#34;&gt;.&lt;/span&gt; (&lt;span style=&#34;color:#d19a66&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color:#c7bf54&#34;&gt;.&lt;/span&gt; (&lt;span style=&#34;color:#d19a66&#34;&gt;3&lt;/span&gt; &lt;span style=&#34;color:#c7bf54&#34;&gt;.&lt;/span&gt; &lt;span style=&#34;color:#b756ff;font-weight:bold&#34;&gt;nil&lt;/span&gt;)))&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;
+The first element can be accessed with the &lt;code class=&#34;verbatim&#34;&gt;car&lt;/code&gt; function and the rest of the list with the &lt;code class=&#34;verbatim&#34;&gt;cdr&lt;/code&gt; function. 
+These can be chained, therefore, if you want the 3rd element of the aforementioned list, you&amp;#39;d write:&lt;/p&gt;
+&lt;div class=&#34;src src-emacs-lisp&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-emacs-lisp&#34; data-lang=&#34;emacs-lisp&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#00b1f7&#34;&gt;car&lt;/span&gt; (&lt;span style=&#34;color:#00b1f7&#34;&gt;cdr&lt;/span&gt; (&lt;span style=&#34;color:#00b1f7&#34;&gt;cdr&lt;/span&gt; (&lt;span style=&#34;color:#00b1f7&#34;&gt;list&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color:#d19a66&#34;&gt;3&lt;/span&gt;))))&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;(yes, there are prettier ways of doing this). &lt;/p&gt;
+&lt;p&gt;
+Additionally, you may sometimes see &amp;#34;list literals&amp;#34;, in the form of &lt;code class=&#34;verbatim&#34;&gt;&amp;#39;(1 2 3)&lt;/code&gt;. 
+These are the same as the version created by the &lt;code class=&#34;verbatim&#34;&gt;list&lt;/code&gt; function but are not modifiable.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;outline-container-headline-8&#34; class=&#34;outline-3&#34;&gt;
+&lt;h3 id=&#34;headline-8&#34;&gt;
+REPL and interactivity
+&lt;/h3&gt;
+&lt;div id=&#34;outline-text-headline-8&#34; class=&#34;outline-text-3&#34;&gt;
+&lt;p&gt;Emacs is an image-based program and is therefore (almost) completely interactive and introspectable. 
+Emacs consists of a small C core and millions of lines of Elisp, either as extensions or as libraries. 
+Every variable and line of code that is written in Elisp is modifiable at runtime (if you know what you&amp;#39;re doing), 
+meaning there&amp;#39;s no need to ever restart Emacs, but it might sometimes be easier. &lt;/p&gt;
+&lt;p&gt;
+Additionally, the help system automatically links to the definition of the current symbol being examined. 
+You can use this to view the definitons and default values of functions and variables, 
+but they&amp;#39;re not meant for editing, that should be done through the init file. Your interface to the Emacs image is the REPL. &lt;/p&gt;
+&lt;p&gt;
+There are two ways of accessing it: either the &lt;code class=&#34;verbatim&#34;&gt;eval-expression&lt;/code&gt; command or the &lt;code class=&#34;verbatim&#34;&gt;scratch&lt;/code&gt; buffer, 
+which is a more fully featured (but entirely text-based) REPL. &lt;code class=&#34;verbatim&#34;&gt;emacs-lisp-mode&lt;/code&gt; defines several 
+keybinds for loading code into the REPL. Note that if code is not loaded into the REPL, it does 
+not exist, as far as Emacs is concerned. Emacs will automatically load the init.el file at startup.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;outline-container-headline-9&#34; class=&#34;outline-3&#34;&gt;
+&lt;h3 id=&#34;headline-9&#34;&gt;
+Dependencies and loading
+&lt;/h3&gt;
+&lt;div id=&#34;outline-text-headline-9&#34; class=&#34;outline-text-3&#34;&gt;
+&lt;p&gt;When you load an elisp file into the REPL, all code in it will be loaded. Loading can be done in two ways: 
+either through the primitive &lt;code class=&#34;verbatim&#34;&gt;load&lt;/code&gt; function that simply takes a pathname string and loads the specified 
+file or through the feature system. Features are symbols that represent an elisp file. They&amp;#39;re defined 
+through &lt;code class=&#34;verbatim&#34;&gt;provide&lt;/code&gt; (usually put at the end of a file) and loaded through &lt;code class=&#34;verbatim&#34;&gt;require&lt;/code&gt;, which will search the 
+list of currently defined features and if it finds the requested one, loads the appropriate file. &lt;/p&gt;
+&lt;p&gt;
+Both are Elisp code and therefore will be executed upon loading, dealing with transitive dependencies. 
+If you want to use a certain feature of Emacs, you need to load the appropriate file first. 
+Say you want to configure the LSP client, Emacs, you need to first &lt;code class=&#34;verbatim&#34;&gt;(require &amp;#39;eglot)&lt;/code&gt; before setting variables.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</description>
+        </item>
+        <item>
+        <title>Direnv and Nix</title>
+        <link>https://justinlime.dev/p/nix/</link>
+        <pubDate>Wed, 06 Dec 2023 00:00:00 +0000</pubDate>
+        
+        <guid>https://justinlime.dev/p/nix/</guid>
+        <description>&lt;img src="https://justinlime.dev/p/nix/nix.png" alt="Featured image of post Direnv and Nix" /&gt;
+&lt;div id=&#34;outline-container-headline-1&#34; class=&#34;outline-2&#34;&gt;
+&lt;h2 id=&#34;headline-1&#34;&gt;
+Overview
+&lt;/h2&gt;
+&lt;div id=&#34;outline-text-headline-1&#34; class=&#34;outline-text-2&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://direnv.net/&#34;&gt;Direnv&lt;/a&gt; is a really nice tool for automatically loading ENV variables into your shell when
+entering a directory containing a &lt;code&gt;.envrc&lt;/code&gt; file. First things first, lets install &lt;a href=&#34;https://nixos.org/download&#34;&gt;Nix&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;outline-container-headline-2&#34; class=&#34;outline-2&#34;&gt;
+&lt;h2 id=&#34;headline-2&#34;&gt;
+Nix
+&lt;/h2&gt;
+&lt;div id=&#34;outline-text-headline-2&#34; class=&#34;outline-text-2&#34;&gt;
+&lt;p&gt;Nix is a cross-platform package manager, based on a purely functional langauge of the same name,
+with very up-to-date packages and is the largest package repository available.
+Nix can be used on any linux distribution, and even MacOS and WSL. &lt;/p&gt;
+&lt;p&gt;
+All packages installed with Nix are completely indendant of each-other, and will only share dependencies of other
+packages if their computed hash is the same (basically, if they&amp;#39;re expecting the exact same version). This means
+that &amp;#34;Dependency Hell&amp;#34; does not really exist using Nix. You can have multiple versions of the same package installed
+at the same time with Nix, like libraries and other dependencies.&lt;/p&gt;
+&lt;p&gt;
+After installing nix to your system, we need to allow the experimental features: &lt;code&gt;flake&lt;/code&gt; and &lt;code&gt;nix-command&lt;/code&gt;.
+To do this, we need to add a line to our &lt;code&gt;nix.conf&lt;/code&gt; file. This is typically found in &lt;code&gt;$XDG_CONFIG_HOME&lt;/code&gt;, which
+is usally &lt;code&gt;$HOME/.config&lt;/code&gt;. So, assuming this, you can run the following commad to enable these features:&lt;/p&gt;
+&lt;div class=&#34;src src-bash&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;mkdir -p &lt;span style=&#34;color:#dcaeea&#34;&gt;$HOME&lt;/span&gt;/.config/nix &lt;span style=&#34;color:#c7bf54&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span style=&#34;color:#ef8383&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;color:#63c381&#34;&gt;&amp;#34;extra-experimental-features = flakes nix-command&amp;#34;&lt;/span&gt; &amp;gt; &lt;span style=&#34;color:#dcaeea&#34;&gt;$HOME&lt;/span&gt;/.config/nix/nix.conf&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;outline-container-headline-3&#34; class=&#34;outline-2&#34;&gt;
+&lt;h2 id=&#34;headline-3&#34;&gt;
+Setting up you Dev Shell
+&lt;/h2&gt;
+&lt;div id=&#34;outline-text-headline-3&#34; class=&#34;outline-text-2&#34;&gt;
+&lt;p&gt;With both Direv and Nix (with flakes enabled) installed, we can setup out Dev enviroment.
+Firstly, our project must live in a Git repo. So lets create one.&lt;/p&gt;
+&lt;div class=&#34;src src-bash&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ef8383&#34;&gt;cd&lt;/span&gt; /your/project/directory
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;git init
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;git branch -m main
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8a93a5;font-style:italic&#34;&gt;# If these aren&amp;#39;t already set globally by you&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;git config user.email your_email_here
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;git config user.name your_name_here
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;touch flake.nix&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Now lets add some contents to our flake. With your favorite text editor, open your &lt;code&gt;flake.nix&lt;/code&gt;
+and drop in the following contents:&lt;/p&gt;
+&lt;div class=&#34;src src-nix&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-nix&#34; data-lang=&#34;nix&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#c1abea&#34;&gt;inputs&lt;/span&gt; &lt;span style=&#34;color:#c7bf54&#34;&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c1abea&#34;&gt;nixpkgs&lt;/span&gt;&lt;span style=&#34;color:#c7bf54&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#c1abea&#34;&gt;url&lt;/span&gt; &lt;span style=&#34;color:#c7bf54&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#63c381&#34;&gt;&amp;#34;github:nixos/nixpkgs/nixos-unstable&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  };
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#c1abea&#34;&gt;outputs&lt;/span&gt; &lt;span style=&#34;color:#c7bf54&#34;&gt;=&lt;/span&gt; { &lt;span style=&#34;color:#c1abea&#34;&gt;self&lt;/span&gt;&lt;span style=&#34;color:#c7bf54&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#c1abea&#34;&gt;nixpkgs&lt;/span&gt; }: 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;let&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#c1abea&#34;&gt;forAllSystems&lt;/span&gt; &lt;span style=&#34;color:#c7bf54&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#c1abea&#34;&gt;function&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#c1abea&#34;&gt;nixpkgs&lt;/span&gt;&lt;span style=&#34;color:#c7bf54&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#c1abea&#34;&gt;lib&lt;/span&gt;&lt;span style=&#34;color:#c7bf54&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#c1abea&#34;&gt;genAttrs&lt;/span&gt; [
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          &lt;span style=&#34;color:#63c381&#34;&gt;&amp;#34;x86_64-linux&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          &lt;span style=&#34;color:#63c381&#34;&gt;&amp;#34;x86_64-darwin&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          &lt;span style=&#34;color:#63c381&#34;&gt;&amp;#34;aarch64-linux&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        ] (&lt;span style=&#34;color:#c1abea&#34;&gt;system&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          &lt;span style=&#34;color:#c1abea&#34;&gt;function&lt;/span&gt; (&lt;span style=&#34;color:#c678dd&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#c1abea&#34;&gt;nixpkgs&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#c678dd&#34;&gt;inherit&lt;/span&gt; &lt;span style=&#34;color:#c1abea&#34;&gt;system&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          }));
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#c678dd&#34;&gt;in&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#c1abea&#34;&gt;devShells&lt;/span&gt; &lt;span style=&#34;color:#c7bf54&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#c1abea&#34;&gt;forAllSystems&lt;/span&gt; (&lt;span style=&#34;color:#c1abea&#34;&gt;pkgs&lt;/span&gt;: {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#c1abea&#34;&gt;default&lt;/span&gt; &lt;span style=&#34;color:#c7bf54&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#c1abea&#34;&gt;pkgs&lt;/span&gt;&lt;span style=&#34;color:#c7bf54&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#c1abea&#34;&gt;mkShell&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          &lt;span style=&#34;color:#c1abea&#34;&gt;packages&lt;/span&gt; &lt;span style=&#34;color:#c7bf54&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#c678dd&#34;&gt;with&lt;/span&gt; &lt;span style=&#34;color:#c1abea&#34;&gt;pkgs&lt;/span&gt;; [
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#c1abea&#34;&gt;gcc&lt;/span&gt; &lt;span style=&#34;color:#8a93a5;font-style:italic&#34;&gt;# Packages to be added for you dev shell here&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          ];
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          &lt;span style=&#34;color:#c1abea&#34;&gt;shellHook&lt;/span&gt; &lt;span style=&#34;color:#c7bf54&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#98c379&#34;&gt;&amp;#39;&amp;#39;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;            clear
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;            echo &amp;#34;DevShell Activated&amp;#34;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#98c379&#34;&gt;          &amp;#39;&amp;#39;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        };
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      });
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    };
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;If you&amp;#39;ve never used nix, this may look confusing, but the gist of what this is doing, is defining a &lt;code&gt;default&lt;/code&gt;
+dev shell with the listed packages (in this case just &lt;code&gt;gcc&lt;/code&gt;) installed to the shell&amp;#39;s environment. The &lt;code&gt;shellHook&lt;/code&gt;
+is a shell script that gets run when entering our shell.&lt;/p&gt;
+&lt;p&gt;
+Now that we have our flake, save the changes and add it to the git repo:&lt;/p&gt;
+&lt;div class=&#34;src src-bash&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;git add flake.nix&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;We can test it out now by running &lt;code&gt;nix develop&lt;/code&gt; in the project directory.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;outline-container-headline-4&#34; class=&#34;outline-2&#34;&gt;
+&lt;h2 id=&#34;headline-4&#34;&gt;
+Setting up Direnv
+&lt;/h2&gt;
+&lt;div id=&#34;outline-text-headline-4&#34; class=&#34;outline-text-2&#34;&gt;
+&lt;p&gt;Now that we have our development shell created and ready to use, we can have &lt;code&gt;direnv&lt;/code&gt; automatically activate
+this shell environment when we enter the directory. To do this, we&amp;#39;ll add a &lt;code&gt;.envrc&lt;/code&gt; file with the line
+&lt;code&gt;use flakes&lt;/code&gt; to the root of our repository/directory. Afterwards, we need to allow/give permission for
+this directory to activate with direnv. For this, we use the command: &lt;code&gt;direnv allow&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;
+Heres a one-liner for this:&lt;/p&gt;
+&lt;div class=&#34;src src-bash&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ef8383&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;color:#63c381&#34;&gt;&amp;#34;use flake&amp;#34;&lt;/span&gt; &amp;gt; .envrc &lt;span style=&#34;color:#c7bf54&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; direnv allow&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;outline-container-headline-5&#34; class=&#34;outline-2&#34;&gt;
+&lt;h2 id=&#34;headline-5&#34;&gt;
+Heres a One Shot
+&lt;/h2&gt;
+&lt;div id=&#34;outline-text-headline-5&#34; class=&#34;outline-text-2&#34;&gt;
+&lt;p&gt;Ive created a template for the flake mentioned above, this template can be used
+to bootstrap and cover the boilerplate needed for a basic flake.&lt;/p&gt;
+&lt;p&gt;
+So long as you have nix installed, flakes enabled, and a git repo, heres a nice
+copy-paste to do everything I&amp;#39;ve mentioned above. &lt;/p&gt;
+&lt;div class=&#34;src src-bash&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;git init &lt;span style=&#34;color:#c7bf54&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span style=&#34;color:#d26464;font-weight:bold&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#d26464;font-weight:bold&#34;&gt;&lt;/span&gt;nix flake init --template github:justinlime/devflakes#generic &lt;span style=&#34;color:#c7bf54&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span style=&#34;color:#d26464;font-weight:bold&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#d26464;font-weight:bold&#34;&gt;&lt;/span&gt;nix flake lock &lt;span style=&#34;color:#c7bf54&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span style=&#34;color:#d26464;font-weight:bold&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#d26464;font-weight:bold&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ef8383&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;color:#63c381&#34;&gt;&amp;#34;use flake&amp;#34;&lt;/span&gt; &amp;gt; .envrc &lt;span style=&#34;color:#c7bf54&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span style=&#34;color:#d26464;font-weight:bold&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#d26464;font-weight:bold&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#ef8383&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;color:#63c381&#34;&gt;&amp;#34;.direnv/&amp;#34;&lt;/span&gt; &amp;gt;&amp;gt; .gitignore &lt;span style=&#34;color:#c7bf54&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span style=&#34;color:#d26464;font-weight:bold&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#d26464;font-weight:bold&#34;&gt;&lt;/span&gt;git add flake.nix flake.lock .gitignore .envrc &lt;span style=&#34;color:#c7bf54&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span style=&#34;color:#d26464;font-weight:bold&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#d26464;font-weight:bold&#34;&gt;&lt;/span&gt;direnv allow&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;The snippet above does the following:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Creates a Git Repo in the directory if one doesn&amp;#39;t exist&lt;/li&gt;
+&lt;li&gt;Creates a &lt;code&gt;flake.nix&lt;/code&gt; based on my template&lt;/li&gt;
+&lt;li&gt;Creates a &lt;code&gt;flake.lock&lt;/code&gt; for said flake, which locks the packages for maximum reproducibility&lt;/li&gt;
+&lt;li&gt;Creates a &lt;code&gt;.envrc&lt;/code&gt; for direnv integration&lt;/li&gt;
+&lt;li&gt;Appends &lt;code&gt;.gitignore&lt;/code&gt; to ignore the auto-generated &lt;code&gt;.direnv&lt;/code&gt; directory&lt;/li&gt;
+&lt;li&gt;Adds all the created files to be staged for commit&lt;/li&gt;
+&lt;li&gt;Activates direnv for the directory&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Happy Deving!&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

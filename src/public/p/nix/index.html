@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='Setting up project dev environments with Nix Shell and Direnv'>
+<title>Direnv and Nix</title>
+
+<link rel='canonical' href='https://justinlime.dev/p/nix/'>
+
+<link rel="stylesheet" href="/scss/style.min.abbd69b2908fdfcd5179898beaafd374514a86538d81639ddd2c58c06ae54e40.css"><meta property='og:title' content='Direnv and Nix'>
+<meta property='og:description' content='Setting up project dev environments with Nix Shell and Direnv'>
+<meta property='og:url' content='https://justinlime.dev/p/nix/'>
+<meta property='og:site_name' content='Justinlime&#39;s Dev Blog'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2023-12-06T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2023-12-06T00:00:00&#43;00:00'/><meta property='og:image' content='https://justinlime.dev/p/nix/nix.png' />
+<meta name="twitter:title" content="Direnv and Nix">
+<meta name="twitter:description" content="Setting up project dev environments with Nix Shell and Direnv"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://justinlime.dev/p/nix/nix.png' />
+    <link rel="shortcut icon" href="/favicon.png" />
+
+
+<link rel="stylesheet" href="/style/fonts">
+
+<link rel="stylesheet" href="/style/style.css">
+
+
+
+
+<script src="/js/fullscreen_img.js" defer></script>
+
+
+
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            localStorage.setItem(colorSchemeKey, "dark");
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hub98aea8839092a4f4fab94e1a10031ab_24915_300x0_resize_box_3.png" width="300"
+                            height="290" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🗿</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">Justinlime&#39;s Dev Blog</a></h1>
+            <h2 class="site-description">  To all lawyers: everything I say or
+  write about is satire.
+</h2>
+        </div>
+    </header><ol class="social-menu">
+            
+                <li>
+                    <a 
+                        href='https://github.com/justinlime'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+            
+            
+        </div>
+    </ol>
+</aside>
+
+    
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/nix/">
+                <img src="/p/nix/nix_hu8401412b500aa3e1a123550dda49eaae_42187_800x0_resize_box_3.png"
+                        srcset="/p/nix/nix_hu8401412b500aa3e1a123550dda49eaae_42187_800x0_resize_box_3.png 800w, /p/nix/nix_hu8401412b500aa3e1a123550dda49eaae_42187_1600x0_resize_box_3.png 1600w"
+                        width="800" 
+                        height="450" 
+                        loading="lazy"
+                        alt="Featured image of post Direnv and Nix" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/linux/" style="background-color: #cba6f7; color: #11111B;">
+                Linux
+            </a>
+        
+            <a href="/categories/development/" style="background-color: #a6e3a1; color: #11111B;">
+                Development
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/nix/">Direnv and Nix</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            Setting up project dev environments with Nix Shell and Direnv
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Dec 06, 2023</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    4 minute read
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    
+<div id="outline-container-headline-1" class="outline-2">
+<h2 id="headline-1">
+Overview
+</h2>
+<div id="outline-text-headline-1" class="outline-text-2">
+<p><a href="https://direnv.net/">Direnv</a> is a really nice tool for automatically loading ENV variables into your shell when
+entering a directory containing a <code>.envrc</code> file. First things first, lets install <a href="https://nixos.org/download">Nix</a>.</p>
+</div>
+</div>
+<div id="outline-container-headline-2" class="outline-2">
+<h2 id="headline-2">
+Nix
+</h2>
+<div id="outline-text-headline-2" class="outline-text-2">
+<p>Nix is a cross-platform package manager, based on a purely functional langauge of the same name,
+with very up-to-date packages and is the largest package repository available.
+Nix can be used on any linux distribution, and even MacOS and WSL. </p>
+<p>
+All packages installed with Nix are completely indendant of each-other, and will only share dependencies of other
+packages if their computed hash is the same (basically, if they&#39;re expecting the exact same version). This means
+that &#34;Dependency Hell&#34; does not really exist using Nix. You can have multiple versions of the same package installed
+at the same time with Nix, like libraries and other dependencies.</p>
+<p>
+After installing nix to your system, we need to allow the experimental features: <code>flake</code> and <code>nix-command</code>.
+To do this, we need to add a line to our <code>nix.conf</code> file. This is typically found in <code>$XDG_CONFIG_HOME</code>, which
+is usally <code>$HOME/.config</code>. So, assuming this, you can run the following commad to enable these features:</p>
+<div class="src src-bash">
+<div class="highlight"><pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir -p <span style="color:#dcaeea">$HOME</span>/.config/nix <span style="color:#c7bf54">&amp;&amp;</span> <span style="color:#ef8383">echo</span> <span style="color:#63c381">&#34;extra-experimental-features = flakes nix-command&#34;</span> &gt; <span style="color:#dcaeea">$HOME</span>/.config/nix/nix.conf</span></span></code></pre></div>
+</div>
+</div>
+</div>
+<div id="outline-container-headline-3" class="outline-2">
+<h2 id="headline-3">
+Setting up you Dev Shell
+</h2>
+<div id="outline-text-headline-3" class="outline-text-2">
+<p>With both Direv and Nix (with flakes enabled) installed, we can setup out Dev enviroment.
+Firstly, our project must live in a Git repo. So lets create one.</p>
+<div class="src src-bash">
+<div class="highlight"><pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#ef8383">cd</span> /your/project/directory
+</span></span><span style="display:flex;"><span>git init
+</span></span><span style="display:flex;"><span>git branch -m main
+</span></span><span style="display:flex;"><span><span style="color:#8a93a5;font-style:italic"># If these aren&#39;t already set globally by you</span>
+</span></span><span style="display:flex;"><span>git config user.email your_email_here
+</span></span><span style="display:flex;"><span>git config user.name your_name_here
+</span></span><span style="display:flex;"><span>touch flake.nix</span></span></code></pre></div>
+</div>
+<p>Now lets add some contents to our flake. With your favorite text editor, open your <code>flake.nix</code>
+and drop in the following contents:</p>
+<div class="src src-nix">
+<div class="highlight"><pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-nix" data-lang="nix"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#c1abea">inputs</span> <span style="color:#c7bf54">=</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#c1abea">nixpkgs</span><span style="color:#c7bf54">.</span><span style="color:#c1abea">url</span> <span style="color:#c7bf54">=</span> <span style="color:#63c381">&#34;github:nixos/nixpkgs/nixos-unstable&#34;</span>;
+</span></span><span style="display:flex;"><span>  };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#c1abea">outputs</span> <span style="color:#c7bf54">=</span> { <span style="color:#c1abea">self</span><span style="color:#c7bf54">,</span> <span style="color:#c1abea">nixpkgs</span> }: 
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">let</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#c1abea">forAllSystems</span> <span style="color:#c7bf54">=</span> <span style="color:#c1abea">function</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#c1abea">nixpkgs</span><span style="color:#c7bf54">.</span><span style="color:#c1abea">lib</span><span style="color:#c7bf54">.</span><span style="color:#c1abea">genAttrs</span> [
+</span></span><span style="display:flex;"><span>          <span style="color:#63c381">&#34;x86_64-linux&#34;</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#63c381">&#34;x86_64-darwin&#34;</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#63c381">&#34;aarch64-linux&#34;</span>
+</span></span><span style="display:flex;"><span>        ] (<span style="color:#c1abea">system</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#c1abea">function</span> (<span style="color:#c678dd">import</span> <span style="color:#c1abea">nixpkgs</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#c678dd">inherit</span> <span style="color:#c1abea">system</span>;
+</span></span><span style="display:flex;"><span>          }));
+</span></span><span style="display:flex;"><span>    <span style="color:#c678dd">in</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#c1abea">devShells</span> <span style="color:#c7bf54">=</span> <span style="color:#c1abea">forAllSystems</span> (<span style="color:#c1abea">pkgs</span>: {
+</span></span><span style="display:flex;"><span>        <span style="color:#c1abea">default</span> <span style="color:#c7bf54">=</span> <span style="color:#c1abea">pkgs</span><span style="color:#c7bf54">.</span><span style="color:#c1abea">mkShell</span> {
+</span></span><span style="display:flex;"><span>          <span style="color:#c1abea">packages</span> <span style="color:#c7bf54">=</span> <span style="color:#c678dd">with</span> <span style="color:#c1abea">pkgs</span>; [
+</span></span><span style="display:flex;"><span>            <span style="color:#c1abea">gcc</span> <span style="color:#8a93a5;font-style:italic"># Packages to be added for you dev shell here</span>
+</span></span><span style="display:flex;"><span>          ];
+</span></span><span style="display:flex;"><span>          <span style="color:#c1abea">shellHook</span> <span style="color:#c7bf54">=</span> <span style="color:#98c379">&#39;&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#98c379">            clear
+</span></span></span><span style="display:flex;"><span><span style="color:#98c379">            echo &#34;DevShell Activated&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#98c379">          &#39;&#39;</span>;
+</span></span><span style="display:flex;"><span>        };
+</span></span><span style="display:flex;"><span>      });
+</span></span><span style="display:flex;"><span>    };
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div>
+</div>
+<p>If you&#39;ve never used nix, this may look confusing, but the gist of what this is doing, is defining a <code>default</code>
+dev shell with the listed packages (in this case just <code>gcc</code>) installed to the shell&#39;s environment. The <code>shellHook</code>
+is a shell script that gets run when entering our shell.</p>
+<p>
+Now that we have our flake, save the changes and add it to the git repo:</p>
+<div class="src src-bash">
+<div class="highlight"><pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git add flake.nix</span></span></code></pre></div>
+</div>
+<p>We can test it out now by running <code>nix develop</code> in the project directory.</p>
+</div>
+</div>
+<div id="outline-container-headline-4" class="outline-2">
+<h2 id="headline-4">
+Setting up Direnv
+</h2>
+<div id="outline-text-headline-4" class="outline-text-2">
+<p>Now that we have our development shell created and ready to use, we can have <code>direnv</code> automatically activate
+this shell environment when we enter the directory. To do this, we&#39;ll add a <code>.envrc</code> file with the line
+<code>use flakes</code> to the root of our repository/directory. Afterwards, we need to allow/give permission for
+this directory to activate with direnv. For this, we use the command: <code>direnv allow</code></p>
+<p>
+Heres a one-liner for this:</p>
+<div class="src src-bash">
+<div class="highlight"><pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#ef8383">echo</span> <span style="color:#63c381">&#34;use flake&#34;</span> &gt; .envrc <span style="color:#c7bf54">&amp;&amp;</span> direnv allow</span></span></code></pre></div>
+</div>
+</div>
+</div>
+<div id="outline-container-headline-5" class="outline-2">
+<h2 id="headline-5">
+Heres a One Shot
+</h2>
+<div id="outline-text-headline-5" class="outline-text-2">
+<p>Ive created a template for the flake mentioned above, this template can be used
+to bootstrap and cover the boilerplate needed for a basic flake.</p>
+<p>
+So long as you have nix installed, flakes enabled, and a git repo, heres a nice
+copy-paste to do everything I&#39;ve mentioned above. </p>
+<div class="src src-bash">
+<div class="highlight"><pre tabindex="0" style="color:#b0c4de;background-color:#282c34;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git init <span style="color:#c7bf54">&amp;&amp;</span> <span style="color:#d26464;font-weight:bold">\
+</span></span></span><span style="display:flex;"><span><span style="color:#d26464;font-weight:bold"></span>nix flake init --template github:justinlime/devflakes#generic <span style="color:#c7bf54">&amp;&amp;</span> <span style="color:#d26464;font-weight:bold">\
+</span></span></span><span style="display:flex;"><span><span style="color:#d26464;font-weight:bold"></span>nix flake lock <span style="color:#c7bf54">&amp;&amp;</span> <span style="color:#d26464;font-weight:bold">\
+</span></span></span><span style="display:flex;"><span><span style="color:#d26464;font-weight:bold"></span><span style="color:#ef8383">echo</span> <span style="color:#63c381">&#34;use flake&#34;</span> &gt; .envrc <span style="color:#c7bf54">&amp;&amp;</span> <span style="color:#d26464;font-weight:bold">\
+</span></span></span><span style="display:flex;"><span><span style="color:#d26464;font-weight:bold"></span><span style="color:#ef8383">echo</span> <span style="color:#63c381">&#34;.direnv/&#34;</span> &gt;&gt; .gitignore <span style="color:#c7bf54">&amp;&amp;</span> <span style="color:#d26464;font-weight:bold">\
+</span></span></span><span style="display:flex;"><span><span style="color:#d26464;font-weight:bold"></span>git add flake.nix flake.lock .gitignore .envrc <span style="color:#c7bf54">&amp;&amp;</span> <span style="color:#d26464;font-weight:bold">\
+</span></span></span><span style="display:flex;"><span><span style="color:#d26464;font-weight:bold"></span>direnv allow</span></span></code></pre></div>
+</div>
+<p>The snippet above does the following:</p>
+<ul>
+<li>Creates a Git Repo in the directory if one doesn&#39;t exist</li>
+<li>Creates a <code>flake.nix</code> based on my template</li>
+<li>Creates a <code>flake.lock</code> for said flake, which locks the packages for maximum reproducibility</li>
+<li>Creates a <code>.envrc</code> for direnv integration</li>
+<li>Appends <code>.gitignore</code> to ignore the auto-generated <code>.direnv</code> directory</li>
+<li>Adds all the created files to be staged for commit</li>
+<li>Activates direnv for the directory</li>
+</ul>
+<p>Happy Deving!</p>
+</div>
+</div>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">Related content</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/nvim-to-emacs/">
+        
+        
+            <div class="article-image">
+                <img src="/p/nvim-to-emacs/emacs.fac755d6d9d94215006d3d364acf7d79_hud38e09e8a3fe070f9cfcb38e316e9137_7480_250x150_fill_box_smart1_3.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Switching from Neovim to Emacs"
+                        data-key="nvim-to-emacs" 
+                        data-hash="md5-&#43;sdV1tnZQhUAbT02Ss99eQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Switching from Neovim to Emacs</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/emacs-crash-course/">
+        
+        
+            <div class="article-image">
+                <img src="/p/emacs-crash-course/stallman.a06288b8ccd30d2238f1593a8f6e8adf_huf63ab074f8bc0286d608269ec9aaca25_952069_250x150_fill_q75_box_smart1.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Emacs and Elisp Crash Course"
+                        data-key="emacs-crash-course" 
+                        data-hash="md5-oGKIuMzTDSI48Vk6j26K3w==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Emacs and Elisp Crash Course</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2023 - 
+        
+        2024 Justinlime&#39;s Dev Blog
+    </section>
+    <section class="powerby">
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>
