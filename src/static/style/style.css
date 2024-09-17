@@ -1,0 +1,238 @@
+/*************** Declarations ***************/
+@font-face {
+    font-family: firasans;
+    src: url("fonts/FiraFlex/FiraSans-Regular.ttf") format("truetype");
+    font-weight: normal;
+}
+@font-face {
+    font-family: firasans;
+    src: url("fonts/FiraFlex/FiraSans-SemiBold.ttf") format("truetype");
+    font-weight: semi-bold;
+}
+@font-face {
+    font-family: firasans;
+    src: url("fonts/FiraFlex/FiraSans-Bold.ttf") format("truetype");
+    font-weight: bold;
+}
+@font-face {
+    font-family: firacode;
+    src: url("fonts/FiraCodeNF/FiraCodeNerdFontMono-Regular.ttf") format("truetype");
+    font-weight: normal;
+}
+@font-face {
+    font-family: firacode;
+    src: url("fonts/FiraCodeNF/FiraCodeNerdFontMono-SemiBold.ttf") format("truetype");
+    font-weight: semi-bold;
+}
+@font-face {
+    font-family: firacode;
+    src: url("fonts/FiraCodeNF/FiraCodeNerdFontMono-Bold.ttf") format("truetype");
+    font-weight: bold;
+}
+:root{
+    font-family: firasans,sans-serif;
+    --bg0: #11111B;
+    --bg1: #181825;
+    --bg2: #1e1e2e;
+    --sur0: #313244;
+    --sur1: #45475a;
+    --sur2: #585B70;
+    --out1: #CBA6F7;
+    --out2: #51afef;
+    --out3: #a991f1;
+    --out4: #7cc3f3;
+    --out5: #d39ce3;
+    --text: #cdd6f4;
+    color: var(--text);
+    font-size: 11px;
+    /* overrides */
+    --body-background: var(--bg0) !important;
+    --card-background: var(--sur0) !important;
+    --base-font-family: firasans,sans-serif !important;
+}
+
+/* general */
+aside > header {
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--sur0);
+    padding: 1.5rem !important;
+    border-radius: 2rem;
+}
+.site-name {
+    font-size: 2.5rem !important;
+    margin-bottom: 1rem !important;
+}
+.emoji {
+    background-color: var(--bg0) !important;
+}
+.social-menu svg {
+    width: 3.25rem !important;
+    height: 3.25rem !important;
+}
+.social-menu {
+    justify-content: center;
+    margin-bottom: 2.5rem;
+}
+#main-menu svg {
+    width: 2.5rem !important;
+    height: 2.5rem !important;
+}
+#main-menu {
+    font-size: 2rem;
+}
+
+/* Headline levels */
+[id*=headline] > h2, [id*=headline] > h3,
+[id*=headline] > h4, [id*=headline] > h5,
+[id*=headline] > h6 {
+    color: #cdd6f4;
+}
+[id*=headline] > h2 {
+    border-left-color: var(--out1);
+    font-size: 3.25rem;
+    color: var(--out1);
+    background: linear-gradient(to right, var(--bg0), rgba(255, 255, 255, 0));
+}
+[id*=headline] > h3 {
+    border-left-color: var(--out2);
+    font-size: 3rem;
+    color: var(--out2);
+    background: linear-gradient(to right, var(--bg0), rgba(255, 255, 255, 0) 65%);
+}
+[id*=headline] > h4 {
+    border-left-color: var(--out3);
+    font-size: 2.75rem;
+    color: var(--out3);
+    background: linear-gradient(to right, var(--bg0), rgba(255, 255, 255, 0) 45%);
+}
+[id*=headline] > h5 {
+    border-left-color: var(--out4);
+    font-size: 2.5rem;
+    color: var(--out4);
+    background: linear-gradient(to right, var(--bg0), rgba(255, 255, 255, 0) 25%);
+}
+[id*=headline] > h6 {
+    font-size: 2.25rem;
+    border-left-color: #cdd6f4;
+}
+
+
+/* Table of Contents stuff */
+#TableOfContents a {
+    color: #89b4fa;
+    transition: .4s;
+}
+
+/* the article itself */
+.article-title {
+    font-size: 3.75rem;
+}
+.article-details * {
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.section-title {
+    color: #cba6f7;
+}
+.article-title a {
+    color: 	#cdd6f4;    
+    transition: .4s;
+}
+
+.article-content img {
+    max-height: 40rem;
+    border-radius: 2rem;
+    display: block;
+    padding: 1rem 0;
+}
+
+p > a, li > a, ul > a {
+    color: #89b4fa;
+    transition: .4s;
+}
+p > a:hover, li > a:hover , ul > a:hover ,.article-title a:hover, #TableOfContents a:hover {
+    color: brown;
+}
+
+/* Fully stetch background for src blocks */
+.src > .highlight {
+    background-color: var(--bg0);
+    width: inherit;
+    margin: inherit;
+    border-radius: 0.75rem;
+    font-weight: 500;
+    overflow-x: auto;
+}
+
+/* code blocks */
+.src span{
+    background-color: var(--bg0);
+}
+.src pre, .example {
+    border-radius: 0.5rem;
+    background-color: var(--bg0) !important;
+    padding: 1.25rem;
+    overflow-x: auto;
+}
+.src * {
+    font-family: firacode,sans-serif;
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+body::-webkit-scrollbar, 
+.example::-webkit-scrollbar, 
+.src pre::-webkit-scrollbar {
+    width: 0.5rem; /* Width of the scrollbar */
+    height: 0.5rem;
+}
+
+.example::-webkit-scrollbar-track, 
+.src pre::-webkit-scrollbar-track {
+    background: var(--bg0); /* Background color of the track */
+}
+
+body::-webkit-scrollbar-track {
+    background: var(--bg0);
+} 
+
+body::-webkit-scrollbar-thumb, 
+.example::-webkit-scrollbar-thumb, 
+.src pre::-webkit-scrollbar-thumb {
+  background: var(--sur1); /* Color of the scroll thumb */
+  border-radius: 1rem; /* Rounded corners for the thumb */
+}
+
+body::-webkit-scrollbar-thumb:hover, 
+.example::-webkit-scrollbar-thumb:hover, 
+.src pre::-webkit-scrollbar-thumb:hover {
+  background: var(--sur2); /* Color of the scroll thumb */
+}
+
+
+/* code bricks  */
+code:not(pre code):not(.statistic):not(.verbatim) {
+    font-family: firacode,sans-serif;
+    background: var(--bg0) !important;
+    border-radius: 0.3rem;
+    padding: 0.2rem 0.45rem 0.2rem 0.45rem;
+    font-size: 1.5rem;
+    color: #F38BA8;
+    font-weight: normal;
+}
+
+code:not(pre code):not(.statistic) {
+    font-family: firasans;
+    color: #a6e3a1;
+    font-weight: bold;
+    background-color: transparent !important;
+}
+
+/* lists */
+dt {
+    font-size: 2.5rem;
+}

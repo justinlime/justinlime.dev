@@ -1,0 +1,125 @@
+---
+title: Direnv and Nix
+description: Setting up project dev environments with Nix Shell and Direnv
+slug: nix
+date: 2023-12-06 00:00:00+0000
+image: nix.png
+toc: false
+categories:
+    - Linux
+    - Development
+#tags:
+#    - Example Tag
+---
+* Overview
+[[https://direnv.net/][Direnv]] is a really nice tool for automatically loading ENV variables into your shell when
+entering a directory containing a ~.envrc~ file. First things first, lets install [[https://nixos.org/download][Nix]].
+
+* Nix
+Nix is a cross-platform package manager, based on a purely functional langauge of the same name,
+with very up-to-date packages and is the largest package repository available.
+Nix can be used on any linux distribution, and even MacOS and WSL. 
+
+All packages installed with Nix are completely indendant of each-other, and will only share dependencies of other
+packages if their computed hash is the same (basically, if they're expecting the exact same version). This means
+that "Dependency Hell" does not really exist using Nix. You can have multiple versions of the same package installed
+at the same time with Nix, like libraries and other dependencies.
+
+After installing nix to your system, we need to allow the experimental features: ~flake~ and ~nix-command~.
+To do this, we need to add a line to our ~nix.conf~ file. This is typically found in ~$XDG_CONFIG_HOME~, which
+is usally ~$HOME/.config~. So, assuming this, you can run the following commad to enable these features:
+#+begin_src bash
+mkdir -p $HOME/.config/nix && echo "extra-experimental-features = flakes nix-command" > $HOME/.config/nix/nix.conf
+#+end_src
+
+* Setting up you Dev Shell
+With both Direv and Nix (with flakes enabled) installed, we can setup out Dev enviroment.
+Firstly, our project must live in a Git repo. So lets create one.
+#+begin_src bash
+cd /your/project/directory
+git init
+git branch -m main
+# If these aren't already set globally by you
+git config user.email your_email_here
+git config user.name your_name_here
+touch flake.nix
+#+end_src
+Now lets add some contents to our flake. With your favorite text editor, open your ~flake.nix~
+and drop in the following contents:
+#+begin_src nix
+{
+  inputs = {
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+  };
+
+  outputs = { self, nixpkgs }: 
+    let
+      forAllSystems = function:
+        nixpkgs.lib.genAttrs [
+          "x86_64-linux"
+          "x86_64-darwin"
+          "aarch64-linux"
+        ] (system:
+          function (import nixpkgs {
+            inherit system;
+          }));
+    in {
+      devShells = forAllSystems (pkgs: {
+        default = pkgs.mkShell {
+          packages = with pkgs; [
+            gcc # Packages to be added for you dev shell here
+          ];
+          shellHook = ''
+            clear
+            echo "DevShell Activated"
+          '';
+        };
+      });
+    };
+}
+#+end_src
+If you've never used nix, this may look confusing, but the gist of what this is doing, is defining a ~default~
+dev shell with the listed packages (in this case just ~gcc~) installed to the shell's environment. The ~shellHook~
+is a shell script that gets run when entering our shell.
+
+Now that we have our flake, save the changes and add it to the git repo:
+#+begin_src bash
+git add flake.nix
+#+end_src
+We can test it out now by running ~nix develop~ in the project directory.
+
+* Setting up Direnv
+Now that we have our development shell created and ready to use, we can have ~direnv~ automatically activate
+this shell environment when we enter the directory. To do this, we'll add a ~.envrc~ file with the line
+~use flakes~ to the root of our repository/directory. Afterwards, we need to allow/give permission for
+this directory to activate with direnv. For this, we use the command: ~direnv allow~
+
+Heres a one-liner for this:
+#+begin_src bash
+echo "use flake" > .envrc && direnv allow
+#+end_src
+* Heres a One Shot
+Ive created a template for the flake mentioned above, this template can be used
+to bootstrap and cover the boilerplate needed for a basic flake.
+
+So long as you have nix installed, flakes enabled, and a git repo, heres a nice
+copy-paste to do everything I've mentioned above. 
+#+begin_src bash
+git init && \
+nix flake init --template github:justinlime/devflakes#generic && \
+nix flake lock && \
+echo "use flake" > .envrc && \
+echo ".direnv/" >> .gitignore && \
+git add flake.nix flake.lock .gitignore .envrc && \
+direnv allow
+#+end_src
+The snippet above does the following:
+ - Creates a Git Repo in the directory if one doesn't exist
+ - Creates a ~flake.nix~ based on my template
+ - Creates a ~flake.lock~ for said flake, which locks the packages for maximum reproducibility
+ - Creates a ~.envrc~ for direnv integration
+ - Appends ~.gitignore~ to ignore the auto-generated ~.direnv~ directory
+ - Adds all the created files to be staged for commit
+ - Activates direnv for the directory
+
+ Happy Deving!

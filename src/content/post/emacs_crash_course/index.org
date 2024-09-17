@@ -1,0 +1,129 @@
+---
+title: Emacs and Elisp Crash Course
+description: Emacs and Elisp Crash Course, written by Gerogaga
+slug: emacs-crash-course
+date: 2024-04-26 
+image: stallman.jpg
+toc: true
+categories:
+    - Linux
+    - Development
+---
+
+* Emacs
+Emacs is configured exclusively through code, *99% of which is elisp code*. 
+See section 2 under elisp for why this is important. By default, 
+Emacs uses keychords. Due to the prevalence of modifier keys, these have a 
+special notation, using shortened aliases, for example =C-c g=. Refer to the 
+Emacs tutorial for an explanation. 
+
+This notation can be transformed into an elisp 
+object via the =kbd= macro. All but the last key pressed are prefixes, "branches" 
+in the keybindings where you have several other keys to choose from after pressing 
+them. The most important prefix is C-c, as this, by convention, contains all 
+user-defined keybindings. 
+
+For a list of common/mandatory keybindings 
+(including navigation, buffer and window management, and others), refer to the 
+Emacs tutorial. Emacs offers various GUI interfaces for configuration 
+(installing packages, setting options, etc), however these insert code into your 
+init file, and are not opaque state.
+
+** General tips for beginners
++ Try to stick to built-in functionality wherever possible at the beginning.
++ Try to avoid the use of DSLs/complex macros (i.e. use-package).
++ Emacs has a built-in package manager, I recommend enabling the [[https://melpa.org/#/getting-started][MELPA]] community repo.
+
+* Elisp
+Elisp is based on s-expressions, the syntax for which is =(function-name arg1 arg2 ...)=. 
+This syntax is based on lists, to be covered in 2.3. As the name suggests, everything is an 
+expression, and thus every s-expression returns a value. Variables are evaluated via their name. 
+That means that =foo= is both valid elisp and will evaluate the variable =foo= and return its value. 
+The language makes no distinction between functions, macros and operators, everything is 
+called in the s-expression form. 
+
+Elisp (and lisps in general) use kebab-case names. Naming conventions include stars ("earmuffs") around 
+the name of global variables and plus signs around the names of constants. There are no "decorators" for 
+function names and local variable names. Additionally, there are two special variables, =t= 
+(analoguous to true) and =nil=, which is analogous to both false and NULL in other languages.
+
+** Functions
+Functions are defined with the =defun= macro (or =lambda= for anonymous functions) 
+and have certain special properties. 
+
+Firstly, they have 3 types of arguments: required, optional and rest arguments. The first 2 are self-explanatory, 
+the 3rd collects all extra arguments passed into one list (similiar to variadic arguments). 
+
+Secondly, they have docstrings. Since functions work on lists (their body is a rest argument), 
+their definitions are composed of forms. Forms are either s-expressions or Lisp objects. If the 
+first form is a string and there are other forms, it becomes a docstring and will be available 
+through the help facility (again, refer to the Emacs tutorial for the usage of said help facility). 
+
+The last form of a function body will be automatically returned (of course, early returns are possible), 
+hence the necessity for further forms. The third special property of functions is the =interactive= 
+specifier. It defines that the function is a command (callable through =execute-extended-command= and via keybindings) 
+and defines how it's arguments are supplied by the user.
+
+** Data types and symbols
+Elisp is strongly typed, if you pass a wrong type to a function, you'll receive an error. 
+However, it is also dynamically typed, meaning that values themselves have types (such as numbers and strings), 
+not variables. Generally, types are what you'd expect from any other language, with two exceptions: 
+the Lisp-specific data types, symbol and cons.
+
+*** Symbols and quoting
+Symbols are similiar to identifiers	in other languages. The chief difference is that unlike in other languages, 
+you can operate on symbols. This done through the quoting mechanism. Ordinarily, when you call an identifier, 
+it will evaluate to it's value. However, with the ='= operator, it will instead evaluate to the symbol itself 
+(effectively removing the quote). Symbols are unique objects, differentiated by name, so are often preferred 
+to strings for options, both for ease of use and for peformance reasons. Quoting is the mechanism macros use to expand to code.
+
+*** Cons
+The cons is the most basic data type in Lisp, and is what makes up a list, the primary data type of Lisp. 
+Conses are important for list manipulation, and have special syntax (through reader macros, the same way ='= works). 
+There are two ways of creating a cons, either the =cons= function or the dot syntax: =(first . second)=. 
+Here, we will create a cons of two elements, from the values of the =first= and =second= variables. 
+This will create a list with 3 elements, including the closing =nil=. The function =list= can be used to 
+create lists of an arbitrary number of elements, however lists under the hood are "cons cells". 
+
+For example, the list =(1 2 3)= is actually:
+
+#+begin_src emacs-lisp
+(1 . (2 . (3 . nil))) 
+#+end_src
+
+The first element can be accessed with the =car= function and the rest of the list with the =cdr= function. 
+These can be chained, therefore, if you want the 3rd element of the aforementioned list, you'd write:
+
+#+begin_src emacs-lisp
+(car (cdr (cdr (list 1 2 3)))) 
+#+end_src
+(yes, there are prettier ways of doing this). 
+
+Additionally, you may sometimes see "list literals", in the form of ='(1 2 3)=. 
+These are the same as the version created by the =list= function but are not modifiable.
+
+** REPL and interactivity
+Emacs is an image-based program and is therefore (almost) completely interactive and introspectable. 
+Emacs consists of a small C core and millions of lines of Elisp, either as extensions or as libraries. 
+Every variable and line of code that is written in Elisp is modifiable at runtime (if you know what you're doing), 
+meaning there's no need to ever restart Emacs, but it might sometimes be easier. 
+
+Additionally, the help system automatically links to the definition of the current symbol being examined. 
+You can use this to view the definitons and default values of functions and variables, 
+but they're not meant for editing, that should be done through the init file. Your interface to the Emacs image is the REPL. 
+
+There are two ways of accessing it: either the =eval-expression= command or the =scratch= buffer, 
+which is a more fully featured (but entirely text-based) REPL. =emacs-lisp-mode= defines several 
+keybinds for loading code into the REPL. Note that if code is not loaded into the REPL, it does 
+not exist, as far as Emacs is concerned. Emacs will automatically load the init.el file at startup.
+
+** Dependencies and loading
+When you load an elisp file into the REPL, all code in it will be loaded. Loading can be done in two ways: 
+either through the primitive =load= function that simply takes a pathname string and loads the specified 
+file or through the feature system. Features are symbols that represent an elisp file. They're defined 
+through =provide= (usually put at the end of a file) and loaded through =require=, which will search the 
+list of currently defined features and if it finds the requested one, loads the appropriate file. 
+
+Both are Elisp code and therefore will be executed upon loading, dealing with transitive dependencies. 
+If you want to use a certain feature of Emacs, you need to load the appropriate file first. 
+Say you want to configure the LSP client, Emacs, you need to first =(require 'eglot)= before setting variables.

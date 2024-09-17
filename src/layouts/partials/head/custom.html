@@ -1,0 +1,11 @@
+{{ $styles := os.ReadDir "/static/style" }}
+{{ range $styles }}
+<link rel="stylesheet" href="/style/{{ .Name }}">
+{{ end }}
+
+{{ $js := os.ReadDir "/static/js" }}
+{{ range $js }}
+<script src="/js/{{ .Name }}" defer></script>
+{{ end }}
+
+
