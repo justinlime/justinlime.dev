@@ -12,7 +12,7 @@
         <pubDate>Sun, 28 Apr 2024 00:00:00 +0000</pubDate>
         
         <guid>https://justinlime.dev/p/nvim-to-emacs/</guid>
-        <description>&lt;img src="https://justinlime.dev/p/nvim-to-emacs/emacs.png" alt="Featured image of post Switching from Neovim to Emacs" /&gt;
+        <description>&lt;img src="https://justinlime.dev/p/nvim-to-emacs/stallman.jpg" alt="Featured image of post Switching from Neovim to Emacs" /&gt;
 &lt;div id=&#34;outline-container-headline-2&#34; class=&#34;outline-2&#34;&gt;
 &lt;h2 id=&#34;headline-2&#34;&gt;
 Preface
@@ -22,8 +22,17 @@ Preface
 as somebody who used Neovim for a while. I had a configuration I was really happy with when using nvim, but its&amp;#39; 
 limitations made my eyes wander to other options.&lt;/p&gt;
 &lt;p&gt;
-Since then, I&amp;#39;ve switched and landed on emacs as my preferred editor, and I&amp;#39;m extremely happy with it. My main reasons
-for switching to emacs compared to neovim:&lt;/p&gt;
+Since then, I&amp;#39;ve switched and landed on emacs as my preferred editor, and I&amp;#39;m extremely happy with it. 
+I had many preconceived notions against emacs prior to actually giving it an honest shot.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&amp;#34;&lt;em&gt;Emacs is slow!&lt;/em&gt;&amp;#34;&lt;/li&gt;
+&lt;li&gt;&amp;#34;&lt;em&gt;Emacs is bloated!&lt;/em&gt;&amp;#34;&lt;/li&gt;
+&lt;li&gt;&amp;#34;&lt;em&gt;Emacs is outdated!&lt;/em&gt;&amp;#34;&lt;/li&gt;
+&lt;li&gt;&amp;#34;&lt;em&gt;Emacs is &amp;lt;insert notion here&amp;gt;!&lt;/em&gt;&amp;#34;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;But after giving it an honest shot, those notions either don&amp;#39;t make a real world difference, or aren&amp;#39;t true at all.&lt;/p&gt;
+&lt;p&gt;
+My main reasons for switching to emacs compared to neovim:&lt;/p&gt;
 &lt;div id=&#34;outline-container-headline-3&#34; class=&#34;outline-3&#34;&gt;
 &lt;h3 id=&#34;headline-3&#34;&gt;
 Configuration and Extensiblity 

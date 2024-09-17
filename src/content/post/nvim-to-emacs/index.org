@@ -3,7 +3,7 @@ title: Switching from Neovim to Emacs
 description: Getting started switching from neovim to emacs
 slug: nvim-to-emacs
 date: 2024-04-28 
-image: emacs.png
+image: stallman.jpg
 toc: true
 categories:
     - Linux
@@ -44,8 +44,17 @@ This is a starters' guide for somebody wanting to try out emacs, coming from nvi
 as somebody who used Neovim for a while. I had a configuration I was really happy with when using nvim, but its' 
 limitations made my eyes wander to other options.
 
-Since then, I've switched and landed on emacs as my preferred editor, and I'm extremely happy with it. My main reasons
-for switching to emacs compared to neovim:
+Since then, I've switched and landed on emacs as my preferred editor, and I'm extremely happy with it. 
+I had many preconceived notions against emacs prior to actually giving it an honest shot.
+
+- "/Emacs is slow!/"
+- "/Emacs is bloated!/"
+- "/Emacs is outdated!/"
+- "/Emacs is <insert notion here>!/"
+
+But after giving it an honest shot, those notions either don't make a real world difference, or aren't true at all.
+
+My main reasons for switching to emacs compared to neovim:
 
 ** Configuration and Extensiblity 
 Emacs is entirely configured in a single language, =elisp=, and emacs itself

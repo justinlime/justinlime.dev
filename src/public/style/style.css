@@ -146,6 +146,15 @@ aside > header {
     border-radius: 2rem;
     display: block;
     padding: 1rem 0;
+    margin-left: auto;
+    margin-right: auto;
+}
+.article-content img:hover {
+    cursor: pointer;
+}
+
+.article-category {
+    flex-wrap: wrap;
 }
 
 p > a, li > a, ul > a {
