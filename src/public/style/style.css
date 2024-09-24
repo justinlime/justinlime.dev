@@ -125,7 +125,7 @@ aside > header {
 
 /* the article itself */
 .article-title {
-    font-size: 3.25rem;
+    font-size: 2.75rem;
 }
 .article-details * {
     text-align: center;
@@ -142,15 +142,12 @@ aside > header {
 }
 
 .article-content img {
-    max-height: 40rem;
+    max-height: 50rem;
     border-radius: 2rem;
     display: block;
     padding: 1rem 0;
     margin-left: auto;
     margin-right: auto;
-}
-.article-content img:hover {
-    cursor: pointer;
 }
 
 .article-category {
@@ -241,5 +238,5 @@ code:not(pre code):not(.statistic) {
 
 /* lists */
 dt {
-    font-size: 2.5rem;
+    font-size: 2rem;
 }
